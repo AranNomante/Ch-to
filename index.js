@@ -14,7 +14,7 @@ app.get('/', function(req, res) {
 io.on('connection', function(socket) {
     fn.handleConnection(allClients, socket);
     socket.on('disconnect', () => {
-        fn.handleDisconnect(allClients, socket)
+        fn.handleDisconnect(allClients, clientNames, socket)
     });
     socket.on('private message', (sender, recipient, msg) => {
         fn.privateMessage(sender, recipient, msg)
@@ -22,8 +22,14 @@ io.on('connection', function(socket) {
     socket.on('getClientList', () => {
         fn.getClientList(allClients, socket)
     });
+    socket.on('getClientNames', () => {
+        fn.getClientNames(clientNames, socket);
+    })
+    socket.on('validateName', (name) => {
+        fn.validateName(name, clientNames, socket);
+    })
     socket.on('setName', (name) => {
-        fn.setName(clientNames, name, socket.id)
+        fn.setName(clientNames, name, socket.id);
     });
 });
 

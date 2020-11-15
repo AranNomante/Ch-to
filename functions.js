@@ -21,15 +21,24 @@ function privateMessage(sender, recipient, msg) {
     console.log(data);
 }
 
-function handleDisconnect(array, socket) {
+function handleDisconnect(array, array2, socket) {
     console.log('a user has disconnected:' + getSocketID(socket));
     let i = array.indexOf(getSocketID(socket));
     removeArrayElem(array, i);
+    delete array2[socket.id];
 }
 
 function handleConnection(array, socket) {
     console.log('a user has joined:' + getSocketID(socket));
     array.push(socket.id);
+}
+
+function validateName(name, obj, socket) {
+    socket.emit('validateNameResponse', !Object.values(obj).includes(name));
+}
+
+function getClientNames(obj, socket) {
+    socket.emit('updateClientNames', obj);
 }
 module.exports = {
     getSocketID: getSocketID,
@@ -38,5 +47,7 @@ module.exports = {
     getClientList: getClientList,
     privateMessage: privateMessage,
     handleDisconnect: handleDisconnect,
-    handleConnection: handleConnection
+    handleConnection: handleConnection,
+    validateName: validateName,
+    getClientNames: getClientNames
 }

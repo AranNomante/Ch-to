@@ -1,15 +1,32 @@
 const socket = io();
 let clients = [];
 let clientNames = {};
+let name = prompt("Please enter your name", "John Doe");
+if (!name) {
+    window.location.href = '/';
+} else {
+    socket.emit('validateName', name);
+}
+socket.on('validateNameResponse', function(isValid) {
+    if (isValid) {
+        socket.emit('setName', name);
+    } else {
+        alert('Name already taken');
+        window.location.href = '/';
+    }
+})
 socket.on('updateClientList', function(clientList) {
     clients = clientList;
-
+});
+socket.on('updateClientNames', function(clientNameList) {
+    clientNames = clientNameList;
 })
 
-function getClientList() {
+function getClientInfo() {
     socket.emit('getClientList');
+    socket.emit('getClientNames');
 }
-setInterval(getClientList, 1000);
+setInterval(getClientInfo, 1000);
 /*
 $(function () {
 var socket = io();

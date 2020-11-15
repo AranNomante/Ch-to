@@ -1,7 +1,7 @@
 Backend TODO:
 
     Private Messaging
-    
+
     Room Messaging
 
     Video View
@@ -17,5 +17,3 @@ Frontend TODO:
     Active room display
 
     Active chat display
-
-    Prompt name tag
