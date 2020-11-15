@@ -1,18 +1,32 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var port = process.env.PORT || 3000;
-
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+const express = require("express");
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const port = process.env.PORT || 3000;
+const fn = require('./functions');
+const allClients = [];
+const clientNames = {};
+app.use(express.static(__dirname + '/assets'));
+app.get('/', function(req, res) {
+    res.sendFile(__dirname + '/index.html');
 });
 
-io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
-  });
+io.on('connection', function(socket) {
+    fn.handleConnection(allClients, socket);
+    socket.on('disconnect', () => {
+        fn.handleDisconnect(allClients, socket)
+    });
+    socket.on('private message', (sender, recipient, msg) => {
+        fn.privateMessage(sender, recipient, msg)
+    });
+    socket.on('getClientList', () => {
+        fn.getClientList(allClients, socket)
+    });
+    socket.on('setName', (name) => {
+        fn.setName(clientNames, name, socket.id)
+    });
 });
 
-http.listen(port, function(){
-  console.log('listening on *:' + port);
+http.listen(port, function() {
+    console.log('listening on *:' + port);
 });
