@@ -1,6 +1,7 @@
 const socket = io();
 let clients = [];
 let clientNames = {};
+let activeObj = {};
 let name = prompt("Please enter your name", "John Doe");
 if (!name) {
     window.location.href = '/';
@@ -14,18 +15,44 @@ socket.on('validateNameResponse', function(isValid) {
         alert('Name already taken');
         window.location.href = '/';
     }
-})
+});
 socket.on('updateClientList', function(clientList) {
     clients = clientList;
 });
 socket.on('updateClientNames', function(clientNameList) {
     clientNames = clientNameList;
-})
+    refreshUsers();
+});
 
 function getClientInfo() {
     socket.emit('getClientList');
     socket.emit('getClientNames');
 }
+
+function refreshUsers() {
+    //activeObj type user/room
+    $('.chats').children().not(':first').remove();
+    let activeUser;
+    clients.forEach(item => {
+        if (activeObj.type === 'user' && activeObj.id === item) {
+            activeUser = item;
+        } else {
+            $('.chats').append(`<p class='chatUser' name=${item}>${clientNames[item]}</p>`);
+        }
+    });
+    if (activeUser) {
+        $('.chats h5').after(`<p class='chatUser active' name=${activeUser}>${clientNames[activeUser]}</p>`);
+    }
+}
+$(document).on('click', '.chatUser', function() {
+    activeObj = {
+        type: 'user',
+        id: $(this).attr('name')
+    };
+    $('.chatUser.active').removeClass('active');
+    $('.room.active').removeClass('active');
+    $(this).addClass('active');
+})
 setInterval(getClientInfo, 1000);
 /*
 $(function () {

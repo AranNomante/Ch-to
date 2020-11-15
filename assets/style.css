@@ -106,7 +106,7 @@ padding: 16px;
 .rooms{
     border-radius: 15px 15px 15px 15px;
     padding:10px 10px 10px 20px;
-    background-color:purple;
+    background-color:gray;
 }
 .room{
     border-radius: 15px 15px 0px 0px;
@@ -116,10 +116,28 @@ padding: 16px;
 .chats{
     padding:10px 10px 10px 20px;
     border-radius: 15px 15px 15px 15px;
-    background-color:orange;
+    background-color:gray;
 }
 .chat{
     padding:10px 10px 10px 20px;
     border-radius: 0px 0px 15px 15px;
     background-color:yellow;
+}
+.chatUser{
+    background:white;
+    border-radius:5px;
+    text-align:center;
+    border-style: groove;
+    border-color: gold;
+    border-width: 5px;
+}
+.chatUser.active {
+    border-color: green;
+    border-style: inset;
+}
+.chatUser:hover{
+    background: lightgray;
+}
+.chat_head{
+    color:gold;
 }

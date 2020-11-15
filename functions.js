@@ -24,13 +24,22 @@ function privateMessage(sender, recipient, msg) {
 function handleDisconnect(array, array2, socket) {
     console.log('a user has disconnected:' + getSocketID(socket));
     let i = array.indexOf(getSocketID(socket));
-    removeArrayElem(array, i);
-    delete array2[socket.id];
+    if (!(i === -1)) {
+        removeArrayElem(array, i);
+        delete array2[socket.id];
+    }
+    console.log(array);
 }
 
 function handleConnection(array, socket) {
     console.log('a user has joined:' + getSocketID(socket));
-    array.push(socket.id);
+    let i = array.indexOf(getSocketID(socket));
+    if (!(i === -1)) {
+        array.push(getSocketID(socket));
+    } else {
+        console.log('user exists:' + getSocketID(socket))
+    }
+    console.log(array);
 }
 
 function validateName(name, obj, socket) {
