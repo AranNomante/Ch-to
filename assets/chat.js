@@ -11,6 +11,7 @@ if (!name) {
 socket.on('validateNameResponse', function(isValid) {
     if (isValid) {
         socket.emit('setName', name);
+        $('#username').text('Username: ' + name);
     } else {
         alert('Name already taken');
         window.location.href = '/';
