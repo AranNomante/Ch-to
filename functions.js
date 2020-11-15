@@ -34,7 +34,7 @@ function handleDisconnect(array, array2, socket) {
 function handleConnection(array, socket) {
     console.log('a user has joined:' + getSocketID(socket));
     let i = array.indexOf(getSocketID(socket));
-    if (!(i === -1)) {
+    if (i === -1) {
         array.push(getSocketID(socket));
     } else {
         console.log('user exists:' + getSocketID(socket))
