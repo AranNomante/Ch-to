@@ -148,14 +148,27 @@ padding: 16px;
     color:gold;
 }
 .chat-controls{
-    background:white;
+    background:black;
     height:10%;
+    border-radius: 5px 5px 0px 0px;
 }
 .chat-panel{
-    background:orange;
-    height:70%
+    background:white;
+    height:70%;
+    margin-bottom:1px;
+    border-width: 1px 2px 1px 2px; /* top right bottom left */
+    border-style: inset inset inset inset;
+    border-color: black;
 }
 .chat-input{
-    background:cyan;
-    height:10%
+    background:gray;
+    height:12%;
+    border-width: 1px 2px 2px 2px; /* top right bottom left */
+    border-style: inset inset inset inset;
+    border-color: black;
+    border-radius: 0px 0px 5px 5px;
+}
+.chat-controls .badge{
+    padding:10px 10px 5px 10px;
+    border-radius: 5px 0px 0px 0px;
 }

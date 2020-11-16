@@ -1,13 +1,18 @@
+//init
 const socket = io();
 let clients = [];
 let clientNames = {};
 let activeObj = {};
+const chats = {}; // id:[{incoming:boolean,message}]
 let name = prompt("Please enter your name", "John Doe");
 if (!name) {
     window.location.href = '/';
 } else {
     socket.emit('validateName', name);
 }
+//init
+
+//socket
 socket.on('validateNameResponse', function(isValid) {
     if (isValid) {
         socket.emit('setName', name);
@@ -24,7 +29,12 @@ socket.on('updateClientNames', function(clientNameList) {
     clientNames = clientNameList;
     refreshUsers();
 });
+socket.on('newmsg', function(msgObj) {
+    console.log(msgObj);
+})
+//socket
 
+//fn
 function getClientInfo() {
     socket.emit('getClientList');
     socket.emit('getClientNames');
@@ -45,6 +55,26 @@ function refreshUsers() {
         $('.chats h5').after(`<p class='chatUser active' name=${activeUser}>${clientNames[activeUser]}</p>`);
     }
 }
+
+function sendMessage(message) {
+    //clear input
+    const src = $('#text_input');
+    const msg = src.val();
+    if (Object.keys(activeObj).length > 0 && msg) {
+        socket.emit('sendMessage', activeObj, msg);
+        if (!(activeObj.id in chats)) {
+            chats[activeObj.id] = [];
+        }
+        chats[activeObj.id].push({
+            incoming: false,
+            message: msg
+        });
+        src.val('');
+    }
+}
+//fn
+
+//js-jq
 $(document).on('click', '.chatUser', function() {
     activeObj = {
         type: 'user',
@@ -53,8 +83,9 @@ $(document).on('click', '.chatUser', function() {
     $('.chatUser.active').removeClass('active');
     $('.room.active').removeClass('active');
     $(this).addClass('active');
-})
+});
 setInterval(getClientInfo, 1000);
+//js-jq
 /*
 $(function () {
 var socket = io();

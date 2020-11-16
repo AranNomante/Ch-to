@@ -17,7 +17,7 @@ function getClientList(array, socket) {
     socket.emit('updateClientList', cloneArray);
 }
 
-function privateMessage(sender, recipient, msg) {
+function sendMessage(sender, recipient, msg) {
     console.log(data);
 }
 
@@ -54,7 +54,7 @@ module.exports = {
     removeArrayElem: removeArrayElem,
     setName: setName,
     getClientList: getClientList,
-    privateMessage: privateMessage,
+    sendMessage: sendMessage,
     handleDisconnect: handleDisconnect,
     handleConnection: handleConnection,
     validateName: validateName,
