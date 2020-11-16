@@ -110,8 +110,11 @@ padding: 16px;
 }
 .room{
     border-radius: 15px 15px 0px 0px;
-    background-color:red;
+    background-color:gray;
     padding:10px 10px 10px 20px;
+    border-width: 1px;
+    border-style: double;
+    border-color: black;
 }
 .chats{
     padding:10px 10px 10px 20px;
@@ -121,7 +124,10 @@ padding: 16px;
 .chat{
     padding:10px 10px 10px 20px;
     border-radius: 0px 0px 15px 15px;
-    background-color:yellow;
+    background-color:gray;
+    border-width: 1px;
+    border-style: double;
+    border-color: black;
 }
 .chatUser{
     background:white;
@@ -140,4 +146,16 @@ padding: 16px;
 }
 .chat_head{
     color:gold;
+}
+.chat-controls{
+    background:white;
+    height:10%;
+}
+.chat-panel{
+    background:orange;
+    height:70%
+}
+.chat-input{
+    background:cyan;
+    height:10%
 }
