@@ -43,7 +43,7 @@ socket.on('newmsg', function(sender, msg) {
         });
         if (activeObj.id === sender) {
             $('.chat-panel').append(msgBuilder(true, msg, clientNames[sender]));
-            //todo scrolla aşağıya
+            scrollToBottom('chat-panel');
         } else {
             if (!(sender in notifications)) {
                 notifications[sender] = true;
@@ -102,11 +102,11 @@ function sendMessage() {
         });
         $('.chat-panel').append(msgBuilder(false, msg));
         src.val('');
+        scrollToBottom('chat-panel');
     }
 }
 
 function switchChats() {
-    //todo aşağıya scroll
     $('.chat-panel').children().remove();
     if (activeObj.id in notifications) {
         delete notifications[activeObj.id];
@@ -121,6 +121,7 @@ function switchChats() {
             }
         })
     }
+    scrollToBottom('chat-panel');
     console.log('switchChats');
 }
 
@@ -130,13 +131,9 @@ function msgBuilder(incoming, message, from = null) {
     return elem;
 }
 
-function addNotification(id) {
-    $(`.chatUser[name = ${id}]`).remove();
-    if (Object.keys(activeObj).length > 0) {
-        $('.chatUser.active').after(`<p class='chatUser messageAlert' name=${id}>${clientNames[id]}</p>`);
-    } else {
-        $('.chats h5').after(`<p class='chatUser messageAlert' name=${id}>${clientNames[id]}</p>`);
-    }
+function scrollToBottom(name) {
+    let div = document.getElementsByClassName(name)[0];
+    div.scrollTop = div.scrollHeight - div.clientHeight;
 }
 //fn
 
