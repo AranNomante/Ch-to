@@ -3,7 +3,9 @@ const socket = io();
 let clients = [];
 let clientNames = {};
 let activeObj = {};
+let ongoingSwitch = false;
 const chats = {}; // id:[{incoming:boolean,message:string,sender:string(roomonly)}]
+const notifications = {};
 let name = prompt("Please enter your name", "John Doe");
 if (!name) {
     window.location.href = '/';
@@ -41,6 +43,11 @@ socket.on('newmsg', function(sender, msg) {
         });
         if (activeObj.id === sender) {
             $('.chat-panel').append(msgBuilder(true, msg, clientNames[sender]));
+            //todo scrolla aşağıya
+        } else {
+            if (!(sender in notifications)) {
+                notifications[sender] = true;
+            }
         }
     }
 })
@@ -56,15 +63,28 @@ function refreshUsers() {
     //activeObj type user/room
     $('.chats').children().not(':first').remove();
     let activeUser;
+    let notif = [];
     clients.forEach(item => {
         if (activeObj.type === 'user' && activeObj.id === item) {
             activeUser = item;
         } else if (clientNames[item]) {
-            $('.chats').append(`<p class='chatUser' name=${item}>${clientNames[item]}</p>`);
+            if (item in notifications) {
+                notif.push(item);
+            } else {
+                $('.chats').append(`<p class='chatUser' name=${item}>${clientNames[item]}</p>`);
+            }
         }
     });
     if (activeUser && clientNames[activeUser]) {
         $('.chats h5').after(`<p class='chatUser active' name=${activeUser}>${clientNames[activeUser]}</p>`);
+        notif.forEach(item => {
+            $('.chatUser.active').after(`<p class='chatUser messageAlert' name=${item}>${clientNames[item]}</p>`);
+        });
+
+    } else {
+        notif.forEach(item => {
+            $('.chats h5').after(`<p class='chatUser messageAlert' name=${item}>${clientNames[item]}</p>`);
+        });
     }
 }
 
@@ -86,41 +106,55 @@ function sendMessage() {
 }
 
 function switchChats() {
-    //todo clear chat-panel, load from chats
+    //todo aşağıya scroll
+    $('.chat-panel').children().remove();
+    if (activeObj.id in notifications) {
+        delete notifications[activeObj.id];
+    }
+    let from = clientNames[activeObj.id];
+    let chat = chats[activeObj.id];
+    console.log(chat);
+    if (chat) {
+        chat.forEach(msg => {
+            if (!msg.sender) {
+                $('.chat-panel').append(msgBuilder(msg.incoming, msg.message, from));
+            }
+        })
+    }
     console.log('switchChats');
 }
 
 function msgBuilder(incoming, message, from = null) {
     let color = (incoming) ? 'incoming' : 'outgoing';
-    let elem = `<div class="row msg ${color}">${(from)?from:'You'}: ${message}</div>`;
+    let elem = `<div class="row msg ${color}">${(from && incoming)?from:'You'}: ${message}</div>`;
     return elem;
+}
+
+function addNotification(id) {
+    $(`.chatUser[name = ${id}]`).remove();
+    if (Object.keys(activeObj).length > 0) {
+        $('.chatUser.active').after(`<p class='chatUser messageAlert' name=${id}>${clientNames[id]}</p>`);
+    } else {
+        $('.chats h5').after(`<p class='chatUser messageAlert' name=${id}>${clientNames[id]}</p>`);
+    }
 }
 //fn
 
 //js-jq
 $(document).on('click', '.chatUser', function() {
-    activeObj = {
-        type: 'user',
-        id: $(this).attr('name')
-    };
-    $('.chatUser.active').removeClass('active');
-    $('.room.active').removeClass('active');
-    $(this).addClass('active');
-    switchChats();
+    if (!ongoingSwitch) {
+        ongoingSwitch = true;
+        activeObj = {
+            type: 'user',
+            id: $(this).attr('name')
+        };
+        $('.chatUser.active').removeClass('active');
+        $('.room.active').removeClass('active');
+        $(this).addClass('active');
+        switchChats();
+        ongoingSwitch = false;
+    }
 });
 $(document).on('click', '#send_msg', sendMessage);
 setInterval(getClientInfo, 1000);
 //js-jq
-/*
-$(function () {
-var socket = io();
-$('form').submit(function(){
-  socket.emit('chat message', $('#m').val());
-  $('#m').val('');
-  return false;
-});
-socket.on('chat message', function(msg){
-  $('#messages').append($('<li>').text(msg));
-  window.scrollTo(0, document.body.scrollHeight);
-});
-});*/
