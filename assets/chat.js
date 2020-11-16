@@ -80,8 +80,8 @@ function switchChats() {
 }
 
 function msgBuilder(incoming, message) {
-    let color = (incoming) ? 'lightblue' : 'lightgreen';
-    let elem = `<div class="row" style="margin:5px;background:${color};padding:5px;border-radius:5px">You: ${message}</div>`;
+    let color = (incoming) ? 'incoming' : 'outgoing';
+    let elem = `<div class="row msg ${color}">You: ${message}</div>`;
     return elem;
 }
 //fn

@@ -176,3 +176,15 @@ padding: 16px;
     padding:0px 5px 4px 5px;
     background: lightgreen;
 }
+.msg{
+    word-break: break-all;
+    margin:5px;
+    padding:5px;
+    border-radius:5px;
+}
+.msg.outgoing{
+    background: lightgreen;
+}
+.msg.incoming{
+    background: lightblue;
+}
