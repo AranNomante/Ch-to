@@ -141,6 +141,16 @@ padding: 16px;
     border-color: green;
     border-style: inset;
 }
+@-webkit-keyframes Border {
+    0% {border-color: crimson;}
+    25% {border-color: orange;}
+    50% {border-color: red;}
+    100% {border-color: purple;}
+}
+.chatUser.messageAlert{
+    -webkit-animation:Border 1s infinite alternate;
+}
+
 .chatUser:hover{
     background: lightgray;
 }
