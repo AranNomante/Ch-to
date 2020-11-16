@@ -3,7 +3,7 @@ const socket = io();
 let clients = [];
 let clientNames = {};
 let activeObj = {};
-const chats = {}; // id:[{incoming:boolean,message}]
+const chats = {}; // id:[{incoming:boolean,message:string,sender:string(roomonly)}]
 let name = prompt("Please enter your name", "John Doe");
 if (!name) {
     window.location.href = '/';
@@ -29,8 +29,20 @@ socket.on('updateClientNames', function(clientNameList) {
     clientNames = clientNameList;
     refreshUsers();
 });
-socket.on('newmsg', function(msgObj) {
-    console.log(msgObj);
+socket.on('newmsg', function(sender, msg) {
+    console.log(sender, msg);
+    if (clientNames[sender]) {
+        if (!(sender in chats)) {
+            chats[sender] = [];
+        }
+        chats[sender].push({
+            incoming: true,
+            message: msg
+        });
+        if (activeObj.id === sender) {
+            $('.chat-panel').append(msgBuilder(true, msg, clientNames[sender]));
+        }
+    }
 })
 //socket
 
@@ -56,8 +68,7 @@ function refreshUsers() {
     }
 }
 
-function sendMessage(message) {
-    //clear input
+function sendMessage() {
     const src = $('#text_input');
     const msg = src.val();
     if (Object.keys(activeObj).length > 0 && msg) {
@@ -69,8 +80,20 @@ function sendMessage(message) {
             incoming: false,
             message: msg
         });
+        $('.chat-panel').append(msgBuilder(false, msg));
         src.val('');
     }
+}
+
+function switchChats() {
+    //todo clear chat-panel, load from chats
+    console.log('switchChats');
+}
+
+function msgBuilder(incoming, message, from = null) {
+    let color = (incoming) ? 'incoming' : 'outgoing';
+    let elem = `<div class="row msg ${color}">${(from)?from:'You'}: ${message}</div>`;
+    return elem;
 }
 //fn
 
@@ -83,7 +106,9 @@ $(document).on('click', '.chatUser', function() {
     $('.chatUser.active').removeClass('active');
     $('.room.active').removeClass('active');
     $(this).addClass('active');
+    switchChats();
 });
+$(document).on('click', '#send_msg', sendMessage);
 setInterval(getClientInfo, 1000);
 //js-jq
 /*

@@ -17,8 +17,13 @@ function getClientList(array, socket) {
     socket.emit('updateClientList', cloneArray);
 }
 
-function sendMessage(sender, recipient, msg) {
-    console.log(data);
+function sendMessage(sender, recipient, msg, io) {
+    if (recipient.type === 'user') {
+        io.to(recipient.id).emit('newmsg', sender, msg);
+    } else {
+        console.log('room chat');
+    }
+    console.log(sender, recipient, msg);
 }
 
 function handleDisconnect(array, array2, socket) {
