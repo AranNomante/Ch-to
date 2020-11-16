@@ -107,12 +107,14 @@ function sendMessage() {
 }
 
 function switchChats() {
+    $('.chat-panel').fadeOut(100);
     $('.chat-panel').children().remove();
     if (activeObj.id in notifications) {
         delete notifications[activeObj.id];
     }
     let from = clientNames[activeObj.id];
     let chat = chats[activeObj.id];
+    $('#active_recipient').text('Active Chat: ' + from);
     console.log(chat);
     if (chat) {
         chat.forEach(msg => {
@@ -122,6 +124,7 @@ function switchChats() {
         })
     }
     scrollToBottom('chat-panel');
+    $('.chat-panel').fadeIn('slow');
     console.log('switchChats');
 }
 
@@ -153,5 +156,10 @@ $(document).on('click', '.chatUser', function() {
     }
 });
 $(document).on('click', '#send_msg', sendMessage);
+$(document).keyup(function(e) {
+    if (e.which == 13) {
+        $('#send_msg').click();
+    }
+});
 setInterval(getClientInfo, 1000);
 //js-jq
