@@ -3,7 +3,7 @@ const socket = io();
 let clients = [];
 let clientNames = {};
 let activeObj = {};
-const chats = {}; // id:[{incoming:boolean,message}]
+const chats = {}; // id:[{incoming:boolean,message:string,sender:string(roomonly)}]
 let name = prompt("Please enter your name", "John Doe");
 if (!name) {
     window.location.href = '/';
@@ -29,8 +29,20 @@ socket.on('updateClientNames', function(clientNameList) {
     clientNames = clientNameList;
     refreshUsers();
 });
-socket.on('newmsg', function(msgObj) {
-    console.log(msgObj);
+socket.on('newmsg', function(sender, msg) {
+    console.log(sender, msg);
+    if (clientNames[sender]) {
+        if (!(sender in chats)) {
+            chats[sender] = [];
+        }
+        chats[sender].push({
+            incoming: true,
+            message: msg
+        });
+        if (activeObj.id === sender) {
+            $('.chat-panel').append(msgBuilder(true, msg, clientNames[sender]));
+        }
+    }
 })
 //socket
 
@@ -57,7 +69,6 @@ function refreshUsers() {
 }
 
 function sendMessage() {
-    //clear input
     const src = $('#text_input');
     const msg = src.val();
     if (Object.keys(activeObj).length > 0 && msg) {
@@ -79,9 +90,9 @@ function switchChats() {
     console.log('switchChats');
 }
 
-function msgBuilder(incoming, message) {
+function msgBuilder(incoming, message, from = null) {
     let color = (incoming) ? 'incoming' : 'outgoing';
-    let elem = `<div class="row msg ${color}">You: ${message}</div>`;
+    let elem = `<div class="row msg ${color}">${(from)?from:'You'}: ${message}</div>`;
     return elem;
 }
 //fn

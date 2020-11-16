@@ -14,13 +14,13 @@ app.get('/', function(req, res) {
 io.on('connection', function(socket) {
     fn.handleConnection(allClients, socket);
     socket.on('disconnect', () => {
-        fn.handleDisconnect(allClients, clientNames, socket)
+        fn.handleDisconnect(allClients, clientNames, socket);
     });
     socket.on('sendMessage', (recipient, msg) => {
-        fn.sendMessage(socket.id, recipient, msg)
+        fn.sendMessage(socket.id, recipient, msg, io);
     });
     socket.on('getClientList', () => {
-        fn.getClientList(allClients, socket)
+        fn.getClientList(allClients, socket);
     });
     socket.on('getClientNames', () => {
         fn.getClientNames(clientNames, socket);
