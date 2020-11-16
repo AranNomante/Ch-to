@@ -16,8 +16,8 @@ io.on('connection', function(socket) {
     socket.on('disconnect', () => {
         fn.handleDisconnect(allClients, clientNames, socket)
     });
-    socket.on('private message', (sender, recipient, msg) => {
-        fn.privateMessage(sender, recipient, msg)
+    socket.on('sendMessage', (recipient, msg) => {
+        fn.sendMessage(socket.id, recipient, msg)
     });
     socket.on('getClientList', () => {
         fn.getClientList(allClients, socket)
