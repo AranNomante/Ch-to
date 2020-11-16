@@ -172,3 +172,7 @@ padding: 16px;
     padding:10px 10px 5px 10px;
     border-radius: 5px 0px 0px 0px;
 }
+.chat-input .input-group .input-group-prepend .input-group-text {
+    padding:0px 5px 4px 5px;
+    background: lightgreen;
+}
