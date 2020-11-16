@@ -41,7 +41,7 @@ function refreshUsers() {
             $('.chats').append(`<p class='chatUser' name=${item}>${clientNames[item]}</p>`);
         }
     });
-    if (activeUser) {
+    if (activeUser && clientNames[activeUser]) {
         $('.chats h5').after(`<p class='chatUser active' name=${activeUser}>${clientNames[activeUser]}</p>`);
     }
 }
