@@ -56,7 +56,7 @@ function refreshUsers() {
     }
 }
 
-function sendMessage(message) {
+function sendMessage() {
     //clear input
     const src = $('#text_input');
     const msg = src.val();
@@ -69,8 +69,20 @@ function sendMessage(message) {
             incoming: false,
             message: msg
         });
+        $('.chat-panel').append(msgBuilder(false, msg));
         src.val('');
     }
+}
+
+function switchChats() {
+    //todo clear chat-panel, load from chats
+    console.log('switchChats');
+}
+
+function msgBuilder(incoming, message) {
+    let color = (incoming) ? 'lightblue' : 'lightgreen';
+    let elem = `<div class="row" style="margin:5px;background:${color};padding:5px;border-radius:5px">You: ${message}</div>`;
+    return elem;
 }
 //fn
 
@@ -83,7 +95,9 @@ $(document).on('click', '.chatUser', function() {
     $('.chatUser.active').removeClass('active');
     $('.room.active').removeClass('active');
     $(this).addClass('active');
+    switchChats();
 });
+$(document).on('click', '#send_msg', sendMessage);
 setInterval(getClientInfo, 1000);
 //js-jq
 /*

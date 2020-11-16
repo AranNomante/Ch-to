@@ -18,7 +18,7 @@ function getClientList(array, socket) {
 }
 
 function sendMessage(sender, recipient, msg) {
-    console.log(data);
+    console.log(sender, recipient, msg);
 }
 
 function handleDisconnect(array, array2, socket) {
