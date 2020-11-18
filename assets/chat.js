@@ -19,6 +19,7 @@ socket.on('validateNameResponse', function(isValid) {
     if (isValid) {
         socket.emit('setName', name);
         $('#username').text('Username: ' + name);
+        setMainVideo();
     } else {
         alert('Name already taken');
         window.location.href = '/';
@@ -159,6 +160,19 @@ function createRoom() {
     $('.body_join').css('display', 'none');
     $('.body_create').css('display', 'block');
     $('#room_modal_title').text('Create Room');
+}
+
+function setMainVideo() {
+    let videoURL = $('.mainvid').prop('src');
+    videoURL += "&autoplay=1";
+    $('.mainvid').prop('src', videoURL);
+}
+
+function stopMainVideo() {
+    let videoURL = $('.mainvid').prop('src');
+    videoURL = videoURL.replace("&autoplay=1", "");
+    $('.mainvid').prop('src', '');
+    $('.mainvid').prop('src', videoURL);
 }
 //fn
 
