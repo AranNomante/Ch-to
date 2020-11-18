@@ -13,7 +13,8 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         videoId: '5qap5aO4i9A',
         events: {
-            'onReady': onPlayerReady
+            'onReady': onPlayerReady,
+            //'onStateChange': onPlayerStateChange
         }
     });
 }
@@ -31,10 +32,20 @@ function onPlayerReady(event) {
 var done = false;
 
 function onPlayerStateChange(event) {
+    console.log(event);
     if (event.data == YT.PlayerState.PLAYING && !done) {
-        setTimeout(stopVideo, 6000);
+        setTimeout(unMuteVideo, 6000);
         done = true;
     }
+}
+
+
+function playVideo() {
+    player.playVideo();
+}
+
+function pauseVideo() {
+    player.pauseVideo();
 }
 
 function stopVideo() {

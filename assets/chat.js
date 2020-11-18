@@ -86,6 +86,20 @@ function refreshUsers() {
             $('.chats h5').after(`<p class='chatUser messageAlert' name=${item}>${clientNames[item]}</p>`);
         });
     }
+    checkActiveChat();
+}
+
+function checkActiveChat() {
+    if (Object.keys(activeObj).length === 0 || !(clientNames[activeObj.id])) {
+        $('.chat-input').hide();
+        $('#active_recipient').removeClass('badge-success');
+        $('#active_recipient').addClass('badge-danger');
+        $('#active_recipient').text('No User');
+    } else {
+        $('.chat-input').show();
+        $('#active_recipient').removeClass('badge-danger');
+        $('#active_recipient').addClass('badge-success');
+    }
 }
 
 function sendMessage() {
@@ -130,7 +144,7 @@ function switchChats() {
 
 function msgBuilder(incoming, message, from = null) {
     let color = (incoming) ? 'incoming' : 'outgoing';
-    let elem = `<div class="row msg ${color}">${(from && incoming)?from:'You'}: ${message}</div>`;
+    let elem = `<br><div class="row msgrow ${color}"><p class="msg ${color}">${(from && incoming)?from+':':''} ${message}</p></div>`;
     return elem;
 }
 
@@ -161,6 +175,13 @@ function createRoom() {
     $('#room_modal_title').text('Create Room');
 }
 
+function sendRoom() {
+    console.log($('#create_room_name').val());
+    console.log($('#create_room_description').val());
+    console.log($('#create_room_description').val());
+    console.log($('#create_room_members').val());
+    console.log($('#create_room_password').val());
+}
 //fn
 
 //js-jq
@@ -172,5 +193,6 @@ $(document).keyup(function(e) {
     }
 });
 $(document).on('click', '.create_room', createRoom);
+$(document).on('click', '#room_ok', sendRoom);
 setInterval(getClientInfo, 1000);
 //js-jq
