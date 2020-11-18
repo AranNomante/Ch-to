@@ -13,8 +13,13 @@
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
         <div class="line">
-            <div class="col-md-12 semi flowy marbot rooms"><h5 class="chat_head">Chat Rooms</h5></div>
-            <div class="col-md-12 semi flowy chats"><h5 class="chat_head">Users</h5></div>
+            <div class="col-md-12 semi flowy marbot rooms">
+                <h5 class="chat_head">Chat Rooms</h5>
+                <p class="create_room">Create Room</div>
+            </div>
+            <div class="col-md-12 semi flowy chats">
+                <h5 class="chat_head">Users</h5>
+            </div>
         </div>
     </div>
     <div id="main">
@@ -48,6 +53,46 @@
                 </div>
             </div>
         </div>
+    </div>
+    <!-- Room -->
+    <div class="modal fade" id="room_modal" tabindex="-1" role="dialog" aria-labelledby="room_modal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="room_modal_title"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body body_join">
+            Join
+          </div>
+          <div class="modal-body body_create">
+            <form>
+              <div class="form-group">
+                <label for="create_room_name">Room Name</label>
+                <input type="text" class="form-control" id="create_room_name" minlength="0" maxlength="50" placeholder="John's Room">
+              </div>
+              <div class="form-group">
+                <label for="create_room_description">Description</label>
+                <input type="text" class="form-control" id="create_room_description" minlength="0" maxlength="50"  placeholder="Short description">
+              </div>
+              <div class="form-group">
+                <label for="create_room_members">Capacity</label>
+                <input type="number" class="form-control" id="create_room_members" min="1" max="100"  placeholder="Room capacity">
+              </div>
+              <div class="form-group">
+                <label for="create_room_password">Password</label>
+                <input type="password" class="form-control" id="create_room_password" maxlength="50"  placeholder="Leave blank for public room">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id='room_close'>Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="room_ok">Ok</button>
+          </div>
+        </div>
+      </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/sidebar.js"></script>
