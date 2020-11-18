@@ -175,7 +175,7 @@ padding: 16px;
     height:10%;
 }
 .chat-panel{
-    background:white;
+    background:#24292e;
     height:70%;
 }
 .chat-input{
@@ -210,13 +210,13 @@ padding: 16px;
     word-break: break-all;
     margin:5px;
     padding:5px;
-    border-radius:5px;
+
 }
 .msg.outgoing{
-    background: #2ba837;
+    background: #22863a;
     color: #fff;
 }
 .msg.incoming{
-    background: #360000;
+    background: #4a4a4a;
     color: #fff;
 }
