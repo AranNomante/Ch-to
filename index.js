@@ -6,6 +6,8 @@ const port = process.env.PORT || 3000;
 const fn = require('./functions');
 const allClients = [];
 const clientNames = {};
+const rooms = [];
+const subscriptions = [];
 app.use(express.static(__dirname + '/assets'));
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
@@ -31,6 +33,12 @@ io.on('connection', function(socket) {
     socket.on('setName', (name) => {
         fn.setName(clientNames, name, socket.id);
     });
+    socket.on('sendRoom', (room) => {
+        fn.processRoom(room, rooms, socket, subscriptions);
+    });
+    socket.on('getRooms', () => {
+        fn.getRooms(rooms, socket);
+    })
 });
 
 http.listen(port, function() {

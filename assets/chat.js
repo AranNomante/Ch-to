@@ -3,6 +3,7 @@ const socket = io();
 let clients = [];
 let clientNames = {};
 let activeObj = {};
+let rooms = [];
 let ongoingSwitch = false;
 const chats = {}; // id:[{incoming:boolean,message:string,sender:string(roomonly)}]
 const notifications = {};
@@ -51,12 +52,46 @@ socket.on('newmsg', function(sender, msg) {
         }
     }
 })
+socket.on('sendRoomResponse', function(response) {
+    console.log(response);
+    if (response.success) {
+        alert('Room created!');
+        $('.create_room').hide();
+    } else {
+        let alertText = "Couldn't create room, reason(s):";
+        if (response.reason === 'many') {
+            if (!response.first) {
+                alertText += '\nInvalid room name,' +
+                    'room name must be at most 50 characters ';
+            }
+            if (!response.second) {
+                alertText += '\nInvalid description,' +
+                    'description must be at most 50 characters ';
+            }
+            if (!response.third) {
+                alertText += '\nInvalid capacity,' +
+                    'select a value between 1-100 ';
+            }
+            if (!response.fourth) {
+                alertText += '\nRoom with given name already exists';
+            }
+            alertText += '\n\nOnly password field is allowed to be blank';
+        } else {
+            alertText += '\nCannot create/subscribe to more than one room';
+        }
+        alert(alertText);
+    }
+})
+socket.on('updateRooms', function(rms) {
+    rooms = rms;
+})
 //socket
 
 //fn
 function getClientInfo() {
     socket.emit('getClientList');
     socket.emit('getClientNames');
+    socket.emit('getRooms');
 }
 
 function refreshUsers() {
@@ -176,11 +211,12 @@ function createRoom() {
 }
 
 function sendRoom() {
-    console.log($('#create_room_name').val());
-    console.log($('#create_room_description').val());
-    console.log($('#create_room_description').val());
-    console.log($('#create_room_members').val());
-    console.log($('#create_room_password').val());
+    socket.emit('sendRoom', {
+        room_name: $('#create_room_name').val(),
+        description: $('#create_room_description').val(),
+        capacity: $('#create_room_members').val(),
+        password: $('#create_room_password').val()
+    });
 }
 //fn
 
