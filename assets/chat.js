@@ -138,10 +138,8 @@ function scrollToBottom(name) {
     let div = document.getElementsByClassName(name)[0];
     div.scrollTop = div.scrollHeight - div.clientHeight;
 }
-//fn
 
-//js-jq
-$(document).on('click', '.chatUser', function() {
+function chatUserAction() {
     if (!ongoingSwitch) {
         ongoingSwitch = true;
         activeObj = {
@@ -154,12 +152,24 @@ $(document).on('click', '.chatUser', function() {
         switchChats();
         ongoingSwitch = false;
     }
-});
+}
+
+function createRoom() {
+    $('#room_modal').modal('show');
+    $('.body_join').css('display', 'none');
+    $('.body_create').css('display', 'block');
+    $('#room_modal_title').text('Create Room');
+}
+//fn
+
+//js-jq
+$(document).on('click', '.chatUser', chatUserAction);
 $(document).on('click', '#send_msg', sendMessage);
 $(document).keyup(function(e) {
     if (e.which == 13) {
         $('#send_msg').click();
     }
 });
+$(document).on('click', '.create_room', createRoom);
 setInterval(getClientInfo, 1000);
 //js-jq

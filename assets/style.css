@@ -94,7 +94,6 @@ padding: 16px;
 }
 
 .openbtn:hover {
-    background-color: #414141;
     color: #2ba837;
 }
 .openbtn:focus{
@@ -133,6 +132,7 @@ padding: 16px;
     border-width: 1px;
     border-style: double;
     border-color: black;
+    color:#fff;
 }
 .chats{
     padding:10px 10px 10px 20px;
@@ -175,7 +175,7 @@ padding: 16px;
     height:10%;
 }
 .chat-panel{
-    background:white;
+    background:#24292e;
     height:70%;
 }
 .chat-input{
@@ -193,9 +193,16 @@ padding: 16px;
     border: 0px;
     color: #fff;
 }
-.chat-input .input-group .input-group-append button {
+#send_msg{
     background: #353535;
     border: 0px;
+}
+#send_msg:focus{
+    outline: none !important;
+    box-shadow: none;
+}
+#send_msg:hover{
+    color:#2ba837;
 }
 #text_input{
     border:none;
@@ -205,18 +212,53 @@ padding: 16px;
 #text_input:focus{
     outline: none !important;
     box-shadow: none;
+    background: white;
 }
+
 .msg{
     word-break: break-all;
     margin:5px;
     padding:5px;
-    border-radius:5px;
+
 }
 .msg.outgoing{
-    background: #2ba837;
+    background: #22863a;
     color: #fff;
 }
 .msg.incoming{
-    background: #360000;
+    background: #4a4a4a;
     color: #fff;
+}
+.create_room{
+    background:#fff;
+    border-radius:5px;
+    text-align:center;
+    border-style: inset;
+    border-color: black;
+    border-width: 5px;
+}
+.create_room:hover{
+    background: lightgray;
+}
+#room_modal .modal-content{
+    background:#282828;
+    color:white;
+}
+.body_join{
+    display:none;
+}
+.body_create{
+    display:none;
+}
+.modal-footer button {
+    background: #353535;
+    border: none;
+}
+.modal-footer button:hover{
+    color:#2ba837;
+    background: #353535;
+}
+.modal-footer button:focus{
+    outline: none !important;
+    box-shadow: none;
 }
