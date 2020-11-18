@@ -3,13 +3,31 @@ html,body {
         margin:0;
         height:100%;
         min-height:100%;
-        background: #686f7a;
+        background: #000;
 }
 nav {
-    background: gray;
+    background: #1b1b1b;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
 
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 .semi{
 width:100%;
 height:100%;
@@ -38,24 +56,23 @@ padding: 16px;
     z-index: 1;
     top: 14px;
     left: 10px;
-    background-color: #343a40;
+    background-color: #1b1b1b;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
-    border-radius: 15px;
 }
 
 .sidebar a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    color: #fff;
     display: block;
     transition: 0.3s;
 }
 
 .sidebar a:hover {
-    color: #f1f1f1;
+    color: #2ba837;
 }
 
 .sidebar .closebtn {
@@ -69,16 +86,21 @@ padding: 16px;
 .openbtn {
     font-size: 20px;
     cursor: pointer;
-    background-color: gray;
-    color: gold;
+    background-color: #282828;
+    color: #fff;
     padding: 10px 15px;
     margin-left:45px;
     border: none;
-    border-radius: 5px;
 }
 
 .openbtn:hover {
-    background-color: #444;
+    background-color: #414141;
+    color: #2ba837;
+}
+.openbtn:focus{
+    outline: none !important;
+    box-shadow: none;
+    color
 }
 #main {
     transition: margin-left .5s;
@@ -98,19 +120,15 @@ padding: 16px;
 }
 .navtext{
     padding-left:30px;
-    color: gold;
+    color: #fff;
 }
-.navcust{
-    border-radius: 15px;
-}
+
 .rooms{
-    border-radius: 15px 15px 15px 15px;
     padding:10px 10px 10px 20px;
-    background-color:gray;
+    background-color:#282828;
 }
 .room{
-    border-radius: 15px 15px 0px 0px;
-    background-color:gray;
+    background-color:#282828;
     padding:10px 10px 10px 20px;
     border-width: 1px;
     border-style: double;
@@ -118,23 +136,19 @@ padding: 16px;
 }
 .chats{
     padding:10px 10px 10px 20px;
-    border-radius: 15px 15px 15px 15px;
-    background-color:gray;
+    background-color:#282828;
 }
 .chat{
     padding:10px 10px 10px 20px;
-    border-radius: 0px 0px 15px 15px;
-    background-color:gray;
-    border-width: 1px;
-    border-style: double;
-    border-color: black;
+    background-color:#282828;
+    border:0px;
 }
 .chatUser{
-    background:white;
+    background:#fff;
     border-radius:5px;
     text-align:center;
-    border-style: groove;
-    border-color: gold;
+    border-style: inset;
+    border-color: black;
     border-width: 5px;
 }
 .chatUser.active {
@@ -150,41 +164,47 @@ padding: 16px;
 .chatUser.messageAlert{
     -webkit-animation:Border 1s infinite alternate;
 }
-
 .chatUser:hover{
     background: lightgray;
 }
 .chat_head{
-    color:gold;
+    color:#fff;
 }
 .chat-controls{
-    background:black;
+    background:#353535;
     height:10%;
-    border-radius: 5px 5px 0px 0px;
 }
 .chat-panel{
     background:white;
     height:70%;
-    margin-bottom:1px;
-    border-width: 1px 2px 1px 2px; /* top right bottom left */
-    border-style: inset inset inset inset;
-    border-color: black;
 }
 .chat-input{
-    background:gray;
+    background:#282828;
     height:12%;
-    border-width: 1px 2px 2px 2px; /* top right bottom left */
-    border-style: inset inset inset inset;
-    border-color: black;
-    border-radius: 0px 0px 5px 5px;
+    border: 0px;
 }
 .chat-controls .badge{
     padding:10px 10px 5px 10px;
-    border-radius: 5px 0px 0px 0px;
+    border: 0px;
+    border-radius: 0px;
 }
 .chat-input .input-group .input-group-prepend .input-group-text {
-    padding:0px 5px 4px 5px;
-    background: lightgreen;
+    background: #353535;
+    border: 0px;
+    color: #fff;
+}
+.chat-input .input-group .input-group-append button {
+    background: #353535;
+    border: 0px;
+}
+#text_input{
+    border:none;
+    background: lightgray;
+    color: black;
+}
+#text_input:focus{
+    outline: none !important;
+    box-shadow: none;
 }
 .msg{
     word-break: break-all;
@@ -193,8 +213,10 @@ padding: 16px;
     border-radius:5px;
 }
 .msg.outgoing{
-    background: lightgreen;
+    background: #2ba837;
+    color: #fff;
 }
 .msg.incoming{
-    background: lightblue;
+    background: #360000;
+    color: #fff;
 }
