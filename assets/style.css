@@ -246,6 +246,27 @@ padding: 16px;
 .create_room:hover{
     background: lightgray;
 }
+.room_tab{
+    background:#fff;
+    border-radius:5px;
+    text-align:center;
+    border-style: inset;
+    border-color: black;
+    border-width: 5px;
+}
+.room_tab:hover{
+    background: lightgray;
+}
+.room_tab.active{
+    border-color: green;
+    border-style: inset;
+}
+.room_tab.messageAlert{
+    -webkit-animation:Border 1s infinite alternate;
+}
+.room_tab.subbed{
+    border-color: blue;
+}
 #room_modal .modal-content{
     background:#282828;
     color:white;

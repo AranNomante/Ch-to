@@ -4,6 +4,7 @@ let clients = [];
 let clientNames = {};
 let activeObj = {};
 let rooms = [];
+let subscriptions = {};
 let ongoingSwitch = false;
 const chats = {}; // id:[{incoming:boolean,message:string,sender:string(roomonly)}]
 const notifications = {};
@@ -32,16 +33,23 @@ socket.on('updateClientNames', function(clientNameList) {
     clientNames = clientNameList;
     refreshUsers();
 });
-socket.on('newmsg', function(sender, msg) {
-    console.log(sender, msg);
-    if (clientNames[sender]) {
+socket.on('newmsg', function(sender, msg, from = null) {
+    //console.log(sender, msg, from);
+    const c_1 =
+        (!from) ? clientNames[sender] :
+        (subscriptions[from] && !(from === socket.id)) ? true : false;
+    if (c_1) {
         if (!(sender in chats)) {
             chats[sender] = [];
         }
-        chats[sender].push({
+        let pack_m = {
             incoming: true,
             message: msg
-        });
+        };
+        if (from) {
+            pack_m.sender = from;
+        }
+        chats[sender].push(pack_m);
         if (activeObj.id === sender) {
             $('.chat-panel').append(msgBuilder(true, msg, clientNames[sender]));
             scrollToBottom('chat-panel');
@@ -53,7 +61,7 @@ socket.on('newmsg', function(sender, msg) {
     }
 })
 socket.on('sendRoomResponse', function(response) {
-    console.log(response);
+    //console.log(response);
     if (response.success) {
         alert('Room created!');
         $('.create_room').hide();
@@ -84,6 +92,17 @@ socket.on('sendRoomResponse', function(response) {
 })
 socket.on('updateRooms', function(rms) {
     rooms = rms;
+    refreshRooms();
+});
+socket.on('updateSubs', function(subs) {
+    subscriptions = subs;
+});
+socket.on('joinRoomResponse', function(response) {
+    if (response.success) {
+        alert('Joined successfully');
+    } else {
+        alert("Couldn't join reason: " + response.reason);
+    }
 })
 //socket
 
@@ -92,6 +111,8 @@ function getClientInfo() {
     socket.emit('getClientList');
     socket.emit('getClientNames');
     socket.emit('getRooms');
+    socket.emit('updateSubs');
+    socket.emit('getSubscriptions');
 }
 
 function refreshUsers() {
@@ -125,7 +146,14 @@ function refreshUsers() {
 }
 
 function checkActiveChat() {
-    if (Object.keys(activeObj).length === 0 || !(clientNames[activeObj.id])) {
+    const c_1 = Object.keys(activeObj).length === 0;
+    const c_2 = activeObj.type === 'user' && !(clientNames[activeObj.id]);
+    const c_3 = activeObj.type === 'room' && (rooms.findIndex(function(rm, index) {
+        if (rm.room_name === activeObj.id) {
+            return true;
+        }
+    }) === -1);
+    if (c_1 || c_2 || c_3) {
         $('.chat-input').hide();
         $('#active_recipient').removeClass('badge-success');
         $('#active_recipient').addClass('badge-danger');
@@ -135,6 +163,43 @@ function checkActiveChat() {
         $('#active_recipient').removeClass('badge-danger');
         $('#active_recipient').addClass('badge-success');
     }
+}
+
+function refreshRooms() {
+    $('.create_room').nextAll().remove();
+    let activeRoom;
+    let notif = [];
+    let subbed = [];
+    rooms.forEach(item => {
+        if (activeObj.type === 'room' && activeObj.id === item.room_name) {
+            activeRoom = item;
+        } else {
+            if (item.room_name in notifications) {
+                notif.push(item.room_name);
+            } else if (item.room_name === subscriptions[socket.id]) {
+                subbed.push(item.room_name);
+            } else {
+                $('.create_room').after(`<p class='room_tab' name="${item.room_name}">${item.room_name}</p>`);
+            }
+        }
+    });
+    if (activeRoom) {
+        $('.create_room').after(`<p class='room_tab active' name="${activeRoom.room_name}">${activeRoom.room_name}</p>`);
+        notif.forEach(item => {
+            $('.room_tab.active').after(`<p class='room_tab messageAlert' name="${item}">${item}</p>`);
+        });
+        subbed.forEach(item => {
+            $('.room_tab.active').after(`<p class='room_tab subbed' name="${item}">${item}</p>`);
+        });
+    } else {
+        notif.forEach(item => {
+            $('.create_room').after(`<p class='room_tab messageAlert' name="${item}">${item}</p>`);
+        });
+        subbed.forEach(item => {
+            $('.create_room').after(`<p class='room_tab subbed' name="${item}">${item}</p>`);
+        });
+    }
+    checkActiveChat();
 }
 
 function sendMessage() {
@@ -149,6 +214,9 @@ function sendMessage() {
             incoming: false,
             message: msg
         });
+        if (activeObj.type === 'room') {
+            chats[activeObj.id].sender = socket.id;
+        }
         $('.chat-panel').append(msgBuilder(false, msg));
         src.val('');
         scrollToBottom('chat-panel');
@@ -161,20 +229,25 @@ function switchChats() {
     if (activeObj.id in notifications) {
         delete notifications[activeObj.id];
     }
-    let from = clientNames[activeObj.id];
+    let from = (activeObj.type === 'room') ? activeObj.id : clientNames[activeObj.id];
     let chat = chats[activeObj.id];
     $('#active_recipient').text('Active Chat: ' + from);
-    console.log(chat);
+    //console.log(chat);
     if (chat) {
         chat.forEach(msg => {
             if (!msg.sender) {
                 $('.chat-panel').append(msgBuilder(msg.incoming, msg.message, from));
+            } else {
+                let senderName = clientNames[msg.sender];
+                if (senderName) {
+                    $('.chat-panel').append(msgBuilder(msg.incoming, msg.message, senderName));
+                }
             }
         })
     }
     scrollToBottom('chat-panel');
     $('.chat-panel').fadeIn('slow');
-    console.log('switchChats');
+    //console.log('switchChats');
 }
 
 function msgBuilder(incoming, message, from = null) {
@@ -196,7 +269,55 @@ function chatUserAction() {
             id: $(this).attr('name')
         };
         $('.chatUser.active').removeClass('active');
-        $('.room.active').removeClass('active');
+        $('.room_tab.active').removeClass('active');
+        $(this).addClass('active');
+        switchChats();
+        ongoingSwitch = false;
+    }
+}
+
+function roomTabAction() {
+    let name = $(this).attr('name');
+    if (subscriptions[socket.id] === name) {
+        roomJoin(name);
+    } else {
+        if (!(subscriptions[socket.id])) {
+            let room_i = rooms.findIndex(function(rm, index) {
+                if (rm.room_name === name) {
+                    return true;
+                }
+            });
+            if (!(room_i === -1)) {
+                let cur_room = rooms[room_i];
+                $('#room_modal').modal('show');
+                $('.body_join').css('display', 'block');
+                $('.body_create').css('display', 'none');
+                $('#join_room_id').val(cur_room.room_name);
+                $('#room_modal_title').text('Join Room: ' + cur_room.room_name);
+                $('#read_room_owner').text('Owner: ' + clientNames[cur_room.owner]);
+                $('#read_room_description').text('Description: ' + cur_room.description);
+                $('#read_room_members').text('Capacity: ' + cur_room.member_count + '/' + cur_room.capacity);
+                if (!cur_room.protected) {
+                    $('#room_protected').css('display', 'none');
+                } else {
+                    $('#room_protected').css('display', 'block');
+                }
+            }
+        } else {
+            alert('You are already in a room!');
+        }
+    }
+}
+
+function roomJoin(name) {
+    if (!ongoingSwitch) {
+        ongoingSwitch = true;
+        activeObj = {
+            type: 'room',
+            id: name
+        }
+        $('.chatUser.active').removeClass('active');
+        $('.room_tab.active').removeClass('active');
         $(this).addClass('active');
         switchChats();
         ongoingSwitch = false;
@@ -211,16 +332,24 @@ function createRoom() {
 }
 
 function sendRoom() {
-    socket.emit('sendRoom', {
-        room_name: $('#create_room_name').val(),
-        description: $('#create_room_description').val(),
-        capacity: $('#create_room_members').val(),
-        password: $('#create_room_password').val()
-    });
+    if ($('.body_join').css('display') === 'block') {
+        socket.emit('joinRoom', {
+            room: $('#join_room_id').val(),
+            pw: $('#insert_room_pw').val()
+        });
+    } else {
+        socket.emit('sendRoom', {
+            room_name: $('#create_room_name').val(),
+            description: $('#create_room_description').val(),
+            capacity: $('#create_room_members').val(),
+            password: $('#create_room_password').val()
+        });
+    }
 }
 //fn
 
 //js-jq
+$(document).on('click', '.room_tab', roomTabAction);
 $(document).on('click', '.chatUser', chatUserAction);
 $(document).on('click', '#send_msg', sendMessage);
 $(document).keyup(function(e) {

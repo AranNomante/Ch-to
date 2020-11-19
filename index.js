@@ -7,7 +7,7 @@ const fn = require('./functions');
 const allClients = [];
 const clientNames = {};
 const rooms = [];
-const subscriptions = [];
+const subscriptions = {};
 app.use(express.static(__dirname + '/assets'));
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
@@ -16,10 +16,10 @@ app.get('/', function(req, res) {
 io.on('connection', function(socket) {
     fn.handleConnection(allClients, socket);
     socket.on('disconnect', () => {
-        fn.handleDisconnect(allClients, clientNames, socket);
+        fn.handleDisconnect(allClients, clientNames, subscriptions, rooms, socket);
     });
     socket.on('sendMessage', (recipient, msg) => {
-        fn.sendMessage(socket.id, recipient, msg, io);
+        fn.sendMessage(socket.id, recipient, msg, io, subscriptions);
     });
     socket.on('getClientList', () => {
         fn.getClientList(allClients, socket);
@@ -38,6 +38,12 @@ io.on('connection', function(socket) {
     });
     socket.on('getRooms', () => {
         fn.getRooms(rooms, socket);
+    });
+    socket.on('getSubscriptions', () => {
+        fn.getSubscriptions(subscriptions, socket);
+    });
+    socket.on('joinRoom', (obj) => {
+        fn.joinRoom(obj, socket, rooms, subscriptions);
     })
 });
 

@@ -31,7 +31,6 @@
         <div class="line">
             <div class="col-md-12 semi room">
                 <div id="player" class="mainvid"></div>
-                <!--<iframe class="mainvid" type="text/html" src="https://www.youtube.com/embed/5qap5aO4i9A?controls=1&autoplay=1&mute=1" frameborder="0" allow="autoplay; fullscreen"></iframe>-->
             </div>
             <div class="col-md-12 semi chat">
                 <div class="chat-controls">
@@ -68,7 +67,22 @@
             </button>
           </div>
           <div class="modal-body body_join">
-            Join
+              <form>
+                <input type="hidden" id="join_room_id">
+                <div class="form-group">
+                  <label id="read_room_owner">Owner:</label>
+                </div>
+                <div class="form-group">
+                  <label id="read_room_description">Description:</label>
+                </div>
+                <div class="form-group">
+                  <label id="read_room_members">Capacity:</label>
+                </div>
+                <div class="form-group" id="room_protected">
+                  <label for="insert_room_pw">Password:</label>
+                  <input type="password" class="form-control" id="insert_room_pw" maxlength="50"  placeholder="Enter room password">
+                </div>
+              </form>
           </div>
           <div class="modal-body body_create">
             <form>
