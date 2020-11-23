@@ -217,9 +217,14 @@ padding: 16px;
 .msgrow{
     margin-left: 5px;
     margin-right: 5px;
+    clear:both;
+    display: block;
 }
 .msgrow.outgoing{
     float:right;
+}
+.msgrow.incoming{
+    float: left;
 }
 .msg{
     word-break: break-all;

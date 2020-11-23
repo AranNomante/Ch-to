@@ -48,8 +48,11 @@ socket.on('newmsg', function(sender, msg, from = null) {
         };
         if (from) {
             pack_m.sender = from;
+        } else {
+            pack_m.sender = sender;
         }
         chats[sender].push(pack_m);
+        //console.log(sender, msg, from);
         if (activeObj.id === sender) {
             $('.chat-panel').append(msgBuilder(true, msg, clientNames[pack_m.sender]));
             scrollToBottom('chat-panel');
@@ -252,7 +255,7 @@ function switchChats() {
 
 function msgBuilder(incoming, message, from = null) {
     let color = (incoming) ? 'incoming' : 'outgoing';
-    let elem = `<br><div class="row msgrow ${color}"><p class="msg ${color}">${(from && incoming)?from+':':''} ${message}</p></div>`;
+    let elem = `<div class="row msgrow ${color}"><p class="msg ${color}">${(from && incoming)?from+':':''} ${message}</p></div>`;
     return elem;
 }
 
