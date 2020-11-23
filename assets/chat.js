@@ -51,7 +51,7 @@ socket.on('newmsg', function(sender, msg, from = null) {
         }
         chats[sender].push(pack_m);
         if (activeObj.id === sender) {
-            $('.chat-panel').append(msgBuilder(true, msg, clientNames[sender]));
+            $('.chat-panel').append(msgBuilder(true, msg, clientNames[pack_m.sender]));
             scrollToBottom('chat-panel');
         } else {
             if (!(sender in notifications)) {
