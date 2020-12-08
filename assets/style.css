@@ -327,3 +327,9 @@ padding: 16px;
     height: 95%;
     display: inline;
 }
+#read_room_members_actual{
+    overflow-y: scroll;
+    max-height: 100px;
+    background: #24292e;
+    white-space: pre-line;
+}

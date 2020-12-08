@@ -6,6 +6,7 @@ let activeObj = {};
 let rooms = [];
 let subscriptions = {};
 let ongoingSwitch = false;
+let activeRoomMembers = {};
 const chats = {}; // id:[{incoming:boolean,message:string,sender:string(roomonly)}]
 const notifications = {};
 let name = prompt("Please enter your name", "John Doe");
@@ -99,6 +100,7 @@ socket.on('updateRooms', function(rms) {
 });
 socket.on('updateSubs', function(subs) {
     subscriptions = subs;
+    updateRoomMembers();
 });
 socket.on('joinRoomResponse', function(response) {
     if (response.success) {
@@ -296,10 +298,19 @@ function roomTabAction() {
                 $('.body_join').css('display', 'block');
                 $('.body_create').css('display', 'none');
                 $('#join_room_id').val(cur_room.room_name);
+                let members_in_room = getRoomMembers(cur_room.room_name);
                 $('#room_modal_title').text('Join Room: ' + cur_room.room_name);
                 $('#read_room_owner').text('Owner: ' + clientNames[cur_room.owner]);
                 $('#read_room_description').text('Description: ' + cur_room.description);
                 $('#read_room_members').text('Capacity: ' + cur_room.member_count + '/' + cur_room.capacity);
+                if (members_in_room.length > 0) {
+                    let mem_str = ``;
+                    members_in_room.forEach((item, i) => {
+                        mem_str += `${(i + 1)}- ${item}\n`;
+                    });
+                    console.log(mem_str);
+                    $('#read_room_members_actual').text(mem_str);
+                }
                 if (!cur_room.protected) {
                     $('#room_protected').css('display', 'none');
                 } else {
@@ -348,6 +359,32 @@ function sendRoom() {
             password: $('#create_room_password').val()
         });
     }
+}
+
+function updateRoomMembers() {
+    let cur_room = subscriptions[socket.id];
+    let members = {};
+    if (cur_room) {
+        Object.keys(subscriptions).forEach(key => {
+            if (subscriptions[key] === cur_room && !(key === socket.id)) {
+                let m_name = clientNames[key];
+                if (m_name) {
+                    members[key] = m_name;
+                }
+            }
+        });
+    }
+    activeRoomMembers = members;
+}
+
+function getRoomMembers(rmname) {
+    let members = [];
+    Object.keys(subscriptions).forEach(key => {
+        if (subscriptions[key] === rmname && clientNames[key]) {
+            members.push(clientNames[key]);
+        }
+    });
+    return members;
 }
 //fn
 
