@@ -41,24 +41,27 @@ function initPlayer(id) {
 }
 
 function onPlayerReady(event) {
-    if (event.target.f.id === 'player1') {
+    console.log(event.target.f.id);
+    if (!(event.target.f.id === 'player1')) {
         event.target.mute();
-        event.target.playVideo();
+    } else {
+        event.target.mute();
     }
 }
+
 // 4. The API will call this function when the video player is ready.
 
 // 5. The API calls this function when the player's state changes.
 //    The function indicates that when playing a video (state=1),
 //    the player should play for six seconds and then stop.
-var done = false;
+let active_count = 0;
 
 function onPlayerStateChange(event) {
     //UNSTARTED -1 ENDED 0 PLAYING 1 PAUSED 2 BUFFERING 3 CUED 5
-    /*if (event.data == YT.PlayerState.PLAYING && !done) {
-            setTimeout(unMuteVideo, 6000);
-            done = true;
-        }*/
+    if (event.data == YT.PlayerState.PLAYING && active_count < 4 && !(event.target.f.id === 'player1')) {
+        event.target.stopVideo();
+        active_count++;
+    }
 }
 
 function onPlayerError(event) {
