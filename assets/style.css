@@ -222,7 +222,7 @@ padding: 16px;
 #text_input{
     border:none;
     background: #e6e6e6;
-    color: #fff280;
+    color: black;
 }
 #text_input:focus{
     outline: none !important;
