@@ -356,7 +356,7 @@ padding: 16px;
 #read_room_members_actual{
     overflow-y: scroll;
     max-height: 100px;
-    background: #747474;
+    background: #4d4d4d;
     white-space: pre-line;
 }
 .badge-danger{
