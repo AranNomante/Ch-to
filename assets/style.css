@@ -28,10 +28,6 @@ nav {
    border-radius: 1px;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #4d4500;
-}
 .semi{
 width:100%;
 height:100%;
@@ -99,20 +95,13 @@ padding: 16px;
     border-radius: 5px;
 }
 
-.openbtn:hover {
-    color: #4d4500;
-}
-.openbtn:focus{
-    outline: none !important;
-    box-shadow: none;
-    color
-}
 #main {
     transition: margin-left .5s;
     padding: 16px;
     height: 95%;
 }
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+/* On smaller screens, where height is less than 450px, change the styl
+e of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
     .sidebar {padding-top: 15px;}
     .sidebar a {font-size: 18px;}
@@ -176,9 +165,6 @@ padding: 16px;
 .chatUser.messageAlert{
     -webkit-animation:Border 1s infinite alternate;
 }
-.chatUser:hover{
-    background: #4d4500;
-}
 .chat_head{
     color:#fff280;
 }
@@ -212,21 +198,13 @@ padding: 16px;
     border-radius: 0px 0px 2px 0px !important;
     color: #fff280;
 }
-#send_msg:focus{
-    outline: none !important;
-    box-shadow: none;
-}
-#send_msg:hover{
-    color:#4d4500;
-}
+
 #text_input{
     border:none;
     background: #e6e6e6;
     color: black;
 }
 #text_input:focus{
-    outline: none !important;
-    box-shadow: none;
     background: #f2f2f2;
 }
 .msgrow{
@@ -263,9 +241,7 @@ padding: 16px;
     border-color: #272727;
     border-width: 5px;
 }
-.create_room:hover{
-    background: #4d4500;
-}
+
 .room_tab{
     background:#FF652F;
     border-radius:5px;
@@ -273,9 +249,6 @@ padding: 16px;
     border-style: inset;
     border-color: #272727;
     border-width: 5px;
-}
-.room_tab:hover{
-    background: #4d4500;
 }
 .room_tab.active{
     border-color: #14A76C;
@@ -303,9 +276,7 @@ padding: 16px;
 .modal-content input {
     background: #e6e6e6;
 }
-.modal-conten input:focus{
-    outline: none !important;
-    box-shadow: none;
+.modal-content input:focus{
     background: #f2f2f2;
 }
 .body_join{
@@ -317,14 +288,6 @@ padding: 16px;
 .modal-footer button {
     background: #FF652F;
     border: none;
-}
-.modal-footer button:hover{
-    color:#2ba837;
-    background: #4d4500;
-}
-.modal-footer button:focus{
-    outline: none !important;
-    box-shadow: none;
 }
 
 .vid{
@@ -367,7 +330,26 @@ padding: 16px;
     background:#14A76C !important;
     color:#fff280 !important;
 }
-.play, .unmute,.mute,.display {
+.play, .unmute,.mute,.display,.playall,.displayall,.muteall,.unmuteall {
     background-color: #FF652F;
     color: #fff280;
+}
+.play:hover, .unmute:hover,.mute:hover,
+.display:hover,.playall:hover,
+.displayall:hover,.muteall:hover,
+.unmuteall:hover,.chatUser:hover,
+.create_room:hover,.room_tab:hover,
+.modal-footer button:hover,::-webkit-scrollbar-thumb:hover,.openbtn:hover,
+#send_msg:hover{
+    color:#2ba837;
+    background: #4d4500;
+}
+
+.play:focus, .unmute:focus,.mute:focus,
+.display:focus,.playall:focus,.displayall:focus,
+.muteall:focus,.unmuteall:focus,.openbtn:focus,
+#send_msg:focus,#text_input:focus,.modal-content input:focus,
+.modal-footer button:focus{
+    outline: none !important;
+    box-shadow: none;
 }

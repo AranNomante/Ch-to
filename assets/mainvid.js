@@ -133,28 +133,33 @@ function setState(id, event) {
 
 function getPlayState(signal, id) {
     const htmelem = $(`.play.p_${id.substring(6,7)}`);
+    const allelem = $('.playall');
     switch (signal) {
         case -1:
             return 'UNSTARTED';
         case 0:
             htmelem.text('Restart🔄');
+            allelem.text('Restart🔄');
             return 'ENDED';
         case 1:
             htmelem.text('Pause⏸️');
+            allelem.text('Pause⏸️');
             return 'PLAYING';
         case 2:
             htmelem.text('Play▶️');
+            allelem.text('Play▶️');
             return 'PAUSED';
         case 3:
             return 'BUFFERING';
         case 5:
             htmelem.text('Play▶️');
+            allelem.text('Play▶️');
             return 'CUED';
         default:
             return null;
     }
 }
-/*
+
 $('.play').on('click', function() {
     const id = 'player' + $(this).attr('class').split(' ')[1].split('_')[1];
     const tplayer = reversePmap[id];
@@ -169,12 +174,47 @@ $('.play').on('click', function() {
             case 'PLAYING':
                 //console.log('paused');
                 tplayer.pauseVideo();
+                break;
             case 'PAUSED':
                 tplayer.playVideo();
+                break;
         }
     }
 });
-*/
+$('.playall').on('click', function() {
+    let ok = true;
+    let highest_order_action = 'PAUSED';
+    let valid_states = ['CUED', 'ENDED', 'PLAYING', 'PAUSED'];
+    Object.keys(states).forEach(item => {
+        let cur_state = states[item].play;
+        if (valid_states.includes(cur_state)) {
+            if (cur_state === 'PLAYING' && highest_order_action === 'PAUSED') {
+                highest_order_action = cur_state;
+            } else if (cur_state === 'ENDED') {
+                highest_order_action = cur_state;
+            }
+        } else {
+            ok = false;
+        }
+    });
+    if (ok) {
+        if (highest_order_action === 'ENDED') {
+            Object.keys(reversePmap).forEach(item => {
+                reversePmap[item].pauseVideo();
+                reversePmap[item].seekTo(0);
+                reversePmap[item].playVideo();
+            });
+        } else if (highest_order_action === 'PLAYING') {
+            Object.keys(reversePmap).forEach(item => {
+                reversePmap[item].pauseVideo();
+            });
+        } else {
+            Object.keys(reversePmap).forEach(item => {
+                reversePmap[item].playVideo();
+            });
+        }
+    }
+});
 $('.unmute').on('click', function() {
     const id = 'player' + $(this).attr('class').split(' ')[1].split('_')[1];
     const tplayer = reversePmap[id];
@@ -197,6 +237,17 @@ $('.display').on('click', function() {
     });
     organizeVidDisplay(elem, states[id].display, visibleCount);
 });
+$('.unmuteall').on('click', function() {
+    Object.keys(reversePmap).forEach(item => {
+        reversePmap[item].unMute();
+    });
+});
+$('.muteall').on('click', function() {
+    Object.keys(reversePmap).forEach(item => {
+        reversePmap[item].mute();
+    });
+});
+
 const nmMap = {
     0: 'no',
     1: 'solo',
@@ -205,6 +256,29 @@ const nmMap = {
     4: 'four',
     5: 'five'
 }
+$('.displayall').on('click', function() {
+    let visibleCount = 0;
+    Object.keys(states).forEach(item => {
+        visibleCount += states[item].display;
+    });
+    for (let i = 0; i < 6; i++) {
+        Object.keys(reversePmap).forEach(item => {
+            $('#' + item).removeClass(nmMap[i]);
+        });
+    }
+    if (visibleCount > 0) {
+        Object.keys(reversePmap).forEach(item => {
+            $('#' + item).addClass(nmMap[0]);
+        });
+    } else {
+        Object.keys(reversePmap).forEach(item => {
+            $('#' + item).addClass(nmMap[5]);
+        });
+    }
+    Object.keys(states).forEach(item => {
+        states[item].display = (visibleCount > 0) ? 0 : 1;
+    });
+});
 
 function organizeVidDisplay(elem, disp, visibleCount) {
     let exact = nmMap[visibleCount];
