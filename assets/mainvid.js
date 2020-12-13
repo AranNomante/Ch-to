@@ -304,3 +304,12 @@ function organizeVidDisplay(elem, disp, visibleCount) {
     $('.vid.' + exact).removeClass(exact).addClass(dif);
     states[elem.attr('id')].display = (disp === 1) ? 0 : 1;
 }
+$('#toggle_load').on('click', function() {
+    if ($('#load_all').parent().css('display') === 'none') {
+        $('.load_i').parent().css('display', 'none');
+        $('#load_all').parent().css('display', 'block');
+    } else {
+        $('.load_i').parent().css('display', 'block');
+        $('#load_all').parent().css('display', 'none');
+    }
+})

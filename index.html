@@ -27,6 +27,7 @@
           <h1 class="navtext">Ch@to</h1>
           <button class="openbtn" onclick="openNav()">Rooms & Users ☰</button>
           <button class="openbtn" data-toggle="modal" data-target="#video_controls_modal" data-backdrop="false">Video Controls ☰</button>
+          <button class="openbtn" data-toggle="modal" data-target="#video_load_modal" data-backdrop="false">Load Videos ☰</button>
           <h4 class="navtext" id="username">Username:</h1>
         </nav>
         <div class="line">
@@ -120,7 +121,7 @@
         </div>
       </div>
     </div>
-    <!-- Room -->
+    <!-- Video Controls -->
     <div class="modal fade" id="video_controls_modal" tabindex="-1" role="dialog" aria-labelledby="video_controls_modal" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -132,7 +133,7 @@
           </div>
           <div class="modal-body">
               <div class="form-group">
-                  <label>All Players:</label>
+                  <label>All Players📹:</label>
                   <br>
                   <button class="playall" type="button">Play▶️</button>
                   <button class="unmuteall" type="button">Unmute🔊</button>
@@ -140,7 +141,7 @@
                   <button class="displayall" type="button">Display/Hide🎬</button>
               </div>
             <div class="form-group">
-                <label>Player 1:</label>
+                <label>Player 1📹:</label>
                 <label id="pt_1"></label>
                 <br>
                 <button class="play p_1" type="button">Play▶️</button>
@@ -149,7 +150,7 @@
                 <button class="display p_1" type="button">Display/Hide🎬</button>
             </div>
             <div class="form-group">
-                <label>Player 2:</label>
+                <label>Player 2📹:</label>
                 <label id="pt_2"></label>
                 <br>
                 <button class="play p_2" type="button">Play▶️</button>
@@ -158,7 +159,7 @@
                 <button class="display p_2" type="button">Display/Hide🎬</button>
             </div>
             <div class="form-group">
-                <label>Player 3:</label>
+                <label>Player 3📹:</label>
                 <label id="pt_3"></label>
                 <br>
                 <button class="play p_3" type="button">Play▶️</button>
@@ -167,7 +168,7 @@
                 <button class="display p_3" type="button">Display/Hide🎬</button>
             </div>
             <div class="form-group">
-                <label>Player 4:</label>
+                <label>Player 4📹:</label>
                 <label id="pt_4"></label>
                 <br>
                 <button class="play p_4" type="button">Play▶️</button>
@@ -176,13 +177,64 @@
                 <button class="display p_4" type="button">Display/Hide🎬</button>
             </div>
             <div class="form-group">
-                <label>Player 5:</label>
+                <label>Player 5📹:</label>
                 <label id="pt_5"></label>
                 <br>
                 <button class="play p_5" type="button">Play▶️</button>
                 <button class="unmute p_5" type="button">Unmute🔊</button>
                 <button class="mute p_5" type="button">Mute🔈</button>
                 <button class="display p_5" type="button">Display/Hide🎬</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Video Load-->
+    <div class="modal fade" id="video_load_modal" tabindex="-1" role="dialog" aria-labelledby="video_load_modal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Load Video</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+                  <button id="toggle_load" type="button">Toggle All or Individual Players 🔄</button>
+            </div>
+            <div class="form-group" style="display:none">
+                <label for="load_all">All Players📹:</label>
+                <br>
+                <input type="url" class="form-control load_a" id="load_all" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
+            </div>
+            <div class="form-group">
+                <label for="load_1">Player 1📹:</label>
+                <br>
+                <input type="url" class="form-control load_i" id="load_1" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
+            </div>
+            <div class="form-group">
+                <label for="load_2">Player 2📹:</label>
+                <br>
+                <input type="url" class="form-control load_i" id="load_2" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
+            </div>
+            <div class="form-group">
+                <label for="load_3">Player 3📹:</label>
+                <br>
+                <input type="url" class="form-control load_i" id="load_3" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
+            </div>
+            <div class="form-group">
+                <label for="load_4">Player 4📹:</label>
+                <br>
+                <input type="url" class="form-control load_i" id="load_4" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
+            </div>
+            <div class="form-group">
+                <label for="load_5">Player 5📹:</label>
+                <br>
+                <input type="url" class="form-control load_i" id="load_5" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
             </div>
           </div>
           <div class="modal-footer">

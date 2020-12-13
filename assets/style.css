@@ -264,13 +264,13 @@ e of the sidenav (less padding and a smaller font size) */
     background:#272727;
     color:#fff280;
 }
-#video_controls_modal .modal-content{
+#video_controls_modal .modal-content,#video_load_modal .modal-content{
     background:#272727;
     color:#fff280;
     left: 100%;
     opacity: 0.3;
 }
-#video_controls_modal .modal-content:hover{
+#video_controls_modal .modal-content:hover,#video_load_modal .modal-content:hover{
     opacity: 0.9
 }
 .modal-content input {
@@ -330,7 +330,7 @@ e of the sidenav (less padding and a smaller font size) */
     background:#14A76C !important;
     color:#fff280 !important;
 }
-.play, .unmute,.mute,.display,.playall,.displayall,.muteall,.unmuteall {
+.play, .unmute,.mute,.display,.playall,.displayall,.muteall,.unmuteall,#toggle_load {
     background-color: #FF652F;
     color: #fff280;
 }
@@ -340,7 +340,7 @@ e of the sidenav (less padding and a smaller font size) */
 .unmuteall:hover,.chatUser:hover,
 .create_room:hover,.room_tab:hover,
 .modal-footer button:hover,::-webkit-scrollbar-thumb:hover,.openbtn:hover,
-#send_msg:hover{
+#send_msg:hover, #toggle_load:hover{
     color:#2ba837;
     background: #4d4500;
 }
@@ -349,7 +349,7 @@ e of the sidenav (less padding and a smaller font size) */
 .display:focus,.playall:focus,.displayall:focus,
 .muteall:focus,.unmuteall:focus,.openbtn:focus,
 #send_msg:focus,#text_input:focus,.modal-content input:focus,
-.modal-footer button:focus{
+.modal-footer button:focus,#toggle_load:focus{
     outline: none !important;
     box-shadow: none;
 }
