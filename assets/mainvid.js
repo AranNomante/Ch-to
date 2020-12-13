@@ -116,7 +116,8 @@ function onPlayerStateChange(event) {
     //UNSTARTED -1 ENDED 0 PLAYING 1 PAUSED 2 BUFFERING 3 CUED 5
     const id = event.target.h.id;
     if (event.data == YT.PlayerState.PLAYING && states[id].firstTime) {
-        event.target.stopVideo();
+        event.target.pauseVideo();
+        event.target.seekTo(0);
         states[id].firstTime = false;
     }
     setState(id, event);
