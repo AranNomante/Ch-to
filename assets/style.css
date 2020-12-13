@@ -367,3 +367,7 @@ padding: 16px;
     background:#14A76C !important;
     color:#fff280 !important;
 }
+.play, .unmute,.mute,.display {
+    background-color: #FF652F;
+    color: #fff280;
+}
