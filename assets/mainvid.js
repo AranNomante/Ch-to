@@ -129,31 +129,47 @@ function extractYTid(url) {
 function setState(id, event) {
     states[id].play = getPlayState(event.data, id);
     states[id].isMuted = event.target.isMuted();
+    setAllstates();
+}
+
+function setAllstates() {
+    const allelem = $('.playall');
+    let highest_order_action = 'PAUSED';
+    Object.keys(states).forEach(item => {
+        let cur_state = states[item].play;
+        if (cur_state === 'PLAYING' && highest_order_action === 'PAUSED') {
+            highest_order_action = cur_state;
+        } else if (cur_state === 'ENDED') {
+            highest_order_action = cur_state;
+        }
+    });
+    if (highest_order_action === 'PLAYING') {
+        allelem.text('Pause⏸️');
+    } else if (highest_order_action === 'ENDED') {
+        allelem.text('Restart🔄');
+    } else {
+        allelem.text('Play▶️');
+    }
 }
 
 function getPlayState(signal, id) {
     const htmelem = $(`.play.p_${id.substring(6,7)}`);
-    const allelem = $('.playall');
     switch (signal) {
         case -1:
             return 'UNSTARTED';
         case 0:
             htmelem.text('Restart🔄');
-            allelem.text('Restart🔄');
             return 'ENDED';
         case 1:
             htmelem.text('Pause⏸️');
-            allelem.text('Pause⏸️');
             return 'PLAYING';
         case 2:
             htmelem.text('Play▶️');
-            allelem.text('Play▶️');
             return 'PAUSED';
         case 3:
             return 'BUFFERING';
         case 5:
             htmelem.text('Play▶️');
-            allelem.text('Play▶️');
             return 'CUED';
         default:
             return null;
@@ -197,6 +213,7 @@ $('.playall').on('click', function() {
             ok = false;
         }
     });
+    console.log(highest_order_action);
     if (ok) {
         if (highest_order_action === 'ENDED') {
             Object.keys(reversePmap).forEach(item => {
