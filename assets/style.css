@@ -295,6 +295,10 @@ padding: 16px;
     background:#272727;
     color:#fff280;
     left: 100%;
+    opacity: 0.3;
+}
+#video_controls_modal .modal-content:hover{
+    opacity: 0.9
 }
 .modal-content input {
     background: #e6e6e6;
@@ -322,35 +326,31 @@ padding: 16px;
     outline: none !important;
     box-shadow: none;
 }
-.mainvid{
-    height: 100%;
-    width: 100%;
-}
+
 .vid{
     display: none;
     height: auto;
     width: auto;
-    min-width: 300px;
-    min-height: 250px;
+    height: 100%;
 }
 .vid.solo{
-    height: 100%;
     width: 100%;
     display: block;
 }
 .vid.two{
     width: 40%;
-    height: 100%;
     display: inline;
 }
 .vid.three{
     width: 30%;
-    height: 100%;
     display: inline;
 }
 .vid.four{
     width: 20%;
-    height: 100%;
+    display: inline;
+}
+.vid.five{
+    width: 15%;
     display: inline;
 }
 #read_room_members_actual{

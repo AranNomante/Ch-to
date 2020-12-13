@@ -22,7 +22,7 @@ const titles = {
 const states = {
     player1: {
         isMuted: false,
-        display: 0,
+        display: 1,
         play: 'UNSTARTED'
     },
     player2: {
@@ -78,11 +78,12 @@ function initPlayer(id) {
         },
         playerVars: {
             'autoplay': 1,
-            'controls': 0,
+            'controls': 1,
             'disablekb': 1,
             'iv_load_policy': 3,
             'modestbranding': 1,
-            'showinfo': 0
+            'showinfo': 0,
+            'enablejsapi': 1
         }
     })
 }
@@ -90,11 +91,12 @@ function initPlayer(id) {
 function onPlayerReady(event) {
     //console.log(event.target);
     const id = event.target.h.id;
-    $(`#${titles[id]}`).text(event.target.getVideoData().title.substring(0, 30));
+    const title = event.target.getVideoData().title;
+    let title_f = title.substring(0, 40);
+    title_f += (title.length > 40) ? '...' : '';
+    $(`#${titles[id]}`).text(title_f);
     //console.log(event.target.h.id);
-    if (!(id === 'player1')) {
-        event.target.mute();
-    }
+    event.target.mute();
     setState(id, event);
 }
 
@@ -108,7 +110,7 @@ let active_count = 0;
 function onPlayerStateChange(event) {
     //UNSTARTED -1 ENDED 0 PLAYING 1 PAUSED 2 BUFFERING 3 CUED 5
     const id = event.target.h.id;
-    if (event.data == YT.PlayerState.PLAYING && active_count < 4 && !(id === 'player1')) {
+    if (event.data == YT.PlayerState.PLAYING && active_count < 5) {
         event.target.stopVideo();
         active_count++;
     }
@@ -152,6 +154,7 @@ function getPlayState(signal, id) {
             return null;
     }
 }
+/*
 $('.play').on('click', function() {
     const id = 'player' + $(this).attr('class').split(' ')[1].split('_')[1];
     const tplayer = reversePmap[id];
@@ -164,13 +167,14 @@ $('.play').on('click', function() {
                 tplayer.seekTo(0);
                 break;
             case 'PLAYING':
-                console.log('paused');
+                //console.log('paused');
                 tplayer.pauseVideo();
             case 'PAUSED':
                 tplayer.playVideo();
         }
     }
 });
+*/
 $('.unmute').on('click', function() {
     const id = 'player' + $(this).attr('class').split(' ')[1].split('_')[1];
     const tplayer = reversePmap[id];
@@ -183,3 +187,29 @@ $('.mute').on('click', function() {
     tplayer.mute();
     states[id].isMuted = true;
 })
+
+$('.display').on('click', function() {
+    const id = 'player' + $(this).attr('class').split(' ')[1].split('_')[1];
+    const elem = $(`#${id}`);
+    let visibleCount = 0;
+    Object.keys(states).forEach(item => {
+        visibleCount += states[item].display;
+    });
+    organizeVidDisplay(elem, states[id].display, visibleCount);
+});
+const nmMap = {
+    0: 'no',
+    1: 'solo',
+    2: 'two',
+    3: 'three',
+    4: 'four',
+    5: 'five'
+}
+
+function organizeVidDisplay(elem, disp, visibleCount) {
+    let exact = nmMap[visibleCount];
+    let dif = (disp === 1) ? nmMap[visibleCount - 1] : nmMap[visibleCount + 1];
+    (disp === 1) ? elem.removeClass(exact): elem.addClass(dif);
+    $('.vid.' + exact).removeClass(exact).addClass(dif);
+    states[elem.attr('id')].display = (disp === 1) ? 0 : 1;
+}
