@@ -14,20 +14,20 @@
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
         <div class="line">
             <div class="col-md-12 semi flowy marbot rooms">
-                <h5 class="chat_head">Chat Rooms</h5>
-                <p class="create_room">Create Room</p>
+                <h5 class="chat_head">Chat Rooms 🏘️</h5>
+                <p class="create_room">Create Room 🚪</p>
             </div>
             <div class="col-md-12 semi flowy chats">
-                <h5 class="chat_head">Users</h5>
+                <h5 class="chat_head">Users 👥</h5>
             </div>
         </div>
     </div>
     <div id="main">
         <nav class="navbar navbar-expand-lg navbar-light">
           <h1 class="navtext">Ch@to</h1>
-          <button class="openbtn" onclick="openNav()">Rooms & Users ☰</button>
-          <button class="openbtn" data-toggle="modal" data-target="#video_controls_modal" data-backdrop="false">Video Controls ☰</button>
-          <button class="openbtn" data-toggle="modal" data-target="#video_load_modal" data-backdrop="false">Load Videos ☰</button>
+          <button class="openbtn" onclick="openNav()">Rooms & Users 📢</button>
+          <button class="openbtn" data-toggle="modal" data-target="#video_controls_modal" data-backdrop="false">Video Controls 🧰</button>
+          <button class="openbtn" data-toggle="modal" data-target="#video_load_modal" data-backdrop="false">Load Videos 🎞️</button>
           <h4 class="navtext" id="username">Username:</h1>
         </nav>
         <div class="line">
@@ -55,7 +55,7 @@
                       </div>
                       <input id="text_input" type="text" class="form-control" minlength="0" maxlength="160" placeholder="Type anything..." aria-label="message" aria-describedby="message">
                       <div class="input-group-append">
-                        <button id='send_msg' class="btn btn-primary" type="button">Send</button>
+                        <button id='send_msg' class="btn btn-primary" type="button">Send ✉️</button>
                       </div>
                     </div>
                 </div>
@@ -97,19 +97,19 @@
           <div class="modal-body body_create">
             <form>
               <div class="form-group">
-                <label for="create_room_name">Room Name</label>
+                <label for="create_room_name">Room Name 📛:</label>
                 <input type="text" class="form-control" id="create_room_name" minlength="0" maxlength="50" placeholder="John's Room">
               </div>
               <div class="form-group">
-                <label for="create_room_description">Description</label>
+                <label for="create_room_description">Description📇:</label>
                 <input type="text" class="form-control" id="create_room_description" minlength="0" maxlength="50"  placeholder="Short description">
               </div>
               <div class="form-group">
-                <label for="create_room_members">Capacity</label>
+                <label for="create_room_members">Capacity 🈵:</label>
                 <input type="number" class="form-control" id="create_room_members" min="1" max="100"  placeholder="Room capacity">
               </div>
               <div class="form-group">
-                <label for="create_room_password">Password</label>
+                <label for="create_room_password">Password 🔑:</label>
                 <input type="password" class="form-control" id="create_room_password" maxlength="50"  placeholder="Leave blank for public room">
               </div>
             </form>
@@ -133,57 +133,57 @@
           </div>
           <div class="modal-body">
               <div class="form-group">
-                  <label>All Players📹:</label>
+                  <label>All Players 📹:</label>
                   <br>
-                  <button class="playall" type="button">Play▶️</button>
-                  <button class="unmuteall" type="button">Unmute🔊</button>
-                  <button class="muteall" type="button">Mute🔈</button>
-                  <button class="displayall" type="button">Display/Hide🎬</button>
+                  <button class="playall" type="button">Play ▶️</button>
+                  <button class="unmuteall" type="button">Unmute 🔊</button>
+                  <button class="muteall" type="button">Mute 🔈</button>
+                  <button class="displayall" type="button">Display/Hide 🎬</button>
               </div>
             <div class="form-group">
-                <label>Player 1📹:</label>
+                <label>Player 1 📹:</label>
                 <label id="pt_1"></label>
                 <br>
-                <button class="play p_1" type="button">Play▶️</button>
-                <button class="unmute p_1" type="button">Unmute🔊</button>
-                <button class="mute p_1" type="button">Mute🔈</button>
-                <button class="display p_1" type="button">Display/Hide🎬</button>
+                <button class="play p_1" type="button">Play ▶️</button>
+                <button class="unmute p_1" type="button">Unmute 🔊</button>
+                <button class="mute p_1" type="button">Mute 🔈</button>
+                <button class="display p_1" type="button">Display/Hide 🎬</button>
             </div>
             <div class="form-group">
-                <label>Player 2📹:</label>
+                <label>Player 2 📹:</label>
                 <label id="pt_2"></label>
                 <br>
-                <button class="play p_2" type="button">Play▶️</button>
-                <button class="unmute p_2" type="button">Unmute🔊</button>
-                <button class="mute p_2" type="button">Mute🔈</button>
-                <button class="display p_2" type="button">Display/Hide🎬</button>
+                <button class="play p_2" type="button">Play ▶️</button>
+                <button class="unmute p_2" type="button">Unmute 🔊</button>
+                <button class="mute p_2" type="button">Mute 🔈</button>
+                <button class="display p_2" type="button">Display/Hide 🎬</button>
             </div>
             <div class="form-group">
-                <label>Player 3📹:</label>
+                <label>Player 3 📹:</label>
                 <label id="pt_3"></label>
                 <br>
-                <button class="play p_3" type="button">Play▶️</button>
-                <button class="unmute p_3" type="button">Unmute🔊</button>
-                <button class="mute p_3" type="button">Mute🔈</button>
-                <button class="display p_3" type="button">Display/Hide🎬</button>
+                <button class="play p_3" type="button">Play ▶️</button>
+                <button class="unmute p_3" type="button">Unmute 🔊</button>
+                <button class="mute p_3" type="button">Mute 🔈</button>
+                <button class="display p_3" type="button">Display/Hide 🎬</button>
             </div>
             <div class="form-group">
-                <label>Player 4📹:</label>
+                <label>Player 4 📹:</label>
                 <label id="pt_4"></label>
                 <br>
-                <button class="play p_4" type="button">Play▶️</button>
-                <button class="unmute p_4" type="button">Unmute🔊</button>
-                <button class="mute p_4" type="button">Mute🔈</button>
-                <button class="display p_4" type="button">Display/Hide🎬</button>
+                <button class="play p_4" type="button">Play ▶️</button>
+                <button class="unmute p_4" type="button">Unmute 🔊</button>
+                <button class="mute p_4" type="button">Mute 🔈</button>
+                <button class="display p_4" type="button">Display/Hide 🎬</button>
             </div>
             <div class="form-group">
-                <label>Player 5📹:</label>
+                <label>Player 5 📹:</label>
                 <label id="pt_5"></label>
                 <br>
-                <button class="play p_5" type="button">Play▶️</button>
-                <button class="unmute p_5" type="button">Unmute🔊</button>
-                <button class="mute p_5" type="button">Mute🔈</button>
-                <button class="display p_5" type="button">Display/Hide🎬</button>
+                <button class="play p_5" type="button">Play ▶️</button>
+                <button class="unmute p_5" type="button">Unmute 🔊</button>
+                <button class="mute p_5" type="button">Mute 🔈</button>
+                <button class="display p_5" type="button">Display/Hide 🎬</button>
             </div>
           </div>
           <div class="modal-footer">
@@ -207,38 +207,39 @@
                   <button id="toggle_load" type="button">Toggle All or Individual Players 🔄</button>
             </div>
             <div class="form-group" style="display:none">
-                <label for="load_all">All Players📹:</label>
+                <label for="load_all">All Players 📹:</label>
                 <br>
                 <input type="url" class="form-control load_a" id="load_all" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
             </div>
             <div class="form-group">
-                <label for="load_1">Player 1📹:</label>
+                <label for="load_1">Player 1 📹:</label>
                 <br>
                 <input type="url" class="form-control load_i" id="load_1" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
             </div>
             <div class="form-group">
-                <label for="load_2">Player 2📹:</label>
+                <label for="load_2">Player 2 📹:</label>
                 <br>
                 <input type="url" class="form-control load_i" id="load_2" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
             </div>
             <div class="form-group">
-                <label for="load_3">Player 3📹:</label>
+                <label for="load_3">Player 3 📹:</label>
                 <br>
                 <input type="url" class="form-control load_i" id="load_3" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
             </div>
             <div class="form-group">
-                <label for="load_4">Player 4📹:</label>
+                <label for="load_4">Player 4 📹:</label>
                 <br>
                 <input type="url" class="form-control load_i" id="load_4" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
             </div>
             <div class="form-group">
-                <label for="load_5">Player 5📹:</label>
+                <label for="load_5">Player 5 📹:</label>
                 <br>
                 <input type="url" class="form-control load_i" id="load_5" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="load_init">Ok</button>
           </div>
         </div>
       </div>

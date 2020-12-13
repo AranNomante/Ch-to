@@ -23,27 +23,32 @@ const states = {
     player1: {
         isMuted: false,
         display: 1,
-        play: 'UNSTARTED'
+        play: 'UNSTARTED',
+        firstTime: true
     },
     player2: {
         isMuted: false,
         display: 0,
-        play: 'UNSTARTED'
+        play: 'UNSTARTED',
+        firstTime: true
     },
     player3: {
         isMuted: false,
         display: 0,
-        play: 'UNSTARTED'
+        play: 'UNSTARTED',
+        firstTime: true
     },
     player4: {
         isMuted: false,
         display: 0,
-        play: 'UNSTARTED'
+        play: 'UNSTARTED',
+        firstTime: true
     },
     player5: {
         isMuted: false,
         display: 0,
-        play: 'UNSTARTED'
+        play: 'UNSTARTED',
+        firstTime: true
     }
 }
 const reversePmap = {
@@ -77,7 +82,7 @@ function initPlayer(id) {
             'onError': onPlayerError
         },
         playerVars: {
-            'autoplay': 1,
+            //'autoplay': 1,
             'controls': 1,
             'disablekb': 1,
             'iv_load_policy': 3,
@@ -105,14 +110,14 @@ function onPlayerReady(event) {
 // 5. The API calls this function when the player's state changes.
 //    The function indicates that when playing a video (state=1),
 //    the player should play for six seconds and then stop.
-let active_count = 0;
+
 
 function onPlayerStateChange(event) {
     //UNSTARTED -1 ENDED 0 PLAYING 1 PAUSED 2 BUFFERING 3 CUED 5
     const id = event.target.h.id;
-    if (event.data == YT.PlayerState.PLAYING && active_count < 5) {
+    if (event.data == YT.PlayerState.PLAYING && states[id].firstTime) {
         event.target.stopVideo();
-        active_count++;
+        states[id].firstTime = false;
     }
     setState(id, event);
 }
@@ -213,7 +218,7 @@ $('.playall').on('click', function() {
             ok = false;
         }
     });
-    console.log(highest_order_action);
+    //console.log(highest_order_action);
     if (ok) {
         if (highest_order_action === 'ENDED') {
             Object.keys(reversePmap).forEach(item => {
@@ -296,6 +301,7 @@ $('.displayall').on('click', function() {
         states[item].display = (visibleCount > 0) ? 0 : 1;
     });
 });
+let load_mode = 'i';
 
 function organizeVidDisplay(elem, disp, visibleCount) {
     let exact = nmMap[visibleCount];
@@ -308,8 +314,46 @@ $('#toggle_load').on('click', function() {
     if ($('#load_all').parent().css('display') === 'none') {
         $('.load_i').parent().css('display', 'none');
         $('#load_all').parent().css('display', 'block');
+        load_mode = 'a';
     } else {
         $('.load_i').parent().css('display', 'block');
         $('#load_all').parent().css('display', 'none');
+        load_mode = 'i';
     }
-})
+});
+$('#load_init').on('click', function() {
+    if (load_mode === 'i') {
+        loadIndividual();
+    } else {
+        loadAll();
+    }
+});
+
+function loadAll() {
+    let url = $('#load_all').val();
+    url = extractYTid(url);
+    Object.keys(reversePmap).forEach(item => {
+        reversePmap[item].pauseVideo();
+        reversePmap[item].loadVideoById(url, 0);
+        states[item].firstTime = true;
+    });
+}
+
+function loadIndividual() {
+    const urls = {
+        player1: $('#load_1').val(),
+        player2: $('#load_2').val(),
+        player3: $('#load_3').val(),
+        player4: $('#load_4').val(),
+        player5: $('#load_5').val()
+    }
+    Object.keys(urls).forEach(item => {
+        if (urls[item].length > 0) {
+            let url = extractYTid(urls[item]);
+            reversePmap[item].pauseVideo();
+            reversePmap[item].loadVideoById(url, 0);
+            states[item].firstTime = true;
+        }
+    });
+
+}

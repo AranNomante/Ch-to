@@ -132,19 +132,19 @@ function refreshUsers() {
             if (item in notifications) {
                 notif.push(item);
             } else {
-                $('.chats').append(`<p class='chatUser' name=${item}>${clientNames[item]}</p>`);
+                $('.chats').append(`<p class='chatUser' name=${item}>${clientNames[item]} 💬</p>`);
             }
         }
     });
     if (activeUser && clientNames[activeUser]) {
-        $('.chats h5').after(`<p class='chatUser active' name=${activeUser}>${clientNames[activeUser]}</p>`);
+        $('.chats h5').after(`<p class='chatUser active' name=${activeUser}>${clientNames[activeUser]} 💬</p>`);
         notif.forEach(item => {
-            $('.chatUser.active').after(`<p class='chatUser messageAlert' name=${item}>${clientNames[item]}</p>`);
+            $('.chatUser.active').after(`<p class='chatUser messageAlert' name=${item}>${clientNames[item]} 💬</p>`);
         });
 
     } else {
         notif.forEach(item => {
-            $('.chats h5').after(`<p class='chatUser messageAlert' name=${item}>${clientNames[item]}</p>`);
+            $('.chats h5').after(`<p class='chatUser messageAlert' name=${item}>${clientNames[item]} 💬</p>`);
         });
     }
     checkActiveChat();
