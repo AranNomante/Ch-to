@@ -1,0 +1,90 @@
+html,body {
+        height:100%;
+        width: 100%;
+        color: #fff280;
+        background: #272727;
+        display: flex;
+        background: linear-gradient(270deg, #747474, #ff652f, #747474, #ffe400, #747474, #14a76c, #747474);
+        background-size: 1400% 1400%;
+        -webkit-animation: AnimationName 16s ease infinite;
+        -moz-animation: AnimationName 16s ease infinite;
+        -o-animation: AnimationName 16s ease infinite;
+        animation: AnimationName 16s ease infinite;
+}
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-o-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+.container{
+    min-width: 90%;
+    max-width: 90%;
+    min-height: 70%;
+    max-height: 70%;
+    text-align: center;
+    background: #272727;
+    border:15px;
+    border-radius: 2px;
+    border-style: outset;
+    border-color: white;
+    align-self: center;
+}
+
+.main_div_l{
+    text-align: center;
+}
+.highlight_h{
+    margin-top: 5px;
+    border:5px;
+    padding: 5px;
+    border-style: groove;
+    border-color: #ff652f;
+}
+.instructions{
+    overflow-y: scroll;
+    max-height: 200px;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e6e6e6;
+  border-radius: 1px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #FF652F;
+   border-radius: 1px;
+}
+.list-group a{
+    background: #FF652F;
+    color: #fff280;
+}
+.list-group a.active{
+    background: #14a76c;
+    border:0px;
+}
+.list-group a:focus{
+    outline: none !important;
+    box-shadow: none;
+}
