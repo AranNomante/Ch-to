@@ -209,7 +209,7 @@ function refreshRooms() {
 }
 
 function sendMessage() {
-    const src = $('#text_input');
+    const src = $('#main-input');
     const msg = src.val();
     if (Object.keys(activeObj).length > 0 && msg) {
         socket.emit('sendMessage', activeObj, msg);

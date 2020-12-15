@@ -94,6 +94,7 @@ function initPlayer(id) {
 }
 
 function onPlayerReady(event) {
+    const id = event.target.h.id;
     setPlayerTitle(event);
     event.target.mute();
     setState(id, event);

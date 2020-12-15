@@ -199,12 +199,13 @@ e of the sidenav (less padding and a smaller font size) */
     color: #fff280;
 }
 
-#text_input{
+#main-input{
     border:none;
     background: #e6e6e6;
     color: black;
+    border-radius: 0px;
 }
-#text_input:focus{
+#main-input:focus{
     background: #f2f2f2;
 }
 .msgrow{
@@ -348,7 +349,7 @@ e of the sidenav (less padding and a smaller font size) */
 .play:focus, .unmute:focus,.mute:focus,
 .display:focus,.playall:focus,.displayall:focus,
 .muteall:focus,.unmuteall:focus,.openbtn:focus,
-#send_msg:focus,#text_input:focus,.modal-content input:focus,
+#send_msg:focus,#main-input:focus,.modal-content input:focus,
 .modal-footer button:focus,#toggle_load:focus{
     outline: none !important;
     box-shadow: none;

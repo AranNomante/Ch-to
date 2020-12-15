@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/emoji.css">
   </head>
   <body>
     <div id="mySidebar" class="sidebar">
@@ -53,7 +54,9 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text input-group-text-sm">You:</span>
                       </div>
-                      <input id="text_input" type="text" class="form-control" minlength="0" maxlength="160" placeholder="Type anything..." aria-label="message" aria-describedby="message">
+                      <div class="emojipicker-container">
+                      <input id="main-input" type="text" class="form-control" minlength="0" maxlength="160" placeholder="Type anything..." aria-label="message" aria-describedby="message">
+                    </div>
                       <div class="input-group-append">
                         <button id='send_msg' class="btn btn-primary" type="button">Send ✉️</button>
                       </div>
@@ -248,5 +251,6 @@
     <script src="/sidebar.js"></script>
     <script src="/chat.js"></script>
     <script src="/mainvid.js"></script>
+    <script src="/emoji.js"></script>
   </body>
 </html>
