@@ -4,6 +4,8 @@ const name = params.get('name');
 const socket = io();
 if (!name) {
     window.location.href = '/landing';
+} else if (name.length < 3 || name.length > 30) {
+    window.location.href = '/landing?error=invalid';
 } else {
     socket.emit('validateName', name);
 }
@@ -24,8 +26,7 @@ socket.on('validateNameResponse', function(isValid) {
         socket.emit('setName', name);
         $('#username').text('Username: ' + name);
     } else {
-        alert('Name already taken');
-        window.location.href = '/landing';
+        window.location.href = '/landing?error=taken';
     }
 });
 socket.on('updateClientList', function(clientList) {
@@ -68,7 +69,8 @@ socket.on('newmsg', function(sender, msg, from = null) {
 socket.on('sendRoomResponse', function(response) {
     //console.log(response);
     if (response.success) {
-        alert('Room created!');
+        //alert('Room created!');
+        setSnack('Room created!');
         $('.create_room').hide();
     } else {
         let alertText = "Couldn't create room, reason(s):";
@@ -92,7 +94,8 @@ socket.on('sendRoomResponse', function(response) {
         } else {
             alertText += '\nCannot create/subscribe to more than one room';
         }
-        alert(alertText);
+        //alert(alertText);
+        setSnack(alertText);
     }
 })
 socket.on('updateRooms', function(rms) {
@@ -105,9 +108,11 @@ socket.on('updateSubs', function(subs) {
 });
 socket.on('joinRoomResponse', function(response) {
     if (response.success) {
-        alert('Joined successfully');
+        //alert('Joined successfully');
+        setSnack('Joined Successfully');
     } else {
-        alert("Couldn't join reason: " + response.reason);
+        //alert("Couldn't join reason: " + response.reason);
+        setSnack("Couldn't join reason: " + response.reason);
     }
 })
 //socket
@@ -319,7 +324,8 @@ function roomTabAction() {
                 }
             }
         } else {
-            alert('You are already in a room!');
+            //alert('You are already in a room!');
+            setSnack('You are already in a room!');
         }
     }
 }
