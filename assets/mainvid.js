@@ -94,13 +94,7 @@ function initPlayer(id) {
 }
 
 function onPlayerReady(event) {
-    //console.log(event.target);
-    const id = event.target.h.id;
-    const title = event.target.getVideoData().title;
-    let title_f = title.substring(0, 40);
-    title_f += (title.length > 40) ? '...' : '';
-    $(`#${titles[id]}`).text(title_f);
-    //console.log(event.target.h.id);
+    setPlayerTitle(event);
     event.target.mute();
     setState(id, event);
 }
@@ -116,6 +110,7 @@ function onPlayerStateChange(event) {
     //UNSTARTED -1 ENDED 0 PLAYING 1 PAUSED 2 BUFFERING 3 CUED 5
     const id = event.target.h.id;
     if (event.data == YT.PlayerState.PLAYING && states[id].firstTime) {
+        setPlayerTitle(event);
         event.target.pauseVideo();
         event.target.seekTo(0);
         states[id].firstTime = false;
@@ -357,4 +352,12 @@ function loadIndividual() {
         }
     });
 
+}
+
+function setPlayerTitle(event) {
+    const id = event.target.h.id;
+    const title = event.target.getVideoData().title;
+    let title_f = title.substring(0, 40);
+    title_f += (title.length > 40) ? '...' : '';
+    $(`#${titles[id]}`).text(title_f);
 }

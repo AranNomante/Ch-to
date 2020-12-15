@@ -1,5 +1,12 @@
 //init
+const params = (new URL(document.location)).searchParams;
+const name = params.get('name');
 const socket = io();
+if (!name) {
+    window.location.href = '/landing';
+} else {
+    socket.emit('validateName', name);
+}
 let clients = [];
 let clientNames = {};
 let activeObj = {};
@@ -9,12 +16,6 @@ let ongoingSwitch = false;
 let activeRoomMembers = {};
 const chats = {}; // id:[{incoming:boolean,message:string,sender:string(roomonly)}]
 const notifications = {};
-let name = prompt("Please enter your name", "John Doe");
-if (!name) {
-    window.location.href = '/';
-} else {
-    socket.emit('validateName', name);
-}
 //init
 
 //socket
@@ -24,7 +25,7 @@ socket.on('validateNameResponse', function(isValid) {
         $('#username').text('Username: ' + name);
     } else {
         alert('Name already taken');
-        window.location.href = '/';
+        window.location.href = '/landing';
     }
 });
 socket.on('updateClientList', function(clientList) {
