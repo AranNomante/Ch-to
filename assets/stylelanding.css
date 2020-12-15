@@ -135,3 +135,10 @@ h1,h2,h3,h4,h5,p{
     color:#2ba837;
     background: #4d4500;
 }
+.social_link{
+    max-width: 50px;
+    max-height: 50px;
+}
+.social_a:hover{
+    color:#272727 !important;
+}
