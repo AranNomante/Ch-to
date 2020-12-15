@@ -82,7 +82,7 @@ function initPlayer(id) {
             'onError': onPlayerError
         },
         playerVars: {
-            //'autoplay': 1,
+            'autoplay': 1,
             'controls': 1,
             'disablekb': 1,
             'iv_load_policy': 3,
