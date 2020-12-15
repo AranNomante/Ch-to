@@ -6,9 +6,9 @@ $('.list-group a').on('click', function() {
 
 $('.submit_tag').on('click', function() {
     const name = $('#usertag').val();
-    if (name.length > 2 && name.length < 30) {
+    if (name.length > 2 && name.length < 31) {
         window.location.href = "/?name=" + name;
     } else {
-        alert('Please use a valid name between 2 to 30 characters!');
+        alert('Please enter a valid name (minimum length 2 maximum 30)!');
     }
-})
+});
