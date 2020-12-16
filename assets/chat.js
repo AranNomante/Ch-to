@@ -434,6 +434,37 @@ function updateActiveRoom() {
         }
     }
 }
+
+function handleRoomAction() {
+    const cls = $(this).attr('class').split(' ');
+    const id = $(this).attr('id');
+    const name = $(this).attr('name');
+    if (id) {
+        if (id === 'disband_room') {
+            socket.emit('room_action', {
+                action: 'disband_room'
+            });
+        } else if (id === 'leave_room') {
+            socket.emit('room_action', {
+                action: 'leave_room'
+            });
+        }
+    } else if (name) {
+        if (cls.includes('owner_transfer')) {
+            socket.emit('room_action', {
+                action: 'owner_transfer',
+                target: name
+            });
+        } else if (cls.includes('kick_user')) {
+            socket.emit('room_action', {
+                action: 'kick_user',
+                target: name
+            });
+        }
+    } else {
+        setSnack('Something went wrong!');
+    }
+}
 //fn
 
 //js-jq
@@ -448,5 +479,6 @@ $(document).keyup(function(e) {
 $(document).on('click', '.modal', closeModal);
 $(document).on('click', '.create_room', createRoom);
 $(document).on('click', '#room_ok', sendRoom);
+$(document).on('click', '.room_action', handleRoomAction);
 setInterval(getClientInfo, 1000);
 //js-jq

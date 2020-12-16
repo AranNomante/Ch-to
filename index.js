@@ -47,7 +47,10 @@ io.on('connection', function(socket) {
     });
     socket.on('joinRoom', (obj) => {
         fn.joinRoom(obj, socket, rooms, subscriptions);
-    })
+    });
+    socket.on('room_action', (obj) => {
+        fn.handleRoomAction(obj, socket, rooms, subscriptions);
+    });
 });
 
 http.listen(port, function() {

@@ -212,6 +212,18 @@ function searchRoom(rooms, compare, to) {
     });
     return room_i;
 }
+
+function handleRoomAction(obj, socket, rooms, subscriptions) {
+    const subscription = subscriptions[socket.id];
+    if (subscription) {
+        const room_i = searchRoom(rooms, 'room_name', subscription)
+        const ownership_i = searchRoom(rooms, 'owner', socket.id);
+        console.log('request:', obj);
+        console.log('room index:', room_i);
+        console.log('ownership index:', ownership_i);
+        console.log('subscription:', subscription);
+    }
+}
 module.exports = {
     getSocketID: getSocketID,
     removeArrayElem: removeArrayElem,
@@ -225,5 +237,6 @@ module.exports = {
     processRoom: processRoom,
     getRooms: getRooms,
     getSubscriptions: getSubscriptions,
-    joinRoom: joinRoom
+    joinRoom: joinRoom,
+    handleRoomAction: handleRoomAction
 }
