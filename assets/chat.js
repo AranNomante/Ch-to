@@ -105,6 +105,7 @@ socket.on('updateRooms', function(rms) {
 socket.on('updateSubs', function(subs) {
     subscriptions = subs;
     updateRoomMembers();
+    updateActiveRoom();
 });
 socket.on('joinRoomResponse', function(response) {
     if (response.success) {
@@ -314,7 +315,7 @@ function roomTabAction() {
                     members_in_room.forEach((item, i) => {
                         mem_str += `${(i + 1)}- ${item}\n`;
                     });
-                    console.log(mem_str);
+                    //console.log(mem_str);
                     $('#read_room_members_actual').text(mem_str);
                 }
                 if (!cur_room.protected) {
@@ -399,6 +400,38 @@ function closeModal(event) {
     const id = target.id;
     if (id && $('#' + id).attr('class').split(' ').includes('modal')) {
         $('#' + id).modal('hide');
+    }
+}
+
+function updateActiveRoom() {
+    const room = subscriptions[socket.id];
+    if (room) {
+        const room_i = rooms.findIndex(function(rm, index) {
+            if (rm.room_name === room) {
+                return true;
+            }
+        });
+        const cur_room = rooms[room_i];
+        $('#room_a_title').text(cur_room.room_name);
+        $('#room_a_desc').text(cur_room.description);
+        $('#room_a_cap').text(cur_room.member_count + '/' + cur_room.capacity);
+        const owner_flag = cur_room.owner === socket.id;
+        if (!owner_flag) {
+            $('#disband_room').parent().hide();
+        } else {
+            $('#disband_room').parent().show();
+        }
+        if (Object.keys(activeRoomMembers).length > 0) {
+            let mem_str = ``;
+            Object.keys(activeRoomMembers).forEach((key, i) => {
+                mem_str += `${(i + 1)}- ${activeRoomMembers[key]}`;
+                if (owner_flag) {
+                    mem_str += `&nbsp;<button class="room_action kick_user" name="${key}">Kick 🚫</button><button class="room_action owner_transfer" name="${key}">Transfer Ownership 🛂</button>`;
+                }
+                mem_str += `<br>`;
+            });
+            $('#members_action').html(mem_str);
+        }
     }
 }
 //fn

@@ -26,10 +26,11 @@
     </div>
     <div id="main">
         <nav class="navbar navbar-expand-lg navbar-light">
-          <h1 class="navtext">Ch@to</h1>
+          <h5 class="navtext">Ch@to</h5>
           <button class="openbtn" onclick="openNav()">Rooms & Users 📢</button>
           <button class="openbtn" data-toggle="modal" data-target="#video_controls_modal" data-backdrop="false">Video Controls 🧰</button>
           <button class="openbtn" data-toggle="modal" data-target="#video_load_modal" data-backdrop="false">Load Videos 🎞️</button>
+          <button class="openbtn" data-toggle="modal" data-target="#room_actions_modal" data-backdrop="false">Room Controls 🚪</button>
           <h4 class="navtext" id="username">Username:</h1>
         </nav>
         <div class="line">
@@ -244,6 +245,51 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal" id="load_init">Ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Room actions-->
+    <div class="modal fade" id="room_actions_modal" tabindex="-1" role="dialog" aria-labelledby="room_actions_modal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Room Controls</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+                <label for="room_a_title">Room Title:</label>
+                <h5 id="room_a_title"></h5>
+            </div>
+            <div class="form-group">
+                <label for="room_a_desc">Room Description:</label>
+                <p id="room_a_desc"></p>
+            </div>
+            <div class="form-group">
+                <label for="room_a_cap">Room Capacity:</label>
+                <p id="room_a_cap"></p>
+            </div>
+            <div class="form-group">
+                <label>Actions:</label>
+            </div>
+            <div class="form-group">
+                <label for="leave_room">Leave Room:</label>
+                <button type="button" class="room_action" id="leave_room">👋</button>
+            </div>
+            <div class="form-group">
+                <label for="disband_room">Disband Room:</label>
+                <button type="button" class="room_action" id="disband_room">🗑️</button>
+            </div>
+            <div class="form-group">
+             <label for="members_action">Members:</label>
+              <p id="members_action"></p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

@@ -10,6 +10,7 @@ html,body {
         -moz-animation: AnimationName 16s ease infinite;
         -o-animation: AnimationName 16s ease infinite;
         animation: AnimationName 16s ease infinite;
+        word-break: break-all;
 }
 @-webkit-keyframes AnimationName {
     0%{background-position:0% 50%}

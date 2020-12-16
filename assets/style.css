@@ -5,6 +5,7 @@ html,body {
         min-height:100%;
         background: #747474;
         color: #fff280;
+        word-break: break-all;
 }
 nav {
     background: #272727;
@@ -90,7 +91,7 @@ padding: 16px;
     background-color: #FF652F;
     color: #fff280;
     padding: 10px 15px;
-    margin-left:45px;
+    margin-left:15px;
     border: none;
     border-radius: 5px;
 }
@@ -113,8 +114,10 @@ e of the sidenav (less padding and a smaller font size) */
     margin-bottom: 15px;
 }
 .navtext{
-    padding-left:30px;
+    margin-right: 30px;
+    margin-left: 100px;
     color: #fff280;
+    word-break: keep-all;
 }
 
 .rooms{
@@ -151,6 +154,7 @@ e of the sidenav (less padding and a smaller font size) */
     border-style: inset;
     border-color: #272727;
     border-width: 5px;
+    word-break: break-all;
 }
 .chatUser.active {
     border-color: #14A76C;
@@ -250,6 +254,7 @@ e of the sidenav (less padding and a smaller font size) */
     border-style: inset;
     border-color: #272727;
     border-width: 5px;
+    word-break: break-all;
 }
 .room_tab.active{
     border-color: #14A76C;
@@ -265,13 +270,13 @@ e of the sidenav (less padding and a smaller font size) */
     background:#272727;
     color:#fff280;
 }
-#video_controls_modal .modal-content,#video_load_modal .modal-content{
+#video_controls_modal .modal-content,#video_load_modal .modal-content,#room_actions_modal .modal-content{
     background:#272727;
     color:#fff280;
     left: 100%;
     opacity: 0.3;
 }
-#video_controls_modal .modal-content:hover,#video_load_modal .modal-content:hover{
+#video_controls_modal .modal-content:hover,#video_load_modal .modal-content:hover,#room_actions_modal .modal-content:hover{
     opacity: 0.9
 }
 .modal-content input {
@@ -317,12 +322,14 @@ e of the sidenav (less padding and a smaller font size) */
     width: 15%;
     display: inline;
 }
-#read_room_members_actual{
+#read_room_members_actual,#members_action{
     overflow-y: scroll;
     max-height: 100px;
     background: #4d4d4d;
     white-space: pre-line;
+    word-break: break-all;
 }
+
 .badge-danger{
     background:#b33000 !important;
     color:#fff280 !important;
@@ -331,7 +338,7 @@ e of the sidenav (less padding and a smaller font size) */
     background:#14A76C !important;
     color:#fff280 !important;
 }
-.play, .unmute,.mute,.display,.playall,.displayall,.muteall,.unmuteall,#toggle_load {
+.play, .unmute,.mute,.display,.playall,.displayall,.muteall,.unmuteall,#toggle_load,.room_action {
     background-color: #FF652F;
     color: #fff280;
 }
@@ -341,7 +348,7 @@ e of the sidenav (less padding and a smaller font size) */
 .unmuteall:hover,.chatUser:hover,
 .create_room:hover,.room_tab:hover,
 .modal-footer button:hover,::-webkit-scrollbar-thumb:hover,.openbtn:hover,
-#send_msg:hover, #toggle_load:hover{
+#send_msg:hover, #toggle_load:hover,.room_action:hover{
     color:#2ba837;
     background: #4d4500;
 }
@@ -350,7 +357,7 @@ e of the sidenav (less padding and a smaller font size) */
 .display:focus,.playall:focus,.displayall:focus,
 .muteall:focus,.unmuteall:focus,.openbtn:focus,
 #send_msg:focus,#main-input:focus,.modal-content input:focus,
-.modal-footer button:focus,#toggle_load:focus{
+.modal-footer button:focus,#toggle_load:focus,.room_action:focus{
     outline: none !important;
     box-shadow: none;
 }
