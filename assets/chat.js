@@ -393,6 +393,14 @@ function getRoomMembers(rmname) {
     });
     return members;
 }
+
+function closeModal(event) {
+    const target = event.target;
+    const id = target.id;
+    if (id && $('#' + id).attr('class').split(' ').includes('modal')) {
+        $('#' + id).modal('hide');
+    }
+}
 //fn
 
 //js-jq
@@ -404,6 +412,7 @@ $(document).keyup(function(e) {
         $('#send_msg').click();
     }
 });
+$(document).on('click', '.modal', closeModal);
 $(document).on('click', '.create_room', createRoom);
 $(document).on('click', '#room_ok', sendRoom);
 setInterval(getClientInfo, 1000);
