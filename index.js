@@ -1,13 +1,19 @@
 const express = require("express");
 const helmet = require("helmet");
+const crypto = require("crypto");
 const app = express();
+app.use((req, res, next) => {
+    res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
+    next();
+});
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
             "script-src": ["'self'", "https://www.youtube.com/iframe_api",
                 'iframe-src', 'https://www.youtube.com/embed/',
-                'https:\/\/www.youtube.com\/s\/player\/c88a8657\/www-widgetapi.vflset\/www-widgetapi.js'
+                'https:\/\/www.youtube.com\/s\/player\/c88a8657\/www-widgetapi.vflset\/www-widgetapi.js',
+                (req, res) => `'nonce-${res.locals.cspNonce}'`
             ],
             "frame-src": ["'self'", "https://www.youtube.com/"]
         },

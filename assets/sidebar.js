@@ -22,3 +22,9 @@ $(document).on('click', '#main', function(event) {
         closeNav();
     }
 });
+$(document).on('click', '.closebtn', function() {
+    closeNav();
+})
+$(document).on('click', '#open_nav', function() {
+    toggleNav();
+})
