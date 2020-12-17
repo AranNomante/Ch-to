@@ -89,7 +89,7 @@ function initPlayer(id) {
             'modestbranding': 1,
             'showinfo': 0,
             'enablejsapi': 1,
-            'origin': 'http://ch-to.com'
+            'origin': 'https://ch-to.herokuapp.com/' //host neresiyse
         }
     })
 }
