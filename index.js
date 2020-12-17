@@ -6,6 +6,7 @@ app.use(
         directives: {
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
             "script-src": ["'self'", "https://www.youtube.com/iframe_api", 'iframe-src', 'https://www.youtube.com/embed/', 'https:\/\/www.youtube.com\/s\/player\/c88a8657\/www-widgetapi.vflset\/www-widgetapi.js'],
+            "frame-src": ["'self'", "https://www.youtube.com/"]
         },
     })
 );
