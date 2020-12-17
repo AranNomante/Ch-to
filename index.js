@@ -5,7 +5,7 @@ app.use(
     helmet.contentSecurityPolicy({
         directives: {
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-            "script-src": ["'self'", "https://www.youtube.com/iframe_api", 'iframe-src', 'https://www.youtube.com/embed/'],
+            "script-src": ["'self'", "https://www.youtube.com/iframe_api", 'iframe-src', 'https://www.youtube.com/embed/', 'https://www.youtube.com/*'],
         },
     })
 );
