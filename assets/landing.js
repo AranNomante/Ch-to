@@ -2,7 +2,7 @@ const params = (new URL(document.location)).searchParams;
 const error = params.get('error');
 if (error && error.length > 0) {
     if (error === 'invalid') {
-        setSnack('Please enter a valid name (minimum length 2 maximum 30)!');
+        setSnack('Please enter a valid name (minimum length 3 maximum 30)!');
     } else if (error === 'taken') {
         setSnack('This name is taken please try another one!');
     }

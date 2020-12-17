@@ -92,6 +92,8 @@ padding: 16px;
     border: none;
     border-radius: 5px;
     min-height: 40px;
+    word-break: normal;
+    min-width: 100px;
 }
 
 #main {
@@ -168,7 +170,9 @@ e of the sidenav (less padding and a smaller font size) */
     -webkit-animation:Border 1s infinite alternate;
 }
 .chat_head{
-    color:#fff280;
+    margin: 5px 5px 5px 0px;
+    max-width: 180px;
+    border-radius: 5px;
 }
 .chat-controls{
     background:#4d4d4d;
@@ -356,7 +360,7 @@ e of the sidenav (less padding and a smaller font size) */
 .unmuteall:hover,.chatUser:hover,
 .create_room:hover,.room_tab:hover,
 .modal-footer button:hover,::-webkit-scrollbar-thumb:hover,.openbtn:hover,
-#send_msg:hover, #toggle_load:hover,.room_action:hover{
+#send_msg:hover, #toggle_load:hover,.room_action:hover,.chat_head:hover{
     color:#2ba837;
     background: #4d4500;
 }
@@ -365,7 +369,7 @@ e of the sidenav (less padding and a smaller font size) */
 .display:focus,.playall:focus,.displayall:focus,
 .muteall:focus,.unmuteall:focus,.openbtn:focus,
 #send_msg:focus,#main-input:focus,.modal-content input:focus,
-.modal-footer button:focus,#toggle_load:focus,.room_action:focus{
+.modal-footer button:focus,#toggle_load:focus,.room_action:focus,.chat_head:focus{
     outline: none !important;
     box-shadow: none;
 }

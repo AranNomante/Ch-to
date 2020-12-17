@@ -18,6 +18,8 @@ let ongoingSwitch = false;
 let activeRoomMembers = {};
 const chats = {}; // id:[{incoming:boolean,message:string,sender:string(roomonly)}]
 const notifications = {};
+let room_search_filter = '';
+let user_search_filter = '';
 //init
 
 //socket
@@ -152,7 +154,7 @@ function getClientInfo() {
 
 function refreshUsers() {
     //activeObj type user/room
-    $('.chats').children().not(':first').remove();
+    $('#user_search').nextAll().remove();
     let activeUser;
     let notif = [];
     clients.forEach(item => {
@@ -162,19 +164,19 @@ function refreshUsers() {
             if (item in notifications) {
                 notif.push(item);
             } else {
-                $('.chats').append(`<p class='chatUser' name=${item}>${clientNames[item]} 💬</p>`);
+                $('.chats').append(`<p class='chatUser' style='display:${(clientNames[item].includes(user_search_filter))?'block':'none'}' name=${item}>${clientNames[item]} 💬</p>`);
             }
         }
     });
     if (activeUser && clientNames[activeUser]) {
-        $('.chats h5').after(`<p class='chatUser active' name=${activeUser}>${clientNames[activeUser]} 💬</p>`);
+        $('#user_search').after(`<p class='chatUser active' name=${activeUser}>${clientNames[activeUser]} 💬</p>`);
         notif.forEach(item => {
-            $('.chatUser.active').after(`<p class='chatUser messageAlert' name=${item}>${clientNames[item]} 💬</p>`);
+            $('.chatUser.active').after(`<p class='chatUser messageAlert' style='display:${(clientNames[item].includes(user_search_filter))?'block':'none'}' name=${item}>${clientNames[item]} 💬</p>`);
         });
 
     } else {
         notif.forEach(item => {
-            $('.chats h5').after(`<p class='chatUser messageAlert' name=${item}>${clientNames[item]} 💬</p>`);
+            $('#user_search').after(`<p class='chatUser messageAlert' style='display:${(clientNames[item].includes(user_search_filter))?'block':'none'}' name=${item}>${clientNames[item]} 💬</p>`);
         });
     }
     checkActiveChat();
@@ -214,21 +216,21 @@ function refreshRooms() {
             } else if (item.room_name === subscriptions[socket.id]) {
                 subbed.push(item.room_name);
             } else {
-                $('.create_room').after(`<p class='room_tab' name="${item.room_name}">${item.room_name}</p>`);
+                $('.create_room').after(`<p class='room_tab' style='display:${(item.room_name.includes(room_search_filter))?'block':'none'}' name="${item.room_name}">${item.room_name}</p>`);
             }
         }
     });
     if (activeRoom) {
         $('.create_room').after(`<p class='room_tab active' name="${activeRoom.room_name}">${activeRoom.room_name}</p>`);
         notif.forEach(item => {
-            $('.room_tab.active').after(`<p class='room_tab messageAlert' name="${item}">${item}</p>`);
+            $('.room_tab.active').after(`<p class='room_tab messageAlert' style='display:${(item.includes(room_search_filter))?'block':'none'}' name="${item}">${item}</p>`);
         });
         subbed.forEach(item => {
             $('.room_tab.active').after(`<p class='room_tab subbed' name="${item}">${item}</p>`);
         });
     } else {
         notif.forEach(item => {
-            $('.create_room').after(`<p class='room_tab messageAlert' name="${item}">${item}</p>`);
+            $('.create_room').after(`<p class='room_tab messageAlert' style='display:${(item.includes(room_search_filter))?'block':'none'}' name="${item}">${item}</p>`);
         });
         subbed.forEach(item => {
             $('.create_room').after(`<p class='room_tab subbed' name="${item}">${item}</p>`);
@@ -492,6 +494,23 @@ function handleRoomAction() {
         setSnack('Something went wrong!');
     }
 }
+
+function filterTab(id) {
+    const target = (id === 'room_search') ? '.room_tab' : '.chatUser';
+    const filter = $('#' + id).val();
+    (id === 'room_search') ? room_search_filter = filter: user_search_filter = filter;
+    $(target).toArray().forEach(sub_targ => {
+        if (!$(sub_targ).text().includes(filter) && !$(sub_targ).attr('class').includes('active')) {
+            $(sub_targ).css('display', 'none');
+        } else {
+            $(sub_targ).css('display', 'block');
+        }
+    });
+}
+
+function filter() {
+    filterTab(this.id);
+}
 //fn
 
 //js-jq
@@ -507,5 +526,6 @@ $(document).on('click', '.modal', closeModal);
 $(document).on('click', '.create_room', createRoom);
 $(document).on('click', '#room_ok', sendRoom);
 $(document).on('click', '.room_action', handleRoomAction);
+$('#room_search,#user_search').on('input', filter);
 setInterval(getClientInfo, 1000);
 //js-jq
