@@ -86,14 +86,12 @@ padding: 16px;
 }
 
 .openbtn {
-    font-size: 20px;
     cursor: pointer;
     background-color: #FF652F;
     color: #fff280;
-    padding: 10px 15px;
-    margin-left:15px;
     border: none;
     border-radius: 5px;
+    min-height: 40px;
 }
 
 #main {
@@ -114,8 +112,6 @@ e of the sidenav (less padding and a smaller font size) */
     margin-bottom: 15px;
 }
 .navtext{
-    margin-right: 30px;
-    margin-left: 100px;
     color: #fff280;
     word-break: keep-all;
 }
@@ -135,6 +131,7 @@ e of the sidenav (less padding and a smaller font size) */
     overflow-y: scroll;
     text-align: center;
     border-radius: 2px 2px 0px 0px;
+    margin: 0px !important;
 }
 .chats{
     padding:10px 10px 10px 20px;
@@ -146,6 +143,7 @@ e of the sidenav (less padding and a smaller font size) */
     background-color:#272727;
     border:0px;
     border-radius: 0px 0px 2px 2px;
+    margin: 0px !important;
 }
 .chatUser{
     background:#FF652F;
@@ -184,30 +182,39 @@ e of the sidenav (less padding and a smaller font size) */
     background:#272727;
     height:12%;
     border: 0px;
+    text-align: center !important;
+    margin: 10px;
+    margin-left: 10%;
 }
 .chat-controls .badge{
     padding:10px 10px 5px 10px;
     border: 0px;
     border-radius: 1px !important;
 }
-.chat-input .input-group .input-group-prepend .input-group-text {
-    background: #FF652F;
+.chat-input  {
     color: #fff280;
-    border-radius: 0px 0px 0px 2px !important;
+    margin:5px;
+    margin-top: 10px;
     border: 0px !important;
 }
+
 #send_msg{
     background: #FF652F;
     border: 0px !important;
-    border-radius: 0px 0px 2px 0px !important;
+    border-radius: 5px;
     color: #fff280;
+    min-height: 40px;
+    max-height: 40px;
+    word-break: keep-all;
 }
 
 #main-input{
     border:none;
     background: #e6e6e6;
     color: black;
-    border-radius: 0px;
+    border-radius: 5px;
+    min-height: 40px;
+    max-height: 40px;
 }
 #main-input:focus{
     background: #f2f2f2;
@@ -273,7 +280,6 @@ e of the sidenav (less padding and a smaller font size) */
 #video_controls_modal .modal-content,#video_load_modal .modal-content,#room_actions_modal .modal-content{
     background:#272727;
     color:#fff280;
-    left: 100%;
     opacity: 0.3;
 }
 #video_controls_modal .modal-content:hover,#video_load_modal .modal-content:hover,#room_actions_modal .modal-content:hover{
@@ -295,7 +301,9 @@ e of the sidenav (less padding and a smaller font size) */
     background: #FF652F;
     border: none;
 }
-
+.modal-footer{
+    text-align: center;
+}
 .vid{
     display: none;
     height: auto;
@@ -360,4 +368,10 @@ e of the sidenav (less padding and a smaller font size) */
 .modal-footer button:focus,#toggle_load:focus,.room_action:focus{
     outline: none !important;
     box-shadow: none;
+}
+.row{
+    text-align: center;
+}
+.col-md-12,.col-sm-12{
+    margin-top: 5px;
 }

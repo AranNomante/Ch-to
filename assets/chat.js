@@ -37,7 +37,7 @@ socket.on('updateClientNames', function(clientNameList) {
     refreshUsers();
 });
 socket.on('newmsg', function(sender, msg, from = null) {
-    //console.log(sender, msg, from);
+    console.log(sender, msg, from);
     const c_1 =
         (!from) ? clientNames[sender] :
         (subscriptions[from] && !(from === socket.id)) ? true : false;
@@ -49,13 +49,23 @@ socket.on('newmsg', function(sender, msg, from = null) {
             incoming: true,
             message: msg
         };
+        let snack_name = null;
         if (from) {
             pack_m.sender = from;
+            snack_name = clientNames[from];
+            if (snack_name) {
+                setSnack('New message from ' + snack_name + ', in room:' + sender);
+            }
         } else {
             pack_m.sender = sender;
+            snack_name = clientNames[sender];
+            if (snack_name) {
+                setSnack('New message from ' + snack_name);
+            }
         }
         chats[sender].push(pack_m);
         //console.log(sender, msg, from);
+
         if (activeObj.id === sender) {
             $('.chat-panel').append(msgBuilder(true, msg, clientNames[pack_m.sender]));
             scrollToBottom('chat-panel');
@@ -65,7 +75,7 @@ socket.on('newmsg', function(sender, msg, from = null) {
             }
         }
     }
-})
+});
 socket.on('sendRoomResponse', function(response) {
     //console.log(response);
     if (response.success) {
@@ -104,18 +114,31 @@ socket.on('updateRooms', function(rms) {
 });
 socket.on('updateSubs', function(subs) {
     subscriptions = subs;
+    if (!subscriptions[socket.id]) {
+        $('.create_room').show();
+    }
     updateRoomMembers();
     updateActiveRoom();
 });
 socket.on('joinRoomResponse', function(response) {
     if (response.success) {
         //alert('Joined successfully');
-        setSnack('Joined Successfully');
+        setSnack('Joined Successfully!');
     } else {
         //alert("Couldn't join reason: " + response.reason);
         setSnack("Couldn't join reason: " + response.reason);
     }
+});
+socket.on('room_action_response', function(response) {
+    if (response.success) {
+        setSnack('Success!');
+    } else {
+        setSnack("Failed, reason: " + response.reason);
+    }
 })
+socket.on('roomalert', function(msg) {
+    setSnack(msg.message);
+});
 //socket
 
 //fn
@@ -398,12 +421,16 @@ function getRoomMembers(rmname) {
 function closeModal(event) {
     const target = event.target;
     const id = target.id;
-    if (id && $('#' + id).attr('class').split(' ').includes('modal')) {
+    if (id && $('#' + id).attr('class') && $('#' + id).attr('class').split(' ').includes('modal')) {
         $('#' + id).modal('hide');
     }
 }
 
 function updateActiveRoom() {
+    $('#room_a_title').text('');
+    $('#room_a_desc').text('');
+    $('#room_a_cap').text('');
+    $('#members_action').html('');
     const room = subscriptions[socket.id];
     if (room) {
         const room_i = rooms.findIndex(function(rm, index) {

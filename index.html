@@ -26,12 +26,26 @@
     </div>
     <div id="main">
         <nav class="navbar navbar-expand-lg navbar-light">
-          <h5 class="navtext">Ch@to</h5>
-          <button class="openbtn" onclick="openNav()">Rooms & Users 📢</button>
-          <button class="openbtn" data-toggle="modal" data-target="#video_controls_modal" data-backdrop="false">Video Controls 🧰</button>
-          <button class="openbtn" data-toggle="modal" data-target="#video_load_modal" data-backdrop="false">Load Videos 🎞️</button>
-          <button class="openbtn" data-toggle="modal" data-target="#room_actions_modal" data-backdrop="false">Room Controls 🚪</button>
-          <h4 class="navtext" id="username">Username:</h1>
+            <div class="row">
+                <div class="col-lg-2 col-md-12 col-sm-12">
+                    <h2 class="navtext">Ch@to</h2>
+                </div>
+                <div class="col-lg-2 col-md-12 col-sm-12">
+                    <button class="openbtn" onclick="openNav()">Rooms & Users 📢</button>
+                </div>
+                <div class="col-lg-2 col-md-12 col-sm-12">
+                    <button class="openbtn" data-toggle="modal" data-target="#video_controls_modal" data-backdrop="false">Video Controls 🧰</button>
+                </div>
+                <div class="col-lg-2 col-md-12 col-sm-12">
+                    <button class="openbtn" data-toggle="modal" data-target="#video_load_modal" data-backdrop="false">Load Videos<br>🎞️</button>
+                </div>
+                <div class="col-lg-2 col-md-12 col-sm-12">
+                    <button class="openbtn" data-toggle="modal" data-target="#room_actions_modal" data-backdrop="false">Room Controls 🚪</button>
+                </div>
+                <div class="col-lg-2 col-md-12 col-sm-12">
+                    <h4 class="navtext" id="username">Username:</h1>
+                </div>
+            </div>
         </nav>
         <div class="line">
             <div class="col-md-12 semi room">
@@ -51,17 +65,14 @@
                 </div>
                 <div class="chat-panel flowy">
                 </div>
-                <div class="chat-input">
-                    <div class="input-group input-group-sm mb-3">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text input-group-text-sm">You:</span>
-                      </div>
-                      <div class="emojipicker-container">
-                      <input id="main-input" type="text" class="form-control" minlength="0" maxlength="160" placeholder="Type anything..." aria-label="message" aria-describedby="message">
+                <div class="chat-input row">
+                    <div class="col-md-10">
+                        <div class="emojipicker-container">
+                            <input id="main-input" type="text" class="form-control" minlength="0" maxlength="160" placeholder="Type anything..." aria-label="message" aria-describedby="message">
+                        </div>
                     </div>
-                      <div class="input-group-append">
+                    <div class="col-md-2 ">
                         <button id='send_msg' class="btn btn-primary" type="button">Send ✉️</button>
-                      </div>
                     </div>
                 </div>
             </div>

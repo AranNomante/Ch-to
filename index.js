@@ -19,7 +19,7 @@ app.get('/landing', function(req, res) {
 io.on('connection', function(socket) {
     fn.handleConnection(allClients, socket);
     socket.on('disconnect', () => {
-        fn.handleDisconnect(allClients, clientNames, subscriptions, rooms, socket);
+        fn.handleDisconnect(allClients, clientNames, subscriptions, rooms, socket, io);
     });
     socket.on('sendMessage', (recipient, msg) => {
         fn.sendMessage(socket.id, recipient, msg, io, subscriptions);
@@ -46,10 +46,10 @@ io.on('connection', function(socket) {
         fn.getSubscriptions(subscriptions, socket);
     });
     socket.on('joinRoom', (obj) => {
-        fn.joinRoom(obj, socket, rooms, subscriptions);
+        fn.joinRoom(obj, socket, rooms, subscriptions, io);
     });
     socket.on('room_action', (obj) => {
-        fn.handleRoomAction(obj, socket, rooms, subscriptions);
+        fn.handleRoomAction(obj, socket, rooms, subscriptions, io);
     });
 });
 
