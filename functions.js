@@ -29,7 +29,7 @@ function sendMessage(sender, recipient, msg, io, subscriptions) {
     //console.log(sender, recipient, msg);
 }
 
-function handleDisconnect(clients, clientNames, subscriptions, rooms, socket, io) {
+function handleDisconnect(clients, clientNames, subscriptions, rooms, socket, io, syncInfo) {
     const id = getSocketID(socket);
     //console.log('a user has disconnected:' + id);
     let i = clients.indexOf(id);
@@ -43,7 +43,7 @@ function handleDisconnect(clients, clientNames, subscriptions, rooms, socket, io
             sendRoomAlert(io, active_room, 'A user has just disconnected from' + active_room + ' !');
         }
         let ownership_i = searchRoom(rooms, 'owner', id);
-        handleAutoRoomTransf(ownership_i, subscriptions, rooms, io);
+        handleAutoRoomTransf(ownership_i, subscriptions, rooms, io, syncInfo);
     }
 }
 
@@ -213,7 +213,7 @@ function searchRoom(rooms, compare, to) {
     return room_i;
 }
 
-function handleRoomAction(obj, socket, rooms, subscriptions, io) {
+function handleRoomAction(obj, socket, rooms, subscriptions, io, syncInfo) {
     //console.log(io.sockets.connected);
     let scs = true;
     let rs = '';
@@ -227,14 +227,14 @@ function handleRoomAction(obj, socket, rooms, subscriptions, io) {
             if (obj.action === 'leave_room') {
                 handleMemberCount(rooms, subscriptions, id);
                 delete subscriptions[id];
-                handleAutoRoomTransf(ownership_i, subscriptions, rooms, io);
+                handleAutoRoomTransf(ownership_i, subscriptions, rooms, io, syncInfo);
                 socket.leave(room_name);
                 sendRoomAlert(io, room_name, 'A user has just left the ' + room_name + ' !');
             } else if (ownership_i > -1) {
                 let target_exists = obj.target && obj.target.length > 0;
                 switch (obj.action) {
                     case 'disband_room':
-                        disband_room(rooms, subscriptions, room_i, io);
+                        disband_room(rooms, subscriptions, room_i, io, syncInfo);
                         break;
                     case 'owner_transfer':
                         if (target_exists) {
@@ -273,15 +273,17 @@ function handleRoomAction(obj, socket, rooms, subscriptions, io) {
     genericRoomresponse('room_action_response', scs, rs, socket);
 }
 
-function disband_room(rooms, subscriptions, target, io) {
-    sendRoomAlert(io, rooms[target].room_name, rooms[target].room_name + ' has been disbanded!');
+function disband_room(rooms, subscriptions, target, io, syncInfo) {
+    let room_name = rooms[target].room_name;
+    sendRoomAlert(io, rooms[target].room_name, room_name + ' has been disbanded!');
     clearRoom(rooms[target].room_name, '/', io);
-    let first_sub = getKeyByValue(subscriptions, rooms[target].room_name);
+    let first_sub = getKeyByValue(subscriptions, room_name);
     while (first_sub) {
         delete subscriptions[first_sub];
-        first_sub = getKeyByValue(subscriptions, rooms[target].room_name);
+        first_sub = getKeyByValue(subscriptions, room_name);
     }
     removeArrayElem(rooms, target);
+    delete syncInfo[room_name];
 }
 
 function transfer_owner(rooms, target, room_i, io) {
@@ -297,14 +299,16 @@ function kick_user(subscriptions, target, io) {
     sendRoomAlert(io, target, 'You have been kicked from ' + room_name + ' !');
 }
 
-function handleAutoRoomTransf(r_i, subscriptions, rooms, io) {
+function handleAutoRoomTransf(r_i, subscriptions, rooms, io, syncInfo) {
     if (!(r_i === -1)) {
-        let first_sub = getKeyByValue(subscriptions, rooms[r_i].room_name);
+        let room_name = rooms[r_i].room_name;
+        let first_sub = getKeyByValue(subscriptions, room_name);
         if (first_sub) {
             rooms[r_i].owner = first_sub;
-            sendRoomAlert(io, first_sub, 'Ownership of ' + rooms[r_i].room_name + ' has been transferred to you due to owners disconnection!');
+            sendRoomAlert(io, first_sub, 'Ownership of ' + room_name + ' has been transferred to you due to owners disconnection!');
         } else {
             removeArrayElem(rooms, r_i);
+            delete syncInfo[room_name];
         }
     }
 }
@@ -332,9 +336,16 @@ function clearRoom(room, namespace = '/', io) {
         });
     }
 }
+
+function getSyncInfo(obj, socket, syncInfo) {
+    //console.log(syncInfo[obj].player1);
+    socket.emit('synchronizePlayers', syncInfo[obj]);
+}
+
+function setSyncInfo(obj, syncInfo) {
+    syncInfo[obj.room_name] = obj.player_states;
+}
 module.exports = {
-    getSocketID: getSocketID,
-    removeArrayElem: removeArrayElem,
     setName: setName,
     getClientList: getClientList,
     sendMessage: sendMessage,
@@ -346,5 +357,7 @@ module.exports = {
     getRooms: getRooms,
     getSubscriptions: getSubscriptions,
     joinRoom: joinRoom,
-    handleRoomAction: handleRoomAction
+    handleRoomAction: handleRoomAction,
+    setSyncInfo: setSyncInfo,
+    getSyncInfo: getSyncInfo
 }

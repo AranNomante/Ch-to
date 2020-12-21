@@ -14,6 +14,33 @@ let player4;
 let player5;
 
 let synchronization = false;
+let room_video = {
+    player1: {
+        play: 'UNSTARTED',
+        current_time: 0,
+        video_id: ''
+    },
+    player2: {
+        play: 'UNSTARTED',
+        current_time: 0,
+        video_id: ''
+    },
+    player3: {
+        play: 'UNSTARTED',
+        current_time: 0,
+        video_id: ''
+    },
+    player4: {
+        play: 'UNSTARTED',
+        current_time: 0,
+        video_id: ''
+    },
+    player5: {
+        play: 'UNSTARTED',
+        current_time: 0,
+        video_id: ''
+    }
+};
 const titles = {
     player1: 'pt_1',
     player2: 'pt_2',
@@ -85,13 +112,16 @@ function initPlayer(id) {
         },
         playerVars: {
             'autoplay': 1,
-            'controls': 1,
+            'controls': 2,
             'disablekb': 1,
             'iv_load_policy': 3,
             'modestbranding': 1,
             'showinfo': 0,
             'enablejsapi': 1,
-            'origin': 'https://ch-to.herokuapp.com/'
+            'origin': window.location.origin,
+            'rel': 0,
+            'ecver': 2,
+            'playsinline': 1
         }
     })
 }
@@ -120,11 +150,13 @@ function onPlayerStateChange(event) {
         states[id].firstTime = false;
     }
     setState(id, event);
-    synchronizePlayers();
 }
 
 function onPlayerError(event) {
     console.log(event);
+    if (event.data === 150) {
+        setSnack('This video does not allow embeds');
+    }
     setState(event.target.h.id, event);
 }
 
@@ -338,6 +370,7 @@ function loadAll() {
         reversePmap[item].loadVideoById(url, 0);
         states[item].firstTime = true;
     });
+    resetVideoInputs();
 }
 
 function loadIndividual() {
@@ -356,7 +389,16 @@ function loadIndividual() {
             states[item].firstTime = true;
         }
     });
+    resetVideoInputs();
+}
 
+function resetVideoInputs() {
+    $('#load_1').val('');
+    $('#load_2').val('');
+    $('#load_3').val('');
+    $('#load_4').val('');
+    $('#load_5').val('');
+    $('#load_all').val('');
 }
 
 function setPlayerTitle(event) {
@@ -370,13 +412,81 @@ $('.setsynchronized').on('click', function() {
     synchronization = !synchronization;
     let txt = (synchronization) ? 'Sync: On ✅' : 'Sync: Off ❎';
     $(this).text(txt);
-    synchronizePlayers();
 });
 
 function synchronizePlayers() {
-    if (synchronization) {
-        console.log('hello');
+    if (synchronization && validRoom()) {
+        resetVideoInputs();
+        let needsLoad = false;
+        Object.keys(room_video).forEach(item => {
+            if (!(extractYTid(reversePmap[item].getVideoUrl()) == room_video[item].video_id)) {
+                console.log(reversePmap[item].getVideoUrl(), room_video[item].video_id);
+                $(`#load_${item.substring(6,7)}`).val(`https://www.youtube.com/watch?v=${room_video[item].video_id}`);
+                needsLoad = true;
+            }
+        });
+        if (needsLoad) {
+            console.log(needsLoad);
+            loadIndividual();
+            return;
+        }
+        let validStates = ['PLAYING', 'PAUSED', 'ENDED'];
+        Object.keys(room_video).forEach(item => {
+            let target_state = room_video[item].play;
+            let current_state = states[item].play;
+            let tplayer = reversePmap[item];
+            let target_time = room_video[item].current_time + .100;
+            let current_time = tplayer.getCurrentTime();
+            //let target_time = Math.round((room_video[item].current_time + Number.EPSILON) * 100) / 100; //Interval time
+            //let current_time = Math.round((tplayer.getCurrentTime() + Number.EPSILON) * 100) / 100;
+            if (validStates.includes(target_state) && validStates.includes(current_state)) {
+                if (!(target_state === current_state)) {
+                    (target_state === 'PLAYING') ? tplayer.playVideo(): tplayer.pauseVideo();
+                }
+                if (!(target_time === current_time)) {
+                    tplayer.seekTo(target_time);
+                }
+            }
+        });
+
     }
+}
+
+function syncInfo() {
+    let room = subscriptions[socket.id];
+    if (validRoom()) {
+        socket.emit('getSyncInfo', room);
+    } else if (room) {
+        Object.keys(room_video).forEach(item => {
+            room_video[item].current_time = reversePmap[item].getCurrentTime();
+            room_video[item].video_id = extractYTid(reversePmap[item].getVideoUrl());
+            room_video[item].play = states[item].play;
+        });
+        socket.emit('setSyncInfo', {
+            room_name: room,
+            player_states: room_video
+        });
+    }
+}
+socket.on('synchronizePlayers', rmv => {
+    if (rmv) {
+        room_video = rmv;
+        synchronizePlayers();
+    }
+});
+
+function validRoom() {
+    let room = subscriptions[socket.id];
+    if (room) {
+        let room_i = rooms.findIndex(function(rm, index) {
+            if (rm.room_name === room) {
+                return true;
+            }
+        });
+        let ownership = rooms[room_i].owner === socket.id;
+        return !ownership;
+    }
+    return false;
 }
 $('.restart,.restartall').on('click', function() {
     let cls = $(this).attr('class');
@@ -389,4 +499,5 @@ $('.restart,.restartall').on('click', function() {
         const id = 'player' + cls.split(' ')[1].split('_')[1];
         reversePmap[id].seekTo(0);;
     }
-})
+});
+setInterval(syncInfo, 100);

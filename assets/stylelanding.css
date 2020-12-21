@@ -1,45 +1,19 @@
 html,body {
         height:100%;
         width: 100%;
-        color: #fff280;
-        background: #272727;
+        color: white;
+        background: #091f36;
         display: flex;
-        background: linear-gradient(270deg, #747474, #ff652f, #747474, #ffe400, #747474, #14a76c, #747474);
-        background-size: 1400% 1400%;
-        -webkit-animation: AnimationName 16s ease infinite;
-        -moz-animation: AnimationName 16s ease infinite;
-        -o-animation: AnimationName 16s ease infinite;
-        animation: AnimationName 16s ease infinite;
         word-break: break-all;
-}
-@-webkit-keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@-moz-keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@-o-keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
 }
 
 .container{
     text-align: center;
-    background: #272727;
-    border:15px;
+    background: #0f2862;
+    border:5px;
     border-radius: 2px;
-    border-style: outset;
-    border-color: white;
+    border-style: groove;
+    border-color: #4f5f76;
     align-self: center;
 }
 
@@ -51,7 +25,7 @@ html,body {
     border:5px;
     padding: 5px;
     border-style: groove;
-    border-color: #ff652f;
+    border-color: #4f5f76;
 }
 .instructions{
     overflow-y: scroll;
@@ -70,21 +44,22 @@ html,body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #FF652F;
+  background: #4f5f76;
    border-radius: 1px;
 }
 .list-group a{
-    background: #FF652F;
-    color: #fff280;
-    border-color: #747474;
+    background: #0f2862;
+    color: white;
+    border-color: #4f5f76;
 }
 .list-group a.active{
-    background: #FF652F;
-    color: #fff280;
-    border-color: #747474;
+    background: #0f2862;
+    color: white;
+    border-color: #4f5f76;
 }
 .list-group a.customactive{
-    background: #747474;
+    background: #0f2862;
+    color: black;
 }
 .list-group a:focus{
     outline: none !important;
@@ -95,7 +70,7 @@ html,body {
     max-height: 100px;
     display: inline;
     border:2px;
-    border-color: white;
+    border-color: #4f5f76;
     border-style: groove;
 }
 .instruction_img:hover{
@@ -106,7 +81,7 @@ html,body {
     margin-top: 5px;
 }
 .instructions hr{
-    border-top: 1px solid #FF652F;
+    border-top: 1px solid #4f5f76;
 }
 .row-instructions{
     text-align: center;
@@ -125,16 +100,16 @@ h1,h2,h3,h4,h5,p{
 .submit_tag{
     margin-left: 5px;
     border-radius: 5px;
-    background: #FF652F;
-    color: #fff280;
+    background: #0f2862;
+    color: white;
     max-height: 30px;
+    border-color: #4f5f76;
 }
 .submit_tag:hover{
     border:2px;
     border-style: inset;
     border-color: #747474;
-    color:#2ba837;
-    background: #4d4500;
+    background: #9e363a;
 }
 .social_link{
     max-width: 50px;

@@ -18,7 +18,8 @@ function toggleNav() {
     }
 }
 $(document).on('click', '#main', function(event) {
-    if (!($(event.target).attr('class') === 'openbtn') && $('#mySidebar').css('display') === 'block') {
+    //console.log($(event.target).attr('class'))
+    if (!($(event.target).attr('class').includes('nav-link')) && $('#mySidebar').css('display') === 'block') {
         closeNav();
     }
 });

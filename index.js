@@ -9,6 +9,7 @@ const allClients = [];
 const clientNames = {};
 const rooms = [];
 const subscriptions = {};
+const syncInfo = {}; //room_name:player_states{}
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
@@ -40,7 +41,7 @@ app.get('/landing', function(req, res) {
 io.on('connection', function(socket) {
     fn.handleConnection(allClients, socket);
     socket.on('disconnect', () => {
-        fn.handleDisconnect(allClients, clientNames, subscriptions, rooms, socket, io);
+        fn.handleDisconnect(allClients, clientNames, subscriptions, rooms, socket, io, syncInfo);
     });
     socket.on('sendMessage', (recipient, msg) => {
         fn.sendMessage(socket.id, recipient, msg, io, subscriptions);
@@ -70,7 +71,13 @@ io.on('connection', function(socket) {
         fn.joinRoom(obj, socket, rooms, subscriptions, io);
     });
     socket.on('room_action', (obj) => {
-        fn.handleRoomAction(obj, socket, rooms, subscriptions, io);
+        fn.handleRoomAction(obj, socket, rooms, subscriptions, io, syncInfo);
+    });
+    socket.on('getSyncInfo', (obj) => {
+        fn.getSyncInfo(obj, socket, syncInfo);
+    });
+    socket.on('setSyncInfo', (obj) => {
+        fn.setSyncInfo(obj, syncInfo);
     });
 });
 
