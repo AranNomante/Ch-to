@@ -457,7 +457,7 @@ function coolRound(n) {
 }
 
 function getDesiredTime(n1, n2) {
-    return n2 + (n1 - n2) * 1.5;
+    return n2;
 }
 
 function syncInfo() {
