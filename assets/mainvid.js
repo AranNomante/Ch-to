@@ -443,7 +443,7 @@ function synchronizePlayers() {
                 if (!(target_state === current_state)) {
                     (target_state === 'PLAYING') ? tplayer.playVideo(): tplayer.pauseVideo();
                 }
-                if (!(target_time - 0.5 <= current_time && target_time + 0.5 >= current_time)) {
+                if (!(target_time === current_time)) {
                     tplayer.seekTo(target_time + 1);
                 }
             }
