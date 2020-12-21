@@ -420,13 +420,13 @@ function synchronizePlayers() {
         let needsLoad = false;
         Object.keys(room_video).forEach(item => {
             if (!(extractYTid(reversePmap[item].getVideoUrl()) == room_video[item].video_id)) {
-                console.log(reversePmap[item].getVideoUrl(), room_video[item].video_id);
+                //console.log(reversePmap[item].getVideoUrl(), room_video[item].video_id);
                 $(`#load_${item.substring(6,7)}`).val(`https://www.youtube.com/watch?v=${room_video[item].video_id}`);
                 needsLoad = true;
             }
         });
         if (needsLoad) {
-            console.log(needsLoad);
+            //console.log(needsLoad);
             loadIndividual();
             return;
         }
@@ -443,7 +443,7 @@ function synchronizePlayers() {
                 if (!(target_state === current_state)) {
                     (target_state === 'PLAYING') ? tplayer.playVideo(): tplayer.pauseVideo();
                 }
-                if (!(target_time + 0.5 >= current_time && target_time - 0.5 <= current_time)) {
+                if (!(target_time === current_time)) {
                     tplayer.seekTo(target_time);
                 }
             }
