@@ -508,4 +508,4 @@ $('.restart,.restartall').on('click', function() {
         reversePmap[id].seekTo(0);;
     }
 });
-setInterval(syncInfo, 1000);
+setInterval(syncInfo, 100);
