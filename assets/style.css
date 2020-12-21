@@ -3,12 +3,12 @@ html,body {
         margin:0;
         height:100%;
         min-height:100%;
-        background: #747474;
-        color: #fff280;
+        background: #091f36;
+        color: white;
         word-break: break-all;
 }
 nav {
-    background: #272727;
+    background: #0f2862;
     border-radius: 2px;
 }
 
@@ -25,7 +25,7 @@ nav {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #FF652F;
+  background: #4f5f76;
    border-radius: 1px;
 }
 
@@ -57,7 +57,7 @@ padding: 16px;
     z-index: 1;
     top: 14px;
     left: 10px;
-    background-color: #272727;
+    background-color: #0f2862;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -68,7 +68,7 @@ padding: 16px;
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: #fff280;
+    color: white;
     display: block;
     transition: 0.3s;
 }
@@ -87,8 +87,8 @@ padding: 16px;
 
 .openbtn {
     cursor: pointer;
-    background-color: #FF652F;
-    color: #fff280;
+    background-color: #4f5f76;
+    color: white;
     border: none;
     border-radius: 5px;
     min-height: 40px;
@@ -114,22 +114,22 @@ e of the sidenav (less padding and a smaller font size) */
     margin-bottom: 15px;
 }
 .navtext{
-    color: #fff280;
+    color: white;
     word-break: keep-all;
 }
 
 .rooms{
     padding:10px 10px 10px 20px;
-    background-color:#4d4d4d;
+    background-color:#4f5f76;
     border-radius: 2px;
 }
 .room{
-    background-color:#272727;
+    background-color:#0f2862;
     padding:10px 10px 10px 20px;
     border-width: 0px;
     border-style: double;
-    border-color: #fff280;
-    color:#fff280;
+    border-color: white;
+    color:white;
     overflow-y: scroll;
     text-align: center;
     border-radius: 2px 2px 0px 0px;
@@ -137,22 +137,22 @@ e of the sidenav (less padding and a smaller font size) */
 }
 .chats{
     padding:10px 10px 10px 20px;
-    background-color:#4d4d4d;
+    background-color:#4f5f76;
     border-radius: 2px;
 }
 .chat{
     padding:10px 10px 10px 20px;
-    background-color:#272727;
+    background-color:#0f2862;
     border:0px;
     border-radius: 0px 0px 2px 2px;
     margin: 0px !important;
 }
 .chatUser{
-    background:#FF652F;
+    background:#0f2862;
     border-radius:5px;
     text-align:center;
     border-style: inset;
-    border-color: #272727;
+    border-color: #0f2862;
     border-width: 5px;
     word-break: break-all;
 }
@@ -175,15 +175,15 @@ e of the sidenav (less padding and a smaller font size) */
     border-radius: 5px;
 }
 .chat-controls{
-    background:#4d4d4d;
+    background:#4f5f76;
     height:10%;
 }
 .chat-panel{
-    background:#4d4d4d;
+    background:#4f5f76;
     height:70%;
 }
 .chat-input{
-    background:#272727;
+    background:#0f2862;
     height:12%;
     border: 0px;
     text-align: center !important;
@@ -196,17 +196,17 @@ e of the sidenav (less padding and a smaller font size) */
     border-radius: 1px !important;
 }
 .chat-input  {
-    color: #fff280;
+    color: white;
     margin:5px;
     margin-top: 10px;
     border: 0px !important;
 }
 
 #send_msg{
-    background: #FF652F;
+    background: #4f5f76;
     border: 0px !important;
     border-radius: 5px;
-    color: #fff280;
+    color: white;
     min-height: 40px;
     max-height: 40px;
     word-break: keep-all;
@@ -243,27 +243,27 @@ e of the sidenav (less padding and a smaller font size) */
 }
 .msg.outgoing{
     background: #108959;
-    color: #fff280;
+    color: white;
 }
 .msg.incoming{
     background: #992900;
-    color: #fff280;
+    color: white;
 }
 .create_room{
-    background:#FF652F;
+    background:#0f2862;
     border-radius:5px;
     text-align:center;
     border-style: inset;
-    border-color: #272727;
+    border-color: #0f2862;
     border-width: 5px;
 }
 
 .room_tab{
-    background:#FF652F;
+    background:#0f2862;
     border-radius:5px;
     text-align:center;
     border-style: inset;
-    border-color: #272727;
+    border-color: #0f2862;
     border-width: 5px;
     word-break: break-all;
 }
@@ -278,12 +278,12 @@ e of the sidenav (less padding and a smaller font size) */
     border-color: #d1faea;
 }
 #room_modal .modal-content{
-    background:#272727;
-    color:#fff280;
+    background:#0f2862;
+    color:white;
 }
 #video_controls_modal .modal-content,#video_load_modal .modal-content,#room_actions_modal .modal-content{
-    background:#272727;
-    color:#fff280;
+    background:#0f2862;
+    color:white;
     opacity: 0.3;
 }
 #video_controls_modal .modal-content:hover,#video_load_modal .modal-content:hover,#room_actions_modal .modal-content:hover{
@@ -306,7 +306,7 @@ e of the sidenav (less padding and a smaller font size) */
     display:none;
 }
 .modal-footer button {
-    background: #FF652F;
+    background: #4f5f76;
     border: none;
 }
 .modal-footer{
@@ -341,22 +341,22 @@ e of the sidenav (less padding and a smaller font size) */
 #read_room_members_actual,#members_action{
     overflow-y: scroll;
     max-height: 100px;
-    background: #4d4d4d;
+    background: #4f5f76;
     white-space: pre-line;
     word-break: break-all;
 }
 
 .badge-danger{
-    background:#b33000 !important;
-    color:#fff280 !important;
+    background:#9e363a!important;
+    color:white !important;
 }
 .badge-success{
     background:#14A76C !important;
-    color:#fff280 !important;
+    color:white !important;
 }
 .play, .unmute,.mute,.display,.playall,.displayall,.muteall,.unmuteall,#toggle_load,.room_action,.restartall,.restart,.setsynchronized {
-    background-color: #FF652F;
-    color: #fff280;
+    background-color: #4f5f76;
+    color: white;
     min-width: 133px;
 }
 .play:hover, .unmute:hover,.mute:hover,
@@ -366,8 +366,7 @@ e of the sidenav (less padding and a smaller font size) */
 .create_room:hover,.room_tab:hover,
 .modal-footer button:hover,::-webkit-scrollbar-thumb:hover,.openbtn:hover,
 #send_msg:hover, #toggle_load:hover,.room_action:hover,.chat_head:hover,.restartall:hover,.restart:hover,.setsynchronized:hover{
-    color:#2ba837;
-    background: #4d4500;
+    background: #9e363a;
 }
 
 .play:focus, .unmute:focus,.mute:focus,

@@ -26,7 +26,7 @@ let user_search_filter = '';
 socket.on('validateNameResponse', function(isValid) {
     if (isValid) {
         socket.emit('setName', name);
-        $('#username').text('Username: ' + name);
+        $('#username').text(`Username:${name}`);
     } else {
         window.location.href = '/landing?error=taken';
     }
