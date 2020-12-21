@@ -444,10 +444,7 @@ function synchronizePlayers() {
                     (target_state === 'PLAYING') ? tplayer.playVideo(): tplayer.pauseVideo();
                 }
                 if (!(target_time - 0.5 <= current_time && target_time + 0.5 >= current_time)) {
-                    console.log(target_time);
-                    console.log(current_time);
-                    console.log(current_time + Math.abs(target_time - current_time) * 2);
-                    tplayer.seekTo(coolRound(current_time + Math.abs(target_time - current_time) * 2));
+                    tplayer.seekTo(getDesiredTime(current_time, target_time));
                 }
             }
         });
@@ -455,8 +452,12 @@ function synchronizePlayers() {
     }
 }
 
-function coolRound(num) {
-    return Math.round((num + Number.EPSILON) * 100) / 100;
+function coolRound(n) {
+    return Math.round((n + Number.EPSILON) * 100) / 100;
+}
+
+function getDesiredTime(n1, n2) {
+    return n2 + (n1 - n2) * 1.5;
 }
 
 function syncInfo() {
