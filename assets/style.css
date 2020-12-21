@@ -87,9 +87,11 @@ padding: 16px;
 
 .openbtn {
     cursor: pointer;
-    background-color: #4f5f76;
+    background-color: #0f2862;
     color: white;
-    border: none;
+    border: 1px;
+    border-style: groove;
+    border-color:  #4f5f76;
     border-radius: 5px;
     min-height: 40px;
     word-break: normal;
@@ -120,7 +122,10 @@ e of the sidenav (less padding and a smaller font size) */
 
 .rooms{
     padding:10px 10px 10px 20px;
-    background-color:#4f5f76;
+    background-color:#0f2862;
+    border-style: groove;
+    border-width: 2px;
+    border-color: #4f5f76;
     border-radius: 2px;
 }
 .room{
@@ -137,7 +142,10 @@ e of the sidenav (less padding and a smaller font size) */
 }
 .chats{
     padding:10px 10px 10px 20px;
-    background-color:#4f5f76;
+    background-color:#0f2862;
+    border-style: groove;
+    border-width: 2px;
+    border-color: #4f5f76;
     border-radius: 2px;
 }
 .chat{
@@ -151,9 +159,9 @@ e of the sidenav (less padding and a smaller font size) */
     background:#0f2862;
     border-radius:5px;
     text-align:center;
-    border-style: inset;
-    border-color: #0f2862;
-    border-width: 5px;
+    border-style: outset;
+    border-color: #4f5f76;
+    border-width: 2px;
     word-break: break-all;
 }
 .chatUser.active {
@@ -177,9 +185,21 @@ e of the sidenav (less padding and a smaller font size) */
 .chat-controls{
     background:#4f5f76;
     height:10%;
+    border-radius: 2px 2px 0px 0px;
+}
+.chat-controls .col-md-12{
+    margin-top: 0px;
+    margin-left: 5px;
+}
+.chat-controls .row{
+    text-align: left;
 }
 .chat-panel{
-    background:#4f5f76;
+    background:#0f2862;
+    border-radius: 2px;
+    border-width: 2px;
+    border-style: groove;
+    border-color: #4f5f76;
     height:70%;
 }
 .chat-input{
@@ -191,7 +211,6 @@ e of the sidenav (less padding and a smaller font size) */
     margin-left: 10%;
 }
 .chat-controls .badge{
-    padding:10px 10px 5px 10px;
     border: 0px;
     border-radius: 1px !important;
 }
@@ -253,18 +272,18 @@ e of the sidenav (less padding and a smaller font size) */
     background:#0f2862;
     border-radius:5px;
     text-align:center;
-    border-style: inset;
-    border-color: #0f2862;
-    border-width: 5px;
+    border-style: outset;
+    border-color: #4f5f76;
+    border-width: 2px;
 }
 
 .room_tab{
     background:#0f2862;
     border-radius:5px;
     text-align:center;
-    border-style: inset;
-    border-color: #0f2862;
-    border-width: 5px;
+    border-style: outset;
+    border-color: #4f5f76;
+    border-width: 2px;
     word-break: break-all;
 }
 .room_tab.active{
