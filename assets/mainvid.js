@@ -435,7 +435,7 @@ function synchronizePlayers() {
             let target_state = room_video[item].play;
             let current_state = states[item].play;
             let tplayer = reversePmap[item];
-            let target_time = room_video[item].current_time + .100;
+            let target_time = room_video[item].current_time + 1000;
             let current_time = tplayer.getCurrentTime();
             //let target_time = Math.round((room_video[item].current_time + Number.EPSILON) * 100) / 100; //Interval time
             //let current_time = Math.round((tplayer.getCurrentTime() + Number.EPSILON) * 100) / 100;
@@ -500,4 +500,4 @@ $('.restart,.restartall').on('click', function() {
         reversePmap[id].seekTo(0);;
     }
 });
-setInterval(syncInfo, 100);
+setInterval(syncInfo, 1000);
