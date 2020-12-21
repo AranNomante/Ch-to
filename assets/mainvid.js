@@ -437,19 +437,23 @@ function synchronizePlayers() {
             let tplayer = reversePmap[item];
             //let target_time = room_video[item].current_time + 1;
             //let current_time = tplayer.getCurrentTime();
-            let target_time = Math.round((room_video[item].current_time + Number.EPSILON) * 100) / 100; //Interval time
-            let current_time = Math.round((tplayer.getCurrentTime() + Number.EPSILON) * 100) / 100;
+            let target_time = coolRound(room_video[item].current_time);
+            let current_time = coolRound(tplayer.getCurrentTime());
             if (validStates.includes(target_state) && validStates.includes(current_state)) {
                 if (!(target_state === current_state)) {
                     (target_state === 'PLAYING') ? tplayer.playVideo(): tplayer.pauseVideo();
                 }
                 if (!(target_time - 0.5 <= current_time && target_time + 0.5 >= current_time)) {
-                    tplayer.seekTo(current_time + Math.abs(target_time - current_time) * 2);
+                    tplayer.seekTo(coolRound(current_time + Math.abs(target_time - current_time) * 2));
                 }
             }
         });
 
     }
+}
+
+function coolRound(num) {
+    return Math.round((num + Number.EPSILON) * 100) / 100;
 }
 
 function syncInfo() {
