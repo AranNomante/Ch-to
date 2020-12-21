@@ -444,6 +444,9 @@ function synchronizePlayers() {
                     (target_state === 'PLAYING') ? tplayer.playVideo(): tplayer.pauseVideo();
                 }
                 if (!(target_time - 0.5 <= current_time && target_time + 0.5 >= current_time)) {
+                    console.log(target_time);
+                    console.log(current_time);
+                    console.log(current_time + Math.abs(target_time - current_time) * 2);
                     tplayer.seekTo(coolRound(current_time + Math.abs(target_time - current_time) * 2));
                 }
             }
