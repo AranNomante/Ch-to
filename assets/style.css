@@ -95,7 +95,7 @@ padding: 16px;
     border-radius: 5px;
     min-height: 40px;
     word-break: normal;
-    min-width: 100px;
+    min-width: 150px;
 }
 
 #main {
@@ -119,7 +119,13 @@ e of the sidenav (less padding and a smaller font size) */
     color: white;
     word-break: keep-all;
 }
-
+.navtext2{
+    color: white;
+    word-break: keep-all;
+    overflow-x:scroll;
+    min-height: 50px;
+    max-width: 120px;
+}
 .rooms{
     padding:10px 10px 10px 20px;
     background-color:#0f2862;
@@ -184,12 +190,13 @@ e of the sidenav (less padding and a smaller font size) */
 }
 .chat-controls{
     background:#4f5f76;
-    height:10%;
     border-radius: 2px 2px 0px 0px;
 }
 .chat-controls .col-md-12{
     margin-top: 0px;
     margin-left: 5px;
+    overflow: hidden;
+    max-height: 30px;
 }
 .chat-controls .row{
     text-align: left;
@@ -200,11 +207,10 @@ e of the sidenav (less padding and a smaller font size) */
     border-width: 2px;
     border-style: groove;
     border-color: #4f5f76;
-    height:70%;
+    min-height:70%;
 }
 .chat-input{
     background:#0f2862;
-    height:12%;
     border: 0px;
     text-align: center !important;
     margin: 10px;
@@ -222,9 +228,11 @@ e of the sidenav (less padding and a smaller font size) */
 }
 
 #send_msg{
-    background: #4f5f76;
-    border: 0px !important;
+    background: #0f2862;
+    border-width:2px;
     border-radius: 5px;
+    border-style: outset;
+    border-color: #4f5f76;
     color: white;
     min-height: 40px;
     max-height: 40px;
@@ -374,7 +382,11 @@ e of the sidenav (less padding and a smaller font size) */
     color:white !important;
 }
 .play, .unmute,.mute,.display,.playall,.displayall,.muteall,.unmuteall,#toggle_load,.room_action,.restartall,.restart,.setsynchronized {
-    background-color: #4f5f76;
+    background: #0f2862;
+    border-width:2px;
+    border-radius: 5px;
+    border-style: outset;
+    border-color: #4f5f76;
     color: white;
     min-width: 133px;
 }
@@ -401,4 +413,8 @@ e of the sidenav (less padding and a smaller font size) */
 }
 .col-md-12,.col-sm-12{
     margin-top: 5px;
+}
+.badge{
+    height: auto;
+    width: auto;
 }

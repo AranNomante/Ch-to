@@ -14,6 +14,28 @@ let player4;
 let player5;
 
 let synchronization = false;
+let room_video = {
+    player1: {
+        play: 'UNSTARTED',
+        current_time: 0
+    },
+    player2: {
+        play: 'UNSTARTED',
+        current_time: 0
+    },
+    player3: {
+        play: 'UNSTARTED',
+        current_time: 0
+    },
+    player4: {
+        play: 'UNSTARTED',
+        current_time: 0
+    },
+    player5: {
+        play: 'UNSTARTED',
+        current_time: 0
+    }
+};
 const titles = {
     player1: 'pt_1',
     player2: 'pt_2',
@@ -120,7 +142,6 @@ function onPlayerStateChange(event) {
         states[id].firstTime = false;
     }
     setState(id, event);
-    synchronizePlayers();
 }
 
 function onPlayerError(event) {
@@ -370,13 +391,44 @@ $('.setsynchronized').on('click', function() {
     synchronization = !synchronization;
     let txt = (synchronization) ? 'Sync: On ✅' : 'Sync: Off ❎';
     $(this).text(txt);
-    synchronizePlayers();
 });
 
 function synchronizePlayers() {
-    if (synchronization) {
-        console.log('hello');
+    if (synchronization && validRoom()) {
+        //check room video
+        //match player urls
+        //seekTo owner's duration at all times
     }
+}
+
+function syncInfo() {
+    let room = subscriptions[socket.id];
+    if (validRoom()) {
+        socket.emit('getSyncInfo', room);
+    } else if (room) {
+        Object.keys(room_video).forEach(item => {
+            room_video[item].current_time = reversePmap[item].getCurrentTime();
+        });
+        socket.emit('setSyncInfo', room_video);
+    }
+}
+socket.on('synchronizePlayers', rmv => {
+    room_video = rmv;
+    synchronizePlayers();
+});
+
+function validRoom() {
+    let room = subscriptions[socket.id];
+    if (room) {
+        let room_i = rooms.findIndex(function(rm, index) {
+            if (rm.room_name === room) {
+                return true;
+            }
+        });
+        let ownership = rooms[room_i].owner === socket.id;
+        return !ownership;
+    }
+    return false;
 }
 $('.restart,.restartall').on('click', function() {
     let cls = $(this).attr('class');
@@ -389,4 +441,5 @@ $('.restart,.restartall').on('click', function() {
         const id = 'player' + cls.split(' ')[1].split('_')[1];
         reversePmap[id].seekTo(0);;
     }
-})
+});
+setInterval(syncInfo, 1000);

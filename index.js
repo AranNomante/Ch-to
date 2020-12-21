@@ -72,6 +72,12 @@ io.on('connection', function(socket) {
     socket.on('room_action', (obj) => {
         fn.handleRoomAction(obj, socket, rooms, subscriptions, io);
     });
+    socket.on('getSyncInfo', (obj) => {
+        console.log(obj);
+    });
+    socket.on('setSyncInfo', (obj) => {
+        console.log(obj);
+    });
 });
 
 http.listen(port, function() {
