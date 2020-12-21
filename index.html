@@ -13,7 +13,7 @@
   </head>
   <body>
     <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn">×</a>
+        <a class="closebtn">×</a>
         <div class="line">
             <div class="col-md-12 semi flowy marbot rooms">
                 <h5>Chat Rooms 🏘️</h5>
@@ -28,25 +28,26 @@
     </div>
     <div id="main">
         <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="row">
-                <div class="col-lg-2 col-md-12 col-sm-12">
-                    <h1 class="navtext">Ch@to</h1>
-                </div>
-                <div class="col-lg-2 col-md-12 col-sm-12">
-                    <button class="openbtn" id="open_nav">Rooms & Users<br>📢</button>
-                </div>
-                <div class="col-lg-2 col-md-12 col-sm-12">
-                    <button class="openbtn" data-toggle="modal" data-target="#video_controls_modal" data-backdrop="false">Video Controls<br>🧰</button>
-                </div>
-                <div class="col-lg-2 col-md-12 col-sm-12">
-                    <button class="openbtn" data-toggle="modal" data-target="#video_load_modal" data-backdrop="false">Load Videos<br>🎞️</button>
-                </div>
-                <div class="col-lg-2 col-md-12 col-sm-12">
-                    <button class="openbtn" data-toggle="modal" data-target="#room_actions_modal" data-backdrop="false">Room Controls<br>🚪</button>
-                </div>
-                <div class="col-lg-2 col-md-12 col-sm-12">
-                    <a href="mailto:altug.ceylan.yes@gmail.com"><button class="openbtn">Contact<br>📧</button></a>
-                </div>
+            <a class="navbar-brand">Ch@to</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" id="open_nav">Rooms & Users 📢</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" data-toggle="modal" data-target="#video_controls_modal" data-backdrop="false">Video Controls 🧰</a>
+                            <a class="dropdown-item" data-toggle="modal" data-target="#video_load_modal" data-backdrop="false">Load Videos 🎞️</a>
+                            <a class="dropdown-item" data-toggle="modal" data-target="#room_actions_modal" data-backdrop="false">Room Controls 🚪</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="mailto:altug.ceylan.yes@gmail.com">Contact 📧</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </nav>
         <div class="line">

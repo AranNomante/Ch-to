@@ -85,18 +85,6 @@ padding: 16px;
     margin-left: 50px;
 }
 
-.openbtn {
-    cursor: pointer;
-    background-color: #0f2862;
-    color: white;
-    border: 1px;
-    border-style: groove;
-    border-color:  #4f5f76;
-    border-radius: 5px;
-    min-height: 40px;
-    word-break: normal;
-    min-width: 150px;
-}
 
 #main {
     transition: margin-left .5s;
@@ -115,17 +103,7 @@ e of the sidenav (less padding and a smaller font size) */
 .marbot{
     margin-bottom: 15px;
 }
-.navtext{
-    color: white;
-    word-break: keep-all;
-}
-.navtext2{
-    color: white;
-    word-break: keep-all;
-    overflow-x:scroll;
-    min-height: 50px;
-    max-width: 120px;
-}
+
 .rooms{
     padding:10px 10px 10px 20px;
     background-color:#0f2862;
@@ -395,14 +373,14 @@ e of the sidenav (less padding and a smaller font size) */
 .displayall:hover,.muteall:hover,
 .unmuteall:hover,.chatUser:hover,
 .create_room:hover,.room_tab:hover,
-.modal-footer button:hover,::-webkit-scrollbar-thumb:hover,.openbtn:hover,
-#send_msg:hover, #toggle_load:hover,.room_action:hover,.chat_head:hover,.restartall:hover,.restart:hover,.setsynchronized:hover{
+.modal-footer button:hover,::-webkit-scrollbar-thumb:hover,
+#send_msg:hover, #toggle_load:hover,.room_action:hover,.chat_head:hover,.restartall:hover,.restart:hover,.setsynchronized:hover,.dropdown-item:hover{
     background: #9e363a;
 }
 
 .play:focus, .unmute:focus,.mute:focus,
 .display:focus,.playall:focus,.displayall:focus,
-.muteall:focus,.unmuteall:focus,.openbtn:focus,
+.muteall:focus,.unmuteall:focus,
 #send_msg:focus,#main-input:focus,.modal-content input:focus,
 .modal-footer button:focus,#toggle_load:focus,.room_action:focus,.chat_head:focus,.restartall:focus,.restart:focus,.setsynchronized:focus{
     outline: none !important;
@@ -417,4 +395,13 @@ e of the sidenav (less padding and a smaller font size) */
 .badge{
     height: auto;
     width: auto;
+}
+.dropdown-menu{
+    background: #0f2862;
+}
+.nav-link,.navbar-brand,.dropdown-item{
+    color:white !important;
+}
+.nav-item{
+    margin-left: 5px;
 }
