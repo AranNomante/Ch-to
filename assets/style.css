@@ -289,6 +289,10 @@ e of the sidenav (less padding and a smaller font size) */
 #video_controls_modal .modal-content:hover,#video_load_modal .modal-content:hover,#room_actions_modal .modal-content:hover{
     opacity: 0.9
 }
+#video_controls_modal .modal-body{
+    overflow-y: scroll;
+    max-height: 500px;
+}
 .modal-content input {
     background: #e6e6e6;
 }
@@ -350,9 +354,10 @@ e of the sidenav (less padding and a smaller font size) */
     background:#14A76C !important;
     color:#fff280 !important;
 }
-.play, .unmute,.mute,.display,.playall,.displayall,.muteall,.unmuteall,#toggle_load,.room_action {
+.play, .unmute,.mute,.display,.playall,.displayall,.muteall,.unmuteall,#toggle_load,.room_action,.restartall,.restart,.setsynchronized {
     background-color: #FF652F;
     color: #fff280;
+    min-width: 133px;
 }
 .play:hover, .unmute:hover,.mute:hover,
 .display:hover,.playall:hover,
@@ -360,7 +365,7 @@ e of the sidenav (less padding and a smaller font size) */
 .unmuteall:hover,.chatUser:hover,
 .create_room:hover,.room_tab:hover,
 .modal-footer button:hover,::-webkit-scrollbar-thumb:hover,.openbtn:hover,
-#send_msg:hover, #toggle_load:hover,.room_action:hover,.chat_head:hover{
+#send_msg:hover, #toggle_load:hover,.room_action:hover,.chat_head:hover,.restartall:hover,.restart:hover,.setsynchronized:hover{
     color:#2ba837;
     background: #4d4500;
 }
@@ -369,7 +374,7 @@ e of the sidenav (less padding and a smaller font size) */
 .display:focus,.playall:focus,.displayall:focus,
 .muteall:focus,.unmuteall:focus,.openbtn:focus,
 #send_msg:focus,#main-input:focus,.modal-content input:focus,
-.modal-footer button:focus,#toggle_load:focus,.room_action:focus,.chat_head:focus{
+.modal-footer button:focus,#toggle_load:focus,.room_action:focus,.chat_head:focus,.restartall:focus,.restart:focus,.setsynchronized:focus{
     outline: none !important;
     box-shadow: none;
 }

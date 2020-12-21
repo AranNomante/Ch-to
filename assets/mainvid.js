@@ -1,8 +1,8 @@
 // 2. This code loads the IFrame Player API code asynchronously.
-var tag = document.createElement('script');
+let tag = document.createElement('script');
 
 tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
+let firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // 3. This function creates an <iframe> (and YouTube player)
@@ -12,6 +12,8 @@ let player2;
 let player3;
 let player4;
 let player5;
+
+let synchronization = false;
 const titles = {
     player1: 'pt_1',
     player2: 'pt_2',
@@ -118,6 +120,7 @@ function onPlayerStateChange(event) {
         states[id].firstTime = false;
     }
     setState(id, event);
+    synchronizePlayers();
 }
 
 function onPlayerError(event) {
@@ -363,3 +366,27 @@ function setPlayerTitle(event) {
     title_f += (title.length > 40) ? '...' : '';
     $(`#${titles[id]}`).text(title_f);
 }
+$('.setsynchronized').on('click', function() {
+    synchronization = !synchronization;
+    let txt = (synchronization) ? 'Sync: On ✅' : 'Sync: Off ❎';
+    $(this).text(txt);
+    synchronizePlayers();
+});
+
+function synchronizePlayers() {
+    if (synchronization) {
+        console.log('hello');
+    }
+}
+$('.restart,.restartall').on('click', function() {
+    let cls = $(this).attr('class');
+    if (cls.includes('restartall')) {
+        Object.keys(reversePmap).forEach(item => {
+            reversePmap[item].seekTo(0);
+        });
+
+    } else if (cls.includes('restart')) {
+        const id = 'player' + cls.split(' ')[1].split('_')[1];
+        reversePmap[id].seekTo(0);;
+    }
+})

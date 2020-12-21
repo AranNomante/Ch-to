@@ -1,14 +1,19 @@
 const express = require("express");
 const helmet = require("helmet");
 const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const port = process.env.PORT || 3000;
+const fn = require('./functions');
+const allClients = [];
+const clientNames = {};
+const rooms = [];
+const subscriptions = {};
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-            "script-src": ["'self'", "https://www.youtube.com/iframe_api",
-                'iframe-src', 'https://www.youtube.com/embed/',
-                'https:\/\/www.youtube.com\/s\/player\/c88a8657\/www-widgetapi.vflset\/www-widgetapi.js'
-            ],
+            "script-src": ["'self'", "https://www.youtube.com/", 'iframe-src'],
             "frame-src": ["'self'", "https://www.youtube.com/"]
         },
     })
@@ -24,14 +29,6 @@ app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
 
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-const port = process.env.PORT || 3000;
-const fn = require('./functions');
-const allClients = [];
-const clientNames = {};
-const rooms = [];
-const subscriptions = {};
 app.use(express.static(__dirname + '/assets'));
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
