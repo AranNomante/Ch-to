@@ -247,11 +247,11 @@ e of the sidenav (less padding and a smaller font size) */
     border-radius: 5px;
 }
 .msg.outgoing{
-    background: #108959;
+    background: #4f5f76;
     color: white;
 }
 .msg.incoming{
-    background: #992900;
+    background: #9e363a;
     color: white;
 }
 .create_room{
