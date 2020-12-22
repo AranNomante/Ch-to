@@ -6,12 +6,12 @@
 </a>
 </h1>
 
+
 <h2>Workflows:</h2>
 
 ![Nodejs](https://github.com/AranNomante/Ch-to/workflows/Node.js%20CI/badge.svg)
 ![codeql](https://github.com/AranNomante/Ch-to/workflows/CodeQL/badge.svg)
 ![OSSAR](https://github.com/AranNomante/Ch-to/workflows/OSSAR/badge.svg)
-
 
   
 <h2>Dependencies:</h2>
@@ -23,7 +23,7 @@
 ![socket.io ^3.0.4](https://img.shields.io/badge/socket.io-^3.0.4-blue?logo=Node.js)
 
 
-<h4>Current Color Palette:</h4>
+<h2>Current Color Palette:</h2>
 
 <ol>
   
@@ -52,7 +52,8 @@
 </li>
 </ol>
 
-<h4>Credits:</h4>
+
+<h2>Credits:</h2>
 
 <h5>Many thanks to those who directly or indirectly contributed to this project</h5>
 
