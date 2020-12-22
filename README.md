@@ -1,11 +1,12 @@
 <h1><a href="https://ch-to.herokuapp.com">Ch@to</a></h1>
 
-<h5>Currently @ <span>https://ch-to.herokuapp.com</span></h5>
-
 ![Nodejs](https://github.com/AranNomante/Ch-to/workflows/Node.js%20CI/badge.svg)
 ![codeql](https://github.com/AranNomante/Ch-to/workflows/CodeQL/badge.svg)
 ![codeql](https://github.com/AranNomante/Ch-to/workflows/Codacy%20Security%20Scan/badge.svg)
-
+<a href="https://ch-to.herokuapp.com">    
+  ![Domain](https://img.shields.io/badge/Active%20Domain-https%3A%2F%2Fch--to.herokuapp.com-green)
+</a>
+  
 <h2>Dependencies:</h2>
 
 ![Dev node 12.18.1](https://img.shields.io/badge/Dev%20node-12.18.1-blue)
