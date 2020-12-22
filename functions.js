@@ -1,3 +1,5 @@
+const sanitizeHtml = require('sanitize-html');
+
 function getSocketID(socket) {
     return socket.id;
 }
@@ -7,6 +9,7 @@ function removeArrayElem(array, index) {
 }
 
 function setName(array, name, id) {
+    name = safeSanitize(name);
     array[id] = name;
 }
 
@@ -18,15 +21,18 @@ function getClientList(array, socket) {
 }
 
 function sendMessage(sender, recipient, msg, io, subscriptions) {
-    if (recipient.type === 'user') {
-        io.to(recipient.id).emit('newmsg', sender, msg, null);
-    } else {
-        //console.log('room chat');
-        if (subscriptions[sender] === recipient.id) {
-            io.to(recipient.id).emit('newmsg', recipient.id, msg, sender);
+    msg = safeSanitize(msg);
+    if (recipient && recipient.id && msg) {
+        if (recipient.type === 'user') {
+            io.to(recipient.id).emit('newmsg', sender, msg, null);
+        } else {
+            //console.log('room chat');
+            if (subscriptions[sender] === recipient.id) {
+                io.to(recipient.id).emit('newmsg', recipient.id, msg, sender);
+            }
         }
+        //console.log(sender, recipient, msg);
     }
-    //console.log(sender, recipient, msg);
 }
 
 function handleDisconnect(clients, clientNames, subscriptions, rooms, socket, io, syncInfo) {
@@ -65,7 +71,12 @@ function handleConnection(array, socket) {
 }
 
 function validateName(name, obj, socket) {
-    socket.emit('validateNameResponse', !Object.values(obj).includes(name));
+    name = safeSanitize(name);
+    if (name) {
+        socket.emit('validateNameResponse', !Object.values(obj).includes(name));
+    } else {
+        socket.emit('validateNameResponse', false);
+    }
 }
 
 function getClientNames(obj, socket) {
@@ -75,7 +86,7 @@ function getClientNames(obj, socket) {
 function processRoom(room, rooms, socket, subscriptions) {
     const sub_clear = checkSub(subscriptions, socket, 'sendRoomResponse');
     const id = getSocketID(socket);
-    if (sub_clear) {
+    if (sub_clear && room) {
         room.capacity = Number(room.capacity);
         const name = room.room_name;
         const description = room.description;
@@ -160,7 +171,7 @@ function joinRoom(obj, socket, rooms, subscriptions, io) {
     const room_pw = obj.pw;
     let scs = true;
     let rs = '';
-    if (sub_clear) {
+    if (sub_clear && obj) {
         let room_i = searchRoom(rooms, 'room_name', room_name);
         if (!(room_i === -1)) {
             let cur_room = rooms[room_i];
@@ -182,6 +193,9 @@ function joinRoom(obj, socket, rooms, subscriptions, io) {
             scs = false;
             rs = 'room not found';
         }
+    } else {
+        scs = false;
+        rs = 'invalid room';
     }
     genericRoomresponse('joinRoomResponse', scs, rs, socket);
 }
@@ -217,58 +231,63 @@ function handleRoomAction(obj, socket, rooms, subscriptions, io, syncInfo) {
     //console.log(io.sockets.connected);
     let scs = true;
     let rs = '';
-    const id = getSocketID(socket);
-    const subscription = subscriptions[id];
-    if (subscription) {
-        const room_i = searchRoom(rooms, 'room_name', subscription)
-        const ownership_i = searchRoom(rooms, 'owner', id);
-        if (room_i > -1) {
-            let room_name = rooms[room_i].room_name;
-            if (obj.action === 'leave_room') {
-                handleMemberCount(rooms, subscriptions, id);
-                delete subscriptions[id];
-                handleAutoRoomTransf(ownership_i, subscriptions, rooms, io, syncInfo);
-                socket.leave(room_name);
-                sendRoomAlert(io, room_name, 'A user has just left the ' + room_name + ' !');
-            } else if (ownership_i > -1) {
-                let target_exists = obj.target && obj.target.length > 0;
-                switch (obj.action) {
-                    case 'disband_room':
-                        disband_room(rooms, subscriptions, room_i, io, syncInfo);
-                        break;
-                    case 'owner_transfer':
-                        if (target_exists) {
-                            transfer_owner(rooms, obj.target, room_i, io);
-                        } else {
+    if (obj) {
+        const id = getSocketID(socket);
+        const subscription = subscriptions[id];
+        if (subscription) {
+            const room_i = searchRoom(rooms, 'room_name', subscription)
+            const ownership_i = searchRoom(rooms, 'owner', id);
+            if (room_i > -1) {
+                let room_name = rooms[room_i].room_name;
+                if (obj.action === 'leave_room') {
+                    handleMemberCount(rooms, subscriptions, id);
+                    delete subscriptions[id];
+                    handleAutoRoomTransf(ownership_i, subscriptions, rooms, io, syncInfo);
+                    socket.leave(room_name);
+                    sendRoomAlert(io, room_name, 'A user has just left the ' + room_name + ' !');
+                } else if (ownership_i > -1) {
+                    let target_exists = obj.target && obj.target.length > 0;
+                    switch (obj.action) {
+                        case 'disband_room':
+                            disband_room(rooms, subscriptions, room_i, io, syncInfo);
+                            break;
+                        case 'owner_transfer':
+                            if (target_exists) {
+                                transfer_owner(rooms, obj.target, room_i, io);
+                            } else {
+                                scs = false;
+                                rs = 'could not found target';
+                            }
+                            break;
+                        case 'kick_user':
+                            if (target_exists) {
+                                handleMemberCount(rooms, subscriptions, obj.target);
+                                kick_user(subscriptions, obj.target, io);
+                            } else {
+                                scs = false;
+                                rs = 'could not found target';
+                            }
+                            break;
+                        default:
                             scs = false;
-                            rs = 'could not found target';
-                        }
-                        break;
-                    case 'kick_user':
-                        if (target_exists) {
-                            handleMemberCount(rooms, subscriptions, obj.target);
-                            kick_user(subscriptions, obj.target, io);
-                        } else {
-                            scs = false;
-                            rs = 'could not found target';
-                        }
-                        break;
-                    default:
-                        scs = false;
-                        rs = 'invalid action';
-                        break;
+                            rs = 'invalid action';
+                            break;
+                    }
+                } else {
+                    scs = false;
+                    rs = 'not owner';
                 }
             } else {
                 scs = false;
-                rs = 'not owner';
+                rs = 'room not found';
             }
         } else {
             scs = false;
-            rs = 'room not found';
+            rs = 'not subscribed';
         }
     } else {
         scs = false;
-        rs = 'not subscribed';
+        rs = 'invalid action';
     }
     genericRoomresponse('room_action_response', scs, rs, socket);
 }
@@ -322,9 +341,12 @@ function handleMemberCount(rooms, subscriptions, id) {
 }
 
 function sendRoomAlert(io, target, msg) {
-    io.to(target).emit('roomalert', {
-        message: msg
-    });
+    msg = safeSanitize(msg);
+    if (msg) {
+        io.to(target).emit('roomalert', {
+            message: msg
+        });
+    }
 }
 
 function clearRoom(room, namespace = '/', io) {
@@ -337,45 +359,65 @@ function clearRoom(room, namespace = '/', io) {
     }
 }
 
-function getSyncInfo(obj, socket, syncInfo) {
+function getSyncInfo(room_name, socket, syncInfo) {
     //console.log(syncInfo[obj].player1);
-    socket.emit('synchronizePlayers', syncInfo[obj]);
+    room_name = safeSanitize(room_name);
+    if (room_name) {
+        socket.emit('synchronizePlayers', syncInfo[room_name]);
+    }
 }
 
 function setSyncInfo(obj, syncInfo) {
-    syncInfo[obj.room_name] = obj.player_states;
+    if (obj && obj.player_states && Object.keys(obj.player_states).length > 0) {
+        syncInfo[obj.room_name] = obj.player_states;
+    }
 }
 
 function handleInvitation(obj, socket, io) {
     //console.log(obj.invited);
-    io.to(obj.invited).emit('invitation', {
-        from: getSocketID(socket),
-        toRoom: obj.target
-    });
+    let target = safeSanitize(obj.target);
+    if (target) {
+        io.to(obj.invited).emit('invitation', {
+            from: getSocketID(socket),
+            toRoom: target
+        });
+    }
 }
 
-function acceptInvitation(obj, socket, rooms, subscriptions, io) {
-    const sub_clear = checkSub(subscriptions, socket, 'joinRoomResponse');
-    const room_i = searchRoom(rooms, 'room_name', obj);
-    const id = getSocketID(socket);
+function acceptInvitation(room_name, socket, rooms, subscriptions, io) {
     let scs = true;
     let rs = '';
-    if (sub_clear && !(room_i === -1)) {
-        let cur_room = rooms[room_i];
-        if (cur_room.member_count === cur_room.capacity) {
-            scs = false;
-            rs = 'Room capacity reached!';
+    if (room_name) {
+        const sub_clear = checkSub(subscriptions, socket, 'joinRoomResponse');
+        const room_i = searchRoom(rooms, 'room_name', room_name);
+        const id = getSocketID(socket);
+        if (sub_clear && !(room_i === -1)) {
+            let cur_room = rooms[room_i];
+            if (cur_room.member_count === cur_room.capacity) {
+                scs = false;
+                rs = 'Room capacity reached!';
+            } else {
+                sendRoomAlert(io, room_name, 'A user has just joined the ' + room_name + ' !');
+                rooms[room_i].member_count++;
+                subscriptions[id] = room_name;
+                socket.join(room_name);
+            }
         } else {
-            sendRoomAlert(io, obj, 'A user has just joined the ' + obj + ' !');
-            rooms[room_i].member_count++;
-            subscriptions[id] = obj;
-            socket.join(obj);
+            scs = false;
+            rs = 'Room does not exist!';
         }
     } else {
         scs = false;
-        rs = 'Room does not exist!';
+        rs = 'invalid room';
     }
     genericRoomresponse('joinRoomResponse', scs, rs, socket);
+}
+
+function safeSanitize(obj) {
+    if (typeof obj === 'string') {
+        return sanitizeHtml(obj);
+    }
+    return '';
 }
 module.exports = {
     setName: setName,
