@@ -6,6 +6,8 @@
 </a>
 </h1>
 
+<h2>Workflows:</h2>
+
 ![Nodejs](https://github.com/AranNomante/Ch-to/workflows/Node.js%20CI/badge.svg)
 ![codeql](https://github.com/AranNomante/Ch-to/workflows/CodeQL/badge.svg)
 ![OSSAR](https://github.com/AranNomante/Ch-to/workflows/OSSAR/badge.svg)
