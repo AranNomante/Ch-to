@@ -49,7 +49,7 @@ app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
 
-app.use(express.static(__dirname + '/assets'));
+app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
