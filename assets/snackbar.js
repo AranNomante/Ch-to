@@ -6,7 +6,7 @@ function snack(text) {
     bar.addClass("show");
     setTimeout(function() {
         bar.removeClass("show")
-    }, 3000);
+    }, 5000);
 }
 
 function setSnack(text) {

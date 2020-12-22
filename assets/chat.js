@@ -39,7 +39,7 @@ socket.on('updateClientNames', function(clientNameList) {
     refreshUsers();
 });
 socket.on('newmsg', function(sender, msg, from = null) {
-    console.log(sender, msg, from);
+    //console.log(sender, msg, from);
     const c_1 =
         (!from) ? clientNames[sender] :
         (subscriptions[from] && !(from === socket.id)) ? true : false;
@@ -141,6 +141,14 @@ socket.on('room_action_response', function(response) {
 socket.on('roomalert', function(msg) {
     setSnack(msg.message);
 });
+socket.on('invitation', function(obj) {
+    let id = obj.from;
+    let toRoom = obj.toRoom;
+    let nm = clientNames[id];
+    if (nm) {
+        setSnack('You have been invited to a room(' + toRoom + ') by ' + nm + '.\nClick here to accept the invitation!');
+    }
+});
 //socket
 
 //fn
@@ -164,19 +172,23 @@ function refreshUsers() {
             if (item in notifications) {
                 notif.push(item);
             } else {
-                $('.chats').append(`<p class='chatUser' style='display:${(clientNames[item].includes(user_search_filter))?'block':'none'}' name=${item}>${clientNames[item]} 💬</p>`);
+                let inv = `<span class="invite ${(!subscriptions[item] && subscriptions[socket.id])?'on':'off'}" name="${item}">🗣️</span>`;
+                $('.chats').append(`<p class='chatUser' style='display:${(clientNames[item].includes(user_search_filter))?'block':'none'}' name="${item}">${clientNames[item]} 💬 ${inv}</p>`);
             }
         }
     });
     if (activeUser && clientNames[activeUser]) {
-        $('#user_search').after(`<p class='chatUser active' name=${activeUser}>${clientNames[activeUser]} 💬</p>`);
+        let inv = `<span class="invite ${(!subscriptions[activeUser] && subscriptions[socket.id])?'on':'off'}" name="${activeUser}">🗣️</span>`
+        $('#user_search').after(`<p class='chatUser active' name=${activeUser}>${clientNames[activeUser]} 💬 ${inv}</p>`);
         notif.forEach(item => {
-            $('.chatUser.active').after(`<p class='chatUser messageAlert' style='display:${(clientNames[item].includes(user_search_filter))?'block':'none'}' name=${item}>${clientNames[item]} 💬</p>`);
+            inv = `<span class="invite ${(!subscriptions[item] && subscriptions[socket.id])?'on':'off'}" name="${item}">🗣️</span>`
+            $('.chatUser.active').after(`<p class='chatUser messageAlert' style='display:${(clientNames[item].includes(user_search_filter))?'block':'none'}' name=${item}>${clientNames[item]} 💬 ${inv}</p>`);
         });
 
     } else {
         notif.forEach(item => {
-            $('#user_search').after(`<p class='chatUser messageAlert' style='display:${(clientNames[item].includes(user_search_filter))?'block':'none'}' name=${item}>${clientNames[item]} 💬</p>`);
+            let inv = `<span class="invite ${(!subscriptions[item] && subscriptions[socket.id])?'on':'off'}" name="${item}">🗣️</span>`;
+            $('#user_search').after(`<p class='chatUser messageAlert' style='display:${(clientNames[item].includes(user_search_filter))?'block':'none'}' name=${item}>${clientNames[item]} 💬 ${inv}</p>`);
         });
     }
     checkActiveChat();
@@ -298,8 +310,8 @@ function scrollToBottom(name) {
     div.scrollTop = div.scrollHeight - div.clientHeight;
 }
 
-function chatUserAction() {
-    if (!ongoingSwitch) {
+function chatUserAction(event) {
+    if (!ongoingSwitch && $(event.target).attr('class').includes('chatUser')) {
         ongoingSwitch = true;
         activeObj = {
             type: 'user',
@@ -511,6 +523,33 @@ function filterTab(id) {
 function filter() {
     filterTab(this.id);
 }
+
+function handleInvite() {
+    let id = $(this).attr('name');
+    let nm = clientNames[id];
+    if (nm) {
+        setSnack(nm + ' has been invited to the room you are in!');
+        socket.emit('invitation', {
+            target: subscriptions[socket.id],
+            invited: id
+        });
+    }
+}
+
+function handleSnackInteraction() {
+    let txt = $(this).text();
+    let inv = txt.includes('You have been invited to a room(');
+    if (inv) {
+        let targRoom = txt.split('(')[1];
+        if (targRoom) {
+            targRoom = targRoom.split(')')[0];
+        }
+        if (targRoom && targRoom.length > 0) {
+            //console.log('emitting');
+            socket.emit('acceptInvitation', targRoom);
+        }
+    }
+}
 //fn
 
 //js-jq
@@ -526,6 +565,8 @@ $(document).on('click', '.modal', closeModal);
 $(document).on('click', '.create_room', createRoom);
 $(document).on('click', '#room_ok', sendRoom);
 $(document).on('click', '.room_action', handleRoomAction);
+$(document).on('click', '.invite.on', handleInvite);
+$(document).on('click', '#snackbar', handleSnackInteraction);
 $('#room_search,#user_search').on('input', filter);
 setInterval(getClientInfo, 1000);
 //js-jq

@@ -153,7 +153,7 @@ function onPlayerStateChange(event) {
 }
 
 function onPlayerError(event) {
-    console.log(event);
+    //console.log(event);
     if (event.data === 150) {
         setSnack('This video does not allow embeds');
     }

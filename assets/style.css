@@ -111,6 +111,7 @@ e of the sidenav (less padding and a smaller font size) */
     border-width: 2px;
     border-color: #4f5f76;
     border-radius: 2px;
+    cursor:pointer;
 }
 .room{
     background-color:#0f2862;
@@ -131,6 +132,7 @@ e of the sidenav (less padding and a smaller font size) */
     border-width: 2px;
     border-color: #4f5f76;
     border-radius: 2px;
+    cursor:pointer;
 }
 .chat{
     padding:10px 10px 10px 20px;
@@ -374,10 +376,16 @@ e of the sidenav (less padding and a smaller font size) */
 .unmuteall:hover,.chatUser:hover,
 .create_room:hover,.room_tab:hover,
 .modal-footer button:hover,::-webkit-scrollbar-thumb:hover,
-#send_msg:hover, #toggle_load:hover,.room_action:hover,.chat_head:hover,.restartall:hover,.restart:hover,.setsynchronized:hover,.dropdown-item:hover{
+#send_msg:hover, #toggle_load:hover,.room_action:hover,.chat_head:hover,.restartall:hover,.restart:hover,.setsynchronized:hover,.dropdown-item:hover, .nav-item:hover{
     background: #9e363a;
+    cursor:pointer;
 }
-
+.closebtn:hover{
+    cursor:pointer;
+}
+.invite:hover{
+    background: #4f5f76;
+}
 .play:focus, .unmute:focus,.mute:focus,
 .display:focus,.playall:focus,.displayall:focus,
 .muteall:focus,.unmuteall:focus,
@@ -404,4 +412,17 @@ e of the sidenav (less padding and a smaller font size) */
 }
 .nav-item{
     margin-left: 5px;
+}
+.invite{
+    background: #091f36;
+    border-radius: 1px;
+    float: right;
+    margin-right: 5px;
+}
+
+.invite.on{
+    display: inline;
+}
+.invite.off{
+    display: none;
 }

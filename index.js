@@ -79,6 +79,12 @@ io.on('connection', function(socket) {
     socket.on('setSyncInfo', (obj) => {
         fn.setSyncInfo(obj, syncInfo);
     });
+    socket.on('invitation', (obj) => {
+        fn.handleInvitation(obj, socket, io);
+    });
+    socket.on('acceptInvitation', (obj) => {
+        fn.acceptInvitation(obj, socket, rooms, subscriptions, io);
+    });
 });
 
 http.listen(port, function() {

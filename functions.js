@@ -345,6 +345,38 @@ function getSyncInfo(obj, socket, syncInfo) {
 function setSyncInfo(obj, syncInfo) {
     syncInfo[obj.room_name] = obj.player_states;
 }
+
+function handleInvitation(obj, socket, io) {
+    //console.log(obj.invited);
+    io.to(obj.invited).emit('invitation', {
+        from: getSocketID(socket),
+        toRoom: obj.target
+    });
+}
+
+function acceptInvitation(obj, socket, rooms, subscriptions, io) {
+    const sub_clear = checkSub(subscriptions, socket, 'joinRoomResponse');
+    const room_i = searchRoom(rooms, 'room_name', obj);
+    const id = getSocketID(socket);
+    let scs = true;
+    let rs = '';
+    if (sub_clear && !(room_i === -1)) {
+        let cur_room = rooms[room_i];
+        if (cur_room.member_count === cur_room.capacity) {
+            scs = false;
+            rs = 'Room capacity reached!';
+        } else {
+            sendRoomAlert(io, obj, 'A user has just joined the ' + obj + ' !');
+            rooms[room_i].member_count++;
+            subscriptions[id] = obj;
+            socket.join(obj);
+        }
+    } else {
+        scs = false;
+        rs = 'Room does not exist!';
+    }
+    genericRoomresponse('joinRoomResponse', scs, rs, socket);
+}
 module.exports = {
     setName: setName,
     getClientList: getClientList,
@@ -359,5 +391,7 @@ module.exports = {
     joinRoom: joinRoom,
     handleRoomAction: handleRoomAction,
     setSyncInfo: setSyncInfo,
-    getSyncInfo: getSyncInfo
+    getSyncInfo: getSyncInfo,
+    handleInvitation: handleInvitation,
+    acceptInvitation: acceptInvitation
 }
