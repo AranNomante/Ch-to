@@ -17,10 +17,11 @@
 
 ![Dev node 12.18.1](https://img.shields.io/badge/Dev%20node-12.18.1-blue?logo=Node.js)
 ![express ^4.17.1](https://img.shields.io/badge/express-^4.17.1-blue?logo=Node.js)
-![express rate limit](https://img.shields.io/badge/express%20rate%20limit-^5.2.3-blue?logo=Node.js)
+![express-rate-limit](https://img.shields.io/badge/express--rate--limit-^5.2.3-blue?logo=Node.js)
 ![helmet ^4.2.0](https://img.shields.io/badge/helmet-^4.2.0-blue?logo=Node.js)
 ![socket.io ^3.0.4](https://img.shields.io/badge/socket.io-^3.0.4-blue?logo=Node.js)
-
+![sanitize-html ^2.3.0](https://img.shields.io/badge/sanitize--html-^2.3.0-blue?logo=Node.js)
+![express-slow-down ^1.4.0](https://img.shields.io/badge/express--slow--down-^1.4.0-blue?logo=Node.js)
 
 <h4>Current Color Palette:</h4>
 
