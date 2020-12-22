@@ -1,7 +1,7 @@
 {
   "name": "Ch-to",
   "version": "1.0.0",
-  "description": "",
+  "description": "All rights belong to Altug CEYLAN",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/AranNomante/fproject.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Altug CEYLAN",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/AranNomante/fproject/issues"
