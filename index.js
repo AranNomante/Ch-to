@@ -2,6 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 const app = express();
 const rateLimit = require('express-rate-limit');
+const slowDown = require("express-slow-down");
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT || 3000;
@@ -13,9 +14,20 @@ const subscriptions = {};
 const syncInfo = {}; //room_name:player_states{}
 const limiter = new rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minute
-    max: 50
+    max: 200
 });
+const speedLimiter = slowDown({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    delayAfter: 100, // allow 100 requests per 15 minutes, then...
+    delayMs: 500 // begin adding 500ms of delay per request above 100:
+    // request # 101 is delayed by  500ms
+    // request # 102 is delayed by 1000ms
+    // request # 103 is delayed by 1500ms
+    // etc.
+});
+app.enable("trust proxy");
 app.use(limiter);
+app.use(speedLimiter);
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
@@ -25,6 +37,7 @@ app.use(
         },
     })
 );
+app.disable("x-powered-by");
 app.use(helmet.dnsPrefetchControl());
 app.use(helmet.expectCt());
 app.use(helmet.frameguard());
@@ -36,7 +49,7 @@ app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
 
-app.use(express.static(__dirname + '/assets'));
+app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
@@ -45,50 +58,50 @@ app.get('/landing', function(req, res) {
 });
 
 io.on('connection', function(socket) {
-    fn.handleConnection(allClients, socket);
-    socket.on('disconnect', () => {
+    fn.handleConnection(allClients, socket); //safe
+    socket.on('disconnect', () => { //safe
         fn.handleDisconnect(allClients, clientNames, subscriptions, rooms, socket, io, syncInfo);
     });
-    socket.on('sendMessage', (recipient, msg) => {
+    socket.on('sendMessage', (recipient, msg) => { //safe
         fn.sendMessage(socket.id, recipient, msg, io, subscriptions);
     });
-    socket.on('getClientList', () => {
+    socket.on('getClientList', () => { //safe
         fn.getClientList(allClients, socket);
     });
-    socket.on('getClientNames', () => {
+    socket.on('getClientNames', () => { //safe
         fn.getClientNames(clientNames, socket);
     })
-    socket.on('validateName', (name) => {
+    socket.on('validateName', (name) => { //safe
         fn.validateName(name, clientNames, socket);
     })
-    socket.on('setName', (name) => {
+    socket.on('setName', (name) => { //safe
         fn.setName(clientNames, name, socket.id);
     });
-    socket.on('sendRoom', (room) => {
+    socket.on('sendRoom', (room) => { //safe
         fn.processRoom(room, rooms, socket, subscriptions);
     });
-    socket.on('getRooms', () => {
+    socket.on('getRooms', () => { //safe
         fn.getRooms(rooms, socket);
     });
-    socket.on('getSubscriptions', () => {
+    socket.on('getSubscriptions', () => { //safe
         fn.getSubscriptions(subscriptions, socket);
     });
-    socket.on('joinRoom', (obj) => {
+    socket.on('joinRoom', (obj) => { //safe
         fn.joinRoom(obj, socket, rooms, subscriptions, io);
     });
-    socket.on('room_action', (obj) => {
+    socket.on('room_action', (obj) => { //safe
         fn.handleRoomAction(obj, socket, rooms, subscriptions, io, syncInfo);
     });
-    socket.on('getSyncInfo', (obj) => {
+    socket.on('getSyncInfo', (obj) => { //safe
         fn.getSyncInfo(obj, socket, syncInfo);
     });
-    socket.on('setSyncInfo', (obj) => {
+    socket.on('setSyncInfo', (obj) => { //safe
         fn.setSyncInfo(obj, syncInfo);
     });
-    socket.on('invitation', (obj) => {
+    socket.on('invitation', (obj) => { //safe
         fn.handleInvitation(obj, socket, io);
     });
-    socket.on('acceptInvitation', (obj) => {
+    socket.on('acceptInvitation', (obj) => { //safe
         fn.acceptInvitation(obj, socket, rooms, subscriptions, io);
     });
 });
