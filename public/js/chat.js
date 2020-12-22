@@ -253,7 +253,7 @@ function refreshRooms() {
 
 function sendMessage() {
     const src = $('#main-input');
-    const msg = src.val();
+    const msg = escapeMeta(src.val());
     if (Object.keys(activeObj).length > 0 && msg) {
         socket.emit('sendMessage', activeObj, msg);
         if (!(activeObj.id in chats)) {
@@ -315,7 +315,7 @@ function chatUserAction(event) {
         ongoingSwitch = true;
         activeObj = {
             type: 'user',
-            id: $(this).attr('name')
+            id: escapeMeta($(this).attr('name'))
         };
         $('.chatUser.active').removeClass('active');
         $('.room_tab.active').removeClass('active');
@@ -549,6 +549,10 @@ function handleSnackInteraction() {
             socket.emit('acceptInvitation', targRoom);
         }
     }
+}
+
+function escapeMeta(dirty) {
+    return decodeURI(encodeURI(dirty));
 }
 //fn
 
