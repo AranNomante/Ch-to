@@ -1,13 +1,16 @@
-<h1><a href="https://ch-to.herokuapp.com">Ch@to</a></h1>
+<h1>
+<a href="https://ch-to.herokuapp.com"> 
+  
+  ![Domain](https://img.shields.io/badge/Active%20Domain-CH@TO-success?style=for-the-badge&logo=Heroku)
+  
+</a>
+</h1>
 
 ![Nodejs](https://github.com/AranNomante/Ch-to/workflows/Node.js%20CI/badge.svg)
 ![codeql](https://github.com/AranNomante/Ch-to/workflows/CodeQL/badge.svg)
 ![OSSAR](https://github.com/AranNomante/Ch-to/workflows/OSSAR/badge.svg)
 
-<a href="https://ch-to.herokuapp.com"> 
-  
-  ![Domain](https://img.shields.io/badge/Active%20Domain-ch--to-green?style=for-the-badge&logo=Heroku)
-</a>
+
   
 <h2>Dependencies:</h2>
 
