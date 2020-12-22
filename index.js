@@ -2,6 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 const app = express();
 const rateLimit = require('express-rate-limit');
+const slowDown = require("express-slow-down");
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT || 3000;
@@ -13,9 +14,20 @@ const subscriptions = {};
 const syncInfo = {}; //room_name:player_states{}
 const limiter = new rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minute
-    max: 50
+    max: 200
 });
+const speedLimiter = slowDown({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    delayAfter: 100, // allow 100 requests per 15 minutes, then...
+    delayMs: 500 // begin adding 500ms of delay per request above 100:
+    // request # 101 is delayed by  500ms
+    // request # 102 is delayed by 1000ms
+    // request # 103 is delayed by 1500ms
+    // etc.
+});
+app.enable("trust proxy");
 app.use(limiter);
+app.use(speedLimiter);
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
@@ -25,6 +37,7 @@ app.use(
         },
     })
 );
+app.disable("x-powered-by");
 app.use(helmet.dnsPrefetchControl());
 app.use(helmet.expectCt());
 app.use(helmet.frameguard());
