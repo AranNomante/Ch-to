@@ -3,7 +3,7 @@
 <h3>About:</h3>
 
 ![Version](https://img.shields.io/badge/CH%40TO-1.0.0--beta-success)
-![Domain](https://img.shields.io/badge/Active%20Domain-https://ch--to.herokuapp.com-success?logo=Heroku)
+![Domain](https://img.shields.io/badge/Active%20Domain-ch--to.herokuapp.com-success?logo=Heroku)
   
 
 <h4>Workflows:</h4>
