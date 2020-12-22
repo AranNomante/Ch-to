@@ -1,20 +1,19 @@
-<h1>
-<a href="https://ch-to.herokuapp.com"> 
-  
-  ![Domain](https://img.shields.io/badge/Active%20Domain-CH@TO-success?style=for-the-badge&logo=Heroku)
-  
-</a>
-</h1>
+<h1>CH@TO</h1>
 
+<h3>About:</h3>
 
-<h2>Workflows:</h2>
+![Version](https://img.shields.io/badge/CH%40TO-1.0.0--beta-success)
+![Domain](https://img.shields.io/badge/Active%20Domain-https://ch--to.herokuapp.com-success?logo=Heroku)
+  
+
+<h4>Workflows:</h4>
 
 ![Nodejs](https://github.com/AranNomante/Ch-to/workflows/Node.js%20CI/badge.svg)
 ![codeql](https://github.com/AranNomante/Ch-to/workflows/CodeQL/badge.svg)
 ![OSSAR](https://github.com/AranNomante/Ch-to/workflows/OSSAR/badge.svg)
 
   
-<h2>Dependencies:</h2>
+<h4>Dependencies:</h4>
 
 ![Dev node 12.18.1](https://img.shields.io/badge/Dev%20node-12.18.1-blue?logo=Node.js)
 ![express ^4.17.1](https://img.shields.io/badge/express-^4.17.1-blue?logo=Node.js)
@@ -23,7 +22,7 @@
 ![socket.io ^3.0.4](https://img.shields.io/badge/socket.io-^3.0.4-blue?logo=Node.js)
 
 
-<h2>Current Color Palette:</h2>
+<h4>Current Color Palette:</h4>
 
 <ol>
   
@@ -53,7 +52,7 @@
 </ol>
 
 
-<h2>Credits:</h2>
+<h4>Credits:</h4>
 
 <h5>Many thanks to those who directly or indirectly contributed to this project</h5>
 
