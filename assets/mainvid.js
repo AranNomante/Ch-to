@@ -166,7 +166,9 @@ function extractYTid(url) {
 
 function setState(id, event) {
     states[id].play = getPlayState(event.data, id);
-    states[id].isMuted = event.target.isMuted();
+    if (event.target) {
+        states[id].isMuted = event.target.isMuted();
+    }
     setAllstates();
 }
 

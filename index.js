@@ -1,6 +1,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const app = express();
+const rateLimit = require('express-rate-limit');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT || 3000;
@@ -10,6 +11,11 @@ const clientNames = {};
 const rooms = [];
 const subscriptions = {};
 const syncInfo = {}; //room_name:player_states{}
+const limiter = new rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 50
+});
+app.use(limiter);
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
