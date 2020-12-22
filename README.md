@@ -2,6 +2,8 @@
 
 ![Nodejs](https://github.com/AranNomante/Ch-to/workflows/Node.js%20CI/badge.svg)
 ![codeql](https://github.com/AranNomante/Ch-to/workflows/CodeQL/badge.svg)
+![OSSAR](https://github.com/AranNomante/Ch-to/workflows/OSSAR/badge.svg)
+![Fortify on Demand Scan](https://github.com/AranNomante/Ch-to/workflows/Fortify%20on%20Demand%20Scan/badge.svg)
 <!--![codeql](https://github.com/AranNomante/Ch-to/workflows/Codacy%20Security%20Scan/badge.svg)-->
 
 <a href="https://ch-to.herokuapp.com"> 
