@@ -46,7 +46,7 @@
 
 <h4>Credits:</h4>
 
-<h5>Many thanks to who directly or indirectly contributed to this project</h5>
+<h5>Many thanks to those who directly or indirectly contributed to this project</h5>
 
 <ol>
   <li>Emoji picker by <a href="https://github.com/Guad/simple-emoji-picker">Guad</a></li>
