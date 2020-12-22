@@ -2,7 +2,7 @@
 
 ![Nodejs](https://github.com/AranNomante/Ch-to/workflows/Node.js%20CI/badge.svg)
 ![codeql](https://github.com/AranNomante/Ch-to/workflows/CodeQL/badge.svg)
-![codeql](https://github.com/AranNomante/Ch-to/workflows/Codacy%20Security%20Scan/badge.svg)
+<!--![codeql](https://github.com/AranNomante/Ch-to/workflows/Codacy%20Security%20Scan/badge.svg)-->
 
 <a href="https://ch-to.herokuapp.com"> 
   
