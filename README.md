@@ -20,7 +20,7 @@
 
 ![Version](https://img.shields.io/badge/CH%40TO-1.0.1--beta-success)
 ![Domain](https://img.shields.io/badge/Active%20Domain-ch--to.herokuapp.com-success?logo=Heroku)
-  
+
 
 <h4>Workflows:</h4>
 
@@ -28,7 +28,7 @@
 ![codeql](https://github.com/AranNomante/Ch-to/workflows/CodeQL/badge.svg)
 ![OSSAR](https://github.com/AranNomante/Ch-to/workflows/OSSAR/badge.svg)
 
-  
+
 <h4>Dependencies:</h4>
 
 ![Dev node 12.18.1](https://img.shields.io/badge/Dev%20node-12.18.1-blue?logo=Node.js)
@@ -42,28 +42,28 @@
 <h4>Current Color Palette:</h4>
 
 <ol>
-  
-<li>
-  
-  Blue Popsicle: ![#0f2862](https://via.placeholder.com/15/0f2862/000000?text=+) 
-  
-</li>
 
 <li>
-  
-  Redline: ![#9e363a](https://via.placeholder.com/15/9e363a/000000?text=+) 
+
+  Blue Popsicle: ![#0f2862](https://via.placeholder.com/15/0f2862/000000?text=+)
 
 </li>
 
 <li>
-  
-  Purple Shadow: ![#091f36](https://via.placeholder.com/15/091f36/000000?text=+) 
+
+  Redline: ![#9e363a](https://via.placeholder.com/15/9e363a/000000?text=+)
 
 </li>
 
 <li>
-  
-  Grey Blue Leaf: ![#4f5f76](https://via.placeholder.com/15/4f5f76/000000?text=+) 
+
+  Purple Shadow: ![#091f36](https://via.placeholder.com/15/091f36/000000?text=+)
+
+</li>
+
+<li>
+
+  Grey Blue Leaf: ![#4f5f76](https://via.placeholder.com/15/4f5f76/000000?text=+)
 
 </li>
 </ol>
@@ -76,4 +76,12 @@
 <ol>
   <li>Emoji picker by <a href="https://github.com/Guad/simple-emoji-picker">Guad</a></li>
   <li>Color scheme by <a href="https://dogstudio.co/">dogstudio</a></li>
+</ol>
+
+<h4>How to run:</h4>
+
+<ol>
+<li>npm start(production)</li>
+<li>npm run devstart(development)</li>
+<li>npm run nodemonstart(development-nodemon)</li>
 </ol>
