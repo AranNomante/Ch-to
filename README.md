@@ -18,7 +18,7 @@
 
 <h3>About:</h3>
 
-![Version](https://img.shields.io/badge/CH%40TO-1.0.1--beta-success)
+![Version](https://img.shields.io/badge/CH%40TO-1.0.2--beta-success)
 ![Domain](https://img.shields.io/badge/Active%20Domain-ch--to.herokuapp.com-success?logo=Heroku)
 
 
@@ -38,6 +38,11 @@
 ![socket.io ^3.0.4](https://img.shields.io/badge/socket.io-^3.0.4-blue?logo=Node.js)
 ![sanitize-html ^2.3.0](https://img.shields.io/badge/sanitize--html-^2.3.0-blue?logo=Node.js)
 ![express-slow-down ^1.4.0](https://img.shields.io/badge/express--slow--down-^1.4.0-blue?logo=Node.js)
+![cross-env ^7.0.3](https://img.shields.io/badge/cross--env-^7.0.3-blue?logo=Node.js)
+
+<h4>Dev Dependencies:</h4>
+
+![nodemon ^2.0.6](https://img.shields.io/badge/nodemon-^2.0.6-blue?logo=Node.js)
 
 <h4>Current Color Palette:</h4>
 
