@@ -26,7 +26,7 @@ const speedLimiter = slowDown({
 	// request # 103 is delayed by 1500ms
 	// etc.
 });
-app.enable("trust proxy");
+//app.enable("trust proxy");
 app.use(limiter);
 app.use(speedLimiter);
 app.use(
