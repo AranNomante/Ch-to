@@ -23,6 +23,12 @@ let user_search_filter = '';
 //init
 
 //socket
+/**
+    @name validateNameResponse
+	@param {Boolean} isValid
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#validateNameResponse}
+*/
 socket.on('validateNameResponse', function(isValid) {
 	if (isValid) {
 		socket.emit('setName', name);
@@ -31,13 +37,33 @@ socket.on('validateNameResponse', function(isValid) {
 		window.location.href = '/landing?error=taken';
 	}
 });
+/**
+    @name updateClientList
+	@param {Array} clientList
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#updateClientList}
+*/
 socket.on('updateClientList', function(clientList) {
 	clients = clientList;
 });
+/**
+    @name updateClientNames
+	@param {Object} clientNameList
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#updateClientNames}
+*/
 socket.on('updateClientNames', function(clientNameList) {
 	clientNames = clientNameList;
 	refreshUsers();
 });
+/**
+    @name newmsg
+	@param {String} sender
+	@param {String} msg
+	@param {String} from
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#newmsg}
+*/
 socket.on('newmsg', function(sender, msg, from = null) {
 	//console.log(sender, msg, from);
 	const c_1 =
@@ -78,6 +104,12 @@ socket.on('newmsg', function(sender, msg, from = null) {
 		}
 	}
 });
+/**
+    @name sendRoomResponse
+	@param {Object} response
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#sendRoomResponse}
+*/
 socket.on('sendRoomResponse', function(response) {
 	//console.log(response);
 	if (response.success) {
@@ -109,11 +141,23 @@ socket.on('sendRoomResponse', function(response) {
 		//alert(alertText);
 		setSnack(alertText);
 	}
-})
+});
+/**
+    @name updateRooms
+	@param {Array} rms
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#updateRooms}
+*/
 socket.on('updateRooms', function(rms) {
 	rooms = rms;
 	refreshRooms();
 });
+/**
+    @name updateSubs
+	@param {Object} subs
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#updateSubs}
+*/
 socket.on('updateSubs', function(subs) {
 	subscriptions = subs;
 	if (!subscriptions[socket.id]) {
@@ -122,6 +166,12 @@ socket.on('updateSubs', function(subs) {
 	updateRoomMembers();
 	updateActiveRoom();
 });
+/**
+    @name joinRoomResponse
+	@param {Object} response
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#joinRoomResponse}
+*/
 socket.on('joinRoomResponse', function(response) {
 	if (response.success) {
 		//alert('Joined successfully');
@@ -131,6 +181,12 @@ socket.on('joinRoomResponse', function(response) {
 		setSnack("Couldn't join reason: " + response.reason);
 	}
 });
+/**
+    @name room_action_response
+	@param {Object} response
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#room_action_response}
+*/
 socket.on('room_action_response', function(response) {
 	if (response.success) {
 		setSnack('Success!');
@@ -138,9 +194,21 @@ socket.on('room_action_response', function(response) {
 		setSnack("Failed, reason: " + response.reason);
 	}
 })
+/**
+    @name roomalert
+	@param {String} msg
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#roomalert}
+*/
 socket.on('roomalert', function(msg) {
 	setSnack(msg.message);
 });
+/**
+    @name invitation
+	@param {Object} obj
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#invitation}
+*/
 socket.on('invitation', function(obj) {
 	let id = obj.from;
 	let toRoom = obj.toRoom;
@@ -152,6 +220,11 @@ socket.on('invitation', function(obj) {
 //socket
 
 //fn
+/**
+    @name getClientInfo
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#getClientInfo}
+*/
 function getClientInfo() {
 	socket.emit('getClientList');
 	socket.emit('getClientNames');
@@ -160,6 +233,11 @@ function getClientInfo() {
 	socket.emit('getSubscriptions');
 }
 
+/**
+    @name refreshUsers
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#refreshUsers}
+*/
 function refreshUsers() {
 	//activeObj type user/room
 	$('#user_search').nextAll().remove();
@@ -193,7 +271,11 @@ function refreshUsers() {
 	}
 	checkActiveChat();
 }
-
+/**
+    @name checkActiveChat
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#checkActiveChat}
+*/
 function checkActiveChat() {
 	const c_1 = Object.keys(activeObj).length === 0;
 	const c_2 = activeObj.type === 'user' && !(clientNames[activeObj.id]);
@@ -213,7 +295,11 @@ function checkActiveChat() {
 		$('#active_recipient').addClass('badge-success');
 	}
 }
-
+/**
+    @name refreshRooms
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#refreshRooms}
+*/
 function refreshRooms() {
 	$('.create_room').nextAll().remove();
 	let activeRoom;
@@ -250,7 +336,11 @@ function refreshRooms() {
 	}
 	checkActiveChat();
 }
-
+/**
+    @name sendMessage
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#sendMessage_c}
+*/
 function sendMessage() {
 	const src = $('#main-input');
 	const msg = src.val();
@@ -271,7 +361,11 @@ function sendMessage() {
 		scrollToBottom('chat-panel');
 	}
 }
-
+/**
+    @name switchChats
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#switchChats}
+*/
 function switchChats() {
 	$('.chat-panel').fadeOut(100);
 	$('.chat-panel').children().remove();
@@ -298,18 +392,36 @@ function switchChats() {
 	$('.chat-panel').fadeIn('slow');
 	//console.log('switchChats');
 }
-
+/**
+    @name msgBuilder
+	@param {Boolean} incoming
+	@param {String} message
+	@param {String} from
+	@return {String}
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#msgBuilder}
+*/
 function msgBuilder(incoming, message, from = null) {
 	let color = (incoming) ? 'incoming' : 'outgoing';
 	let elem = `<div class="row msgrow ${color}"><p class="msg ${color}">${(from && incoming)?from+':':''} ${message}</p></div>`;
 	return elem;
 }
-
+/**
+    @name scrollToBottom
+	@param {String} name
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#scrollToBottom}
+*/
 function scrollToBottom(name) {
 	let div = document.getElementsByClassName(name)[0];
 	div.scrollTop = div.scrollHeight - div.clientHeight;
 }
-
+/**
+    @name chatUserAction
+    @param {Object} event
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#chatUserAction}
+*/
 function chatUserAction(event) {
 	if (!ongoingSwitch && $(event.target).attr('class').includes('chatUser')) {
 		ongoingSwitch = true;
@@ -324,7 +436,11 @@ function chatUserAction(event) {
 		ongoingSwitch = false;
 	}
 }
-
+/**
+    @name roomTabAction
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#roomTabAction}
+*/
 function roomTabAction() {
 	let name = $(this).attr('name');
 	if (subscriptions[socket.id] === name) {
@@ -367,7 +483,12 @@ function roomTabAction() {
 		}
 	}
 }
-
+/**
+    @name roomJoin
+	@param {String} name
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#roomJoin}
+*/
 function roomJoin(name) {
 	if (!ongoingSwitch) {
 		ongoingSwitch = true;
@@ -382,14 +503,22 @@ function roomJoin(name) {
 		ongoingSwitch = false;
 	}
 }
-
+/**
+    @name createRoom
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#createRoom}
+*/
 function createRoom() {
 	$('#room_modal').modal('show');
 	$('.body_join').css('display', 'none');
 	$('.body_create').css('display', 'block');
 	$('#room_modal_title').text('Create Room');
 }
-
+/**
+    @name sendRoom
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#sendRoom}
+*/
 function sendRoom() {
 	if ($('.body_join').css('display') === 'block') {
 		socket.emit('joinRoom', {
@@ -405,7 +534,11 @@ function sendRoom() {
 		});
 	}
 }
-
+/**
+    @name updateRoomMembers
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#updateRoomMembers}
+*/
 function updateRoomMembers() {
 	let cur_room = subscriptions[socket.id];
 	let members = {};
@@ -421,7 +554,13 @@ function updateRoomMembers() {
 	}
 	activeRoomMembers = members;
 }
-
+/**
+    @name getRoomMembers
+	@param {String} rmname
+	@return {Array}
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#getRoomMembers}
+*/
 function getRoomMembers(rmname) {
 	let members = [];
 	Object.keys(subscriptions).forEach(key => {
@@ -431,7 +570,12 @@ function getRoomMembers(rmname) {
 	});
 	return members;
 }
-
+/**
+    @name closeModal
+	@param {Object} event
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#closeModal}
+*/
 function closeModal(event) {
 	const target = event.target;
 	const id = target.id;
@@ -439,7 +583,11 @@ function closeModal(event) {
 		$('#' + id).modal('hide');
 	}
 }
-
+/**
+    @name updateActiveRoom
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#updateActiveRoom}
+*/
 function updateActiveRoom() {
 	$('#room_a_title').text('');
 	$('#room_a_desc').text('');
@@ -475,7 +623,11 @@ function updateActiveRoom() {
 		}
 	}
 }
-
+/**
+    @name handleRoomAction
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#handleRoomAction_c}
+*/
 function handleRoomAction() {
 	const cls = $(this).attr('class').split(' ');
 	const id = $(this).attr('id');
@@ -506,7 +658,12 @@ function handleRoomAction() {
 		setSnack('Something went wrong!');
 	}
 }
-
+/**
+    @name filterTab
+	@param {String} id
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#filterTab}
+*/
 function filterTab(id) {
 	const target = (id === 'room_search') ? '.room_tab' : '.chatUser';
 	const filter = $('#' + id).val();
@@ -519,11 +676,19 @@ function filterTab(id) {
 		}
 	});
 }
-
+/**
+    @name filter
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#filter}
+*/
 function filter() {
 	filterTab(this.id);
 }
-
+/**
+    @name handleInvite
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#handleInvite}
+*/
 function handleInvite() {
 	let id = $(this).attr('name');
 	let nm = clientNames[id];
@@ -535,7 +700,11 @@ function handleInvite() {
 		});
 	}
 }
-
+/**
+    @name handleSnackInteraction
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#handleSnackInteraction}
+*/
 function handleSnackInteraction() {
 	let txt = $(this).text();
 	let inv = txt.includes('You have been invited to a room(');

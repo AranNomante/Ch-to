@@ -87,7 +87,11 @@ const reversePmap = {
 	player4: null,
 	player5: null
 }
-
+/**
+    @name onYouTubeIframeAPIReady
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#onYouTubeIframeAPIReady}
+*/
 function onYouTubeIframeAPIReady() {
 	player1 = initPlayer('player1');
 	player2 = initPlayer('player2');
@@ -101,7 +105,13 @@ function onYouTubeIframeAPIReady() {
 	reversePmap.player5 = player5;
 }
 
-
+/**
+    @name initPlayer
+	@param {String} id
+	@return {Object}
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#initPlayer}
+*/
 function initPlayer(id) {
 	return new YT.Player(id, {
 		videoId: '5qap5aO4i9A',
@@ -125,7 +135,12 @@ function initPlayer(id) {
 		}
 	})
 }
-
+/**
+    @name onPlayerReady
+	@param {Object} event
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#onPlayerReady}
+*/
 function onPlayerReady(event) {
 	const id = event.target.h.id;
 	setPlayerTitle(event);
@@ -139,7 +154,12 @@ function onPlayerReady(event) {
 //    The function indicates that when playing a video (state=1),
 //    the player should play for six seconds and then stop.
 
-
+/**
+    @name onPlayerStateChange
+	@param {Object} event
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#onPlayerStateChange}
+*/
 function onPlayerStateChange(event) {
 	//UNSTARTED -1 ENDED 0 PLAYING 1 PAUSED 2 BUFFERING 3 CUED 5
 	const id = event.target.h.id;
@@ -151,7 +171,12 @@ function onPlayerStateChange(event) {
 	}
 	setState(id, event);
 }
-
+/**
+    @name onPlayerError
+	@param {Object} event
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#onPlayerError}
+*/
 function onPlayerError(event) {
 	//console.log(event);
 	if (event.data === 150) {
@@ -159,11 +184,23 @@ function onPlayerError(event) {
 	}
 	setState(event.target.h.id, event);
 }
-
+/**
+    @name extractYTid
+    @param {String} url
+	@return {String}
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#extractYTid}
+*/
 function extractYTid(url) {
 	return url.split('v=')[1];
 }
-
+/**
+    @name setState
+	@param {String} id
+	@param {Object} event
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#setState}
+*/
 function setState(id, event) {
 	states[id].play = getPlayState(event.data, id);
 	if (event.target) {
@@ -171,7 +208,11 @@ function setState(id, event) {
 	}
 	setAllstates();
 }
-
+/**
+    @name setAllstates
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#setAllstates}
+*/
 function setAllstates() {
 	const allelem = $('.playall');
 	let highest_order_action = 'PAUSED';
@@ -191,7 +232,14 @@ function setAllstates() {
 		allelem.text('Play▶️');
 	}
 }
-
+/**
+    @name getPlayState
+    @param {Number} signal
+	@param {String} id
+	@return {String|NULL}
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#getPlayState}
+*/
 function getPlayState(signal, id) {
 	const htmelem = $(`.play.p_${id.substring(6,7)}`);
 	switch (signal) {
@@ -337,7 +385,14 @@ $('.displayall').on('click', function() {
 	});
 });
 let load_mode = 'i';
-
+/**
+    @name organizeVidDisplay
+	@param {Object} elem
+	@param {Number} disp
+	@param {Number} visibleCount
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#organizeVidDisplay}
+*/
 function organizeVidDisplay(elem, disp, visibleCount) {
 	let exact = nmMap[visibleCount];
 	let dif = (disp === 1) ? nmMap[visibleCount - 1] : nmMap[visibleCount + 1];
@@ -363,7 +418,11 @@ $('#load_init').on('click', function() {
 		loadAll();
 	}
 });
-
+/**
+    @name loadAll
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#loadAll}
+*/
 function loadAll() {
 	let url = $('#load_all').val();
 	url = extractYTid(url);
@@ -374,7 +433,11 @@ function loadAll() {
 	});
 	resetVideoInputs();
 }
-
+/**
+    @name loadIndividual
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#loadIndividual}
+*/
 function loadIndividual() {
 	const urls = {
 		player1: $('#load_1').val(),
@@ -393,7 +456,11 @@ function loadIndividual() {
 	});
 	resetVideoInputs();
 }
-
+/**
+    @name resetVideoInputs
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#resetVideoInputs}
+*/
 function resetVideoInputs() {
 	$('#load_1').val('');
 	$('#load_2').val('');
@@ -402,7 +469,12 @@ function resetVideoInputs() {
 	$('#load_5').val('');
 	$('#load_all').val('');
 }
-
+/**
+    @name setPlayerTitle
+	@param {Object} event
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#setPlayerTitle}
+*/
 function setPlayerTitle(event) {
 	const id = event.target.h.id;
 	const title = event.target.getVideoData().title;
@@ -415,7 +487,11 @@ $('.setsynchronized').on('click', function() {
 	let txt = (synchronization) ? 'Sync: On ✅' : 'Sync: Off ❎';
 	$(this).text(txt);
 });
-
+/**
+    @name synchronizePlayers
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#synchronizePlayers}
+*/
 function synchronizePlayers() {
 	if (synchronization && validRoom()) {
 		resetVideoInputs();
@@ -453,15 +529,32 @@ function synchronizePlayers() {
 
 	}
 }
-
+/**
+    @name coolRound
+    @param {Number} n
+	@return {Number}
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#coolRound}
+*/
 function coolRound(n) {
 	return Math.round((n + Number.EPSILON) * 100) / 100;
 }
-
+/**
+    @name getDesiredTime
+    @param {Number} n1
+	@param {Number} n2
+	@return {Number}
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#getDesiredTime}
+*/
 function getDesiredTime(n1, n2) {
 	return n2;
 }
-
+/**
+    @name syncInfo
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#syncInfo}
+*/
 function syncInfo() {
 	let room = subscriptions[socket.id];
 	if (validRoom()) {
@@ -484,7 +577,12 @@ socket.on('synchronizePlayers', rmv => {
 		synchronizePlayers();
 	}
 });
-
+/**
+    @name validRoom
+	@return {Boolean}
+    @author Altug Ceylan <altug.ceylan.yes@gmail.com>
+    @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#validRoom}
+*/
 function validRoom() {
 	let room = subscriptions[socket.id];
 	if (room) {
