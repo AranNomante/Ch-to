@@ -1,4 +1,4 @@
-<h1><a href="https://ch-to.herokuapp.com">CH@TO</a></h1>
+<h1><a href="https://ch-to.com">CH@TO</a></h1>
 
     Ch@to
     Copyright (C) 2020 Altuğ Ceylan
@@ -19,7 +19,7 @@
 <h3>About:</h3>
 
 ![Version](https://img.shields.io/badge/CH%40TO-1.0.2--beta-success)
-![Domain](https://img.shields.io/badge/Active%20Domain-ch--to.herokuapp.com-success?logo=Heroku)
+![Domain](https://img.shields.io/badge/Active%20Domain-ch--to.com-success)
 
 
 <h4>Workflows:</h4>
