@@ -1,0 +1,1 @@
+const awaiting_nots=[];function snack(n){const s=$("#snackbar");s.text(n),s.addClass("show"),setTimeout(function(){s.removeClass("show")},5e3)}function setSnack(n){awaiting_nots.includes(n)||awaiting_nots.splice(0,0,n)}function showNotif(){if(awaiting_nots.length>0&&!$("#snackbar").hasClass("show")){snack(awaiting_nots.pop())}}setInterval(showNotif,1e3);

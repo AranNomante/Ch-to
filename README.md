@@ -18,9 +18,9 @@
 
 <h3>About:</h3>
 
-![Version](https://img.shields.io/badge/CH%40TO-1.0.1--beta-success)
+![Version](https://img.shields.io/badge/CH%40TO-1.0.2--beta-success)
 ![Domain](https://img.shields.io/badge/Active%20Domain-ch--to.herokuapp.com-success?logo=Heroku)
-  
+
 
 <h4>Workflows:</h4>
 
@@ -28,7 +28,7 @@
 ![codeql](https://github.com/AranNomante/Ch-to/workflows/CodeQL/badge.svg)
 ![OSSAR](https://github.com/AranNomante/Ch-to/workflows/OSSAR/badge.svg)
 
-  
+
 <h4>Dependencies:</h4>
 
 ![Dev node 12.18.1](https://img.shields.io/badge/Dev%20node-12.18.1-blue?logo=Node.js)
@@ -38,32 +38,37 @@
 ![socket.io ^3.0.4](https://img.shields.io/badge/socket.io-^3.0.4-blue?logo=Node.js)
 ![sanitize-html ^2.3.0](https://img.shields.io/badge/sanitize--html-^2.3.0-blue?logo=Node.js)
 ![express-slow-down ^1.4.0](https://img.shields.io/badge/express--slow--down-^1.4.0-blue?logo=Node.js)
+![cross-env ^7.0.3](https://img.shields.io/badge/cross--env-^7.0.3-blue?logo=Node.js)
+
+<h4>Dev Dependencies:</h4>
+
+![nodemon ^2.0.6](https://img.shields.io/badge/nodemon-^2.0.6-blue?logo=Node.js)
 
 <h4>Current Color Palette:</h4>
 
 <ol>
-  
-<li>
-  
-  Blue Popsicle: ![#0f2862](https://via.placeholder.com/15/0f2862/000000?text=+) 
-  
-</li>
 
 <li>
-  
-  Redline: ![#9e363a](https://via.placeholder.com/15/9e363a/000000?text=+) 
+
+  Blue Popsicle: ![#0f2862](https://via.placeholder.com/15/0f2862/000000?text=+)
 
 </li>
 
 <li>
-  
-  Purple Shadow: ![#091f36](https://via.placeholder.com/15/091f36/000000?text=+) 
+
+  Redline: ![#9e363a](https://via.placeholder.com/15/9e363a/000000?text=+)
 
 </li>
 
 <li>
-  
-  Grey Blue Leaf: ![#4f5f76](https://via.placeholder.com/15/4f5f76/000000?text=+) 
+
+  Purple Shadow: ![#091f36](https://via.placeholder.com/15/091f36/000000?text=+)
+
+</li>
+
+<li>
+
+  Grey Blue Leaf: ![#4f5f76](https://via.placeholder.com/15/4f5f76/000000?text=+)
 
 </li>
 </ol>
@@ -76,4 +81,12 @@
 <ol>
   <li>Emoji picker by <a href="https://github.com/Guad/simple-emoji-picker">Guad</a></li>
   <li>Color scheme by <a href="https://dogstudio.co/">dogstudio</a></li>
+</ol>
+
+<h4>How to run:</h4>
+
+<ol>
+<li>npm start(production)</li>
+<li>npm run devstart(development)</li>
+<li>npm run nodemonstart(development-nodemon)</li>
 </ol>
