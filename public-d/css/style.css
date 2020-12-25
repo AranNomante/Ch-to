@@ -187,7 +187,7 @@ e of the sidenav (less padding and a smaller font size) */
     border-width: 2px;
     border-style: groove;
     border-color: #4f5f76;
-    min-height:70%;
+    height: 70%;
 }
 .chat-input{
     background:#0f2862;
