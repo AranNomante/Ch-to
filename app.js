@@ -15,8 +15,9 @@ const subscriptions = {};
 const syncInfo = {}; //room_name:player_states{}
 const limiter = new rateLimit({
 	windowMs: 1 * 60 * 1000, // 1 minute
-	max: 200
+	max: 100
 });
+/*
 const speedLimiter = slowDown({
 	windowMs: 15 * 60 * 1000, // 15 minutes
 	delayAfter: 100, // allow 100 requests per 15 minutes, then...
@@ -26,9 +27,10 @@ const speedLimiter = slowDown({
 	// request # 103 is delayed by 1500ms
 	// etc.
 });
+*/
 //app.enable("trust proxy");
 app.use(limiter);
-app.use(speedLimiter);
+//app.use(speedLimiter);
 app.use(
 	helmet.contentSecurityPolicy({
 		directives: {
