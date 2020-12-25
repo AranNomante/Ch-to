@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 0",
     "start": "cross-env NODE_ENV=production node app.js",
     "devstart": "cross-env NODE_ENV=development node app.js",
-    "nodemonstart":"cross-env NODE_ENV=development nodemon app.js"
+    "nodemonstart":"cross-env NODE_ENV=development nodemon app.js",
+    "stop":"pkil --signal SIGINT chapp"
   },
   "repository": {
     "type": "git",

@@ -49,6 +49,7 @@ app.use(helmet.noSniff());
 app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
+process.title="chapp";
 console.log('NODE_ENV is: ', (env) ? env : 'not set');
 if (env === 'production') {
 	app.use(express.static(__dirname + '/public-p'));
