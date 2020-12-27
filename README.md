@@ -86,7 +86,8 @@
 <h4>How to run:</h4>
 
 <ol>
-<li>npm start(production)</li>
+<li>npm run prodstart(live)</li>
+<li>npm start(staging)</li>
 <li>npm run devstart(development)</li>
 <li>npm run nodemonstart(development-nodemon)</li>
 </ol>
