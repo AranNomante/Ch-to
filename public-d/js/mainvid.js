@@ -14,6 +14,7 @@ let player4;
 let player5;
 
 let synchronization = false;
+let load_mode = 'i';
 let room_video = {
 	player1: {
 		play: 'UNSTARTED',
@@ -192,7 +193,11 @@ function onPlayerError(event) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#extractYTid}
 */
 function extractYTid(url) {
-	return url.split('v=')[1];
+	if(typeof url === 'string' && url.length>0 && url.includes('v=')){
+		return url.split('v=')[1];
+	}else{
+		return '';
+	}
 }
 /**
     @name setState
@@ -384,7 +389,6 @@ $('.displayall').on('click', function() {
 		states[item].display = (visibleCount > 0) ? 0 : 1;
 	});
 });
-let load_mode = 'i';
 /**
     @name organizeVidDisplay
 	@param {Object} elem
@@ -397,7 +401,9 @@ function organizeVidDisplay(elem, disp, visibleCount) {
 	let exact = nmMap[visibleCount];
 	let dif = (disp === 1) ? nmMap[visibleCount - 1] : nmMap[visibleCount + 1];
 	(disp === 1) ? elem.removeClass(exact): elem.addClass(dif);
-	$('.vid.' + exact).removeClass(exact).addClass(dif);
+	if(visibleCount>0){
+		$('.vid.' + exact).removeClass(exact).addClass(dif);
+	}
 	states[elem.attr('id')].display = (disp === 1) ? 0 : 1;
 }
 $('#toggle_load').on('click', function() {
@@ -426,12 +432,16 @@ $('#load_init').on('click', function() {
 function loadAll() {
 	let url = $('#load_all').val();
 	url = extractYTid(url);
-	Object.keys(reversePmap).forEach(item => {
-		reversePmap[item].pauseVideo();
-		reversePmap[item].loadVideoById(url, 0);
-		states[item].firstTime = true;
-	});
-	resetVideoInputs();
+	if(url.length>0){
+		Object.keys(reversePmap).forEach(item => {
+			reversePmap[item].pauseVideo();
+			reversePmap[item].loadVideoById(url, 0);
+			states[item].firstTime = true;
+		});
+		resetVideoInputs();
+	}else{
+		setSnack("Couldn't load, URL corrupt.");
+	}
 }
 /**
     @name loadIndividual
@@ -449,9 +459,13 @@ function loadIndividual() {
 	Object.keys(urls).forEach(item => {
 		if (urls[item].length > 0) {
 			let url = extractYTid(urls[item]);
-			reversePmap[item].pauseVideo();
-			reversePmap[item].loadVideoById(url, 0);
-			states[item].firstTime = true;
+			if(url.length>0){
+				reversePmap[item].pauseVideo();
+				reversePmap[item].loadVideoById(url, 0);
+				states[item].firstTime = true;
+			}else{
+				setSnack("Couldn't load, URL corrupt.");
+			}
 		}
 	});
 	resetVideoInputs();
