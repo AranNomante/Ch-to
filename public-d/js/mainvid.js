@@ -14,6 +14,7 @@ let player4;
 let player5;
 
 let synchronization = false;
+let load_mode = 'i';
 let room_video = {
 	player1: {
 		play: 'UNSTARTED',
@@ -388,7 +389,6 @@ $('.displayall').on('click', function() {
 		states[item].display = (visibleCount > 0) ? 0 : 1;
 	});
 });
-let load_mode = 'i';
 /**
     @name organizeVidDisplay
 	@param {Object} elem
@@ -401,7 +401,9 @@ function organizeVidDisplay(elem, disp, visibleCount) {
 	let exact = nmMap[visibleCount];
 	let dif = (disp === 1) ? nmMap[visibleCount - 1] : nmMap[visibleCount + 1];
 	(disp === 1) ? elem.removeClass(exact): elem.addClass(dif);
-	$('.vid.' + exact).removeClass(exact).addClass(dif);
+	if(visibleCount>0){
+		$('.vid.' + exact).removeClass(exact).addClass(dif);
+	}
 	states[elem.attr('id')].display = (disp === 1) ? 0 : 1;
 }
 $('#toggle_load').on('click', function() {
