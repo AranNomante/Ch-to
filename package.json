@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
-    "start": "pm2 restart ecosystem.yml --env production",
+    "start": "cross-env NODE_ENV=production node app.js",
+    "prodstart": "pm2 restart ecosystem.yml --env production",
     "devstart": "cross-env NODE_ENV=development node app.js",
     "nodemonstart":"cross-env NODE_ENV=development nodemon app.js",
     "stop":"pkil --signal SIGINT chapp"
