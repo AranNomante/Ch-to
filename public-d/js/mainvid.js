@@ -192,7 +192,11 @@ function onPlayerError(event) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#extractYTid}
 */
 function extractYTid(url) {
-	return url.split('v=')[1];
+	if(typeof url === 'string' && url.length>0 && url.includes('v=')){
+		return url.split('v=')[1];
+	}else{
+		return '';
+	}
 }
 /**
     @name setState
@@ -426,12 +430,16 @@ $('#load_init').on('click', function() {
 function loadAll() {
 	let url = $('#load_all').val();
 	url = extractYTid(url);
-	Object.keys(reversePmap).forEach(item => {
-		reversePmap[item].pauseVideo();
-		reversePmap[item].loadVideoById(url, 0);
-		states[item].firstTime = true;
-	});
-	resetVideoInputs();
+	if(url.length>0){
+		Object.keys(reversePmap).forEach(item => {
+			reversePmap[item].pauseVideo();
+			reversePmap[item].loadVideoById(url, 0);
+			states[item].firstTime = true;
+		});
+		resetVideoInputs();
+	}else{
+		setSnack("Couldn't load, URL corrupt.");
+	}
 }
 /**
     @name loadIndividual
@@ -449,9 +457,13 @@ function loadIndividual() {
 	Object.keys(urls).forEach(item => {
 		if (urls[item].length > 0) {
 			let url = extractYTid(urls[item]);
-			reversePmap[item].pauseVideo();
-			reversePmap[item].loadVideoById(url, 0);
-			states[item].firstTime = true;
+			if(url.length>0){
+				reversePmap[item].pauseVideo();
+				reversePmap[item].loadVideoById(url, 0);
+				states[item].firstTime = true;
+			}else{
+				setSnack("Couldn't load, URL corrupt.");
+			}
 		}
 	});
 	resetVideoInputs();
