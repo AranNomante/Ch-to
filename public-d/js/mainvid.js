@@ -179,13 +179,13 @@ function onPlayerStateChange(event) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#onPlayerError}
 */
 function onPlayerError(event) {
-	const id=event.target.h.id;
-	if(id){
+	const id = event.target.h.id;
+	if (id) {
 		if (event.data === 150) {
 			setSnack('This video does not allow embeds');
 		}
 		resetVideoInputs();
-		$('#load_'+id.substring(6,7)).val('https://www.youtube.com/watch?v=5qap5aO4i9A');
+		$('#load_' + id.substring(6, 7)).val('https://www.youtube.com/watch?v=5qap5aO4i9A');
 		loadIndividual();
 	}
 }
@@ -197,13 +197,13 @@ function onPlayerError(event) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#extractYTid}
 */
 function extractYTid(url) {
-	if(typeof url === 'string' && url.length>0 && url.includes('v=')){
-		let proc_url=url.split('v=')[1];
-		if(proc_url.includes('&')){
-			proc_url=proc_url.split('&')[0];
+	if (typeof url === 'string' && url.length > 0 && url.includes('v=')) {
+		let proc_url = url.split('v=')[1];
+		if (proc_url.includes('&')) {
+			proc_url = proc_url.split('&')[0];
 		}
 		return proc_url;
-	}else{
+	} else {
 		return '';
 	}
 }
@@ -302,9 +302,9 @@ $('.play').on('click', function() {
 $('.playall').on('click', function() {
 	let ok = true;
 	let highest_order_action = 'PAUSED';
-	let valid_states = ['CUED', 'ENDED', 'PLAYING', 'PAUSED','BUFFERING'];
+	let valid_states = ['CUED', 'ENDED', 'PLAYING', 'PAUSED', 'BUFFERING'];
 	Object.keys(states).forEach(item => {
-		if(boxes['check_'+item.substring(6)]){
+		if (boxes['check_' + item.substring(6)]) {
 			let cur_state = states[item].play;
 			if (valid_states.includes(cur_state)) {
 				if (cur_state === 'PLAYING' && highest_order_action === 'PAUSED') {
@@ -321,23 +321,23 @@ $('.playall').on('click', function() {
 	if (ok) {
 		if (highest_order_action === 'ENDED') {
 			Object.keys(reversePmap).forEach(item => {
-				if(boxes['check_'+item.substring(6)]){
-				reversePmap[item].pauseVideo();
-				reversePmap[item].seekTo(0);
-				reversePmap[item].playVideo();
+				if (boxes['check_' + item.substring(6)]) {
+					reversePmap[item].pauseVideo();
+					reversePmap[item].seekTo(0);
+					reversePmap[item].playVideo();
 				}
 			});
 		} else if (highest_order_action === 'PLAYING') {
 			Object.keys(reversePmap).forEach(item => {
-				if(boxes['check_'+item.substring(6)]){
-				reversePmap[item].pauseVideo();
+				if (boxes['check_' + item.substring(6)]) {
+					reversePmap[item].pauseVideo();
 				}
 			});
 		} else {
 			Object.keys(reversePmap).forEach(item => {
-				if(boxes['check_'+item.substring(6)]){
-				reversePmap[item].playVideo();
-			}
+				if (boxes['check_' + item.substring(6)]) {
+					reversePmap[item].playVideo();
+				}
 			});
 		}
 	}
@@ -366,17 +366,17 @@ $('.display').on('click', function() {
 });
 $('.unmuteall').on('click', function() {
 	Object.keys(reversePmap).forEach(item => {
-		if(boxes['check_'+item.substring(6)]){
-		reversePmap[item].unMute();
-		states[item].isMuted=false;
+		if (boxes['check_' + item.substring(6)]) {
+			reversePmap[item].unMute();
+			states[item].isMuted = false;
 		}
 	});
 });
 $('.muteall').on('click', function() {
 	Object.keys(reversePmap).forEach(item => {
-		if(boxes['check_'+item.substring(6)]){
-		reversePmap[item].mute();
-		states[item].isMuted=true;
+		if (boxes['check_' + item.substring(6)]) {
+			reversePmap[item].mute();
+			states[item].isMuted = true;
 		}
 	});
 });
@@ -390,15 +390,15 @@ const nmMap = {
 	5: 'five'
 }
 $('.displayall').on('click', function() {
-	let visibleCount=0;
+	let visibleCount = 0;
 	Object.keys(states).forEach(item => {
-		visibleCount+=states[item].display;
+		visibleCount += states[item].display;
 	});
 	Object.keys(states).forEach(item => {
-		if(boxes['check_'+item.substring(6)]){
-			let disp =states[item].display;
-			organizeVidDisplay($(`#${item}`),disp,visibleCount);
-			(disp===1)?visibleCount--:visibleCount++;
+		if (boxes['check_' + item.substring(6)]) {
+			let disp = states[item].display;
+			organizeVidDisplay($(`#${item}`), disp, visibleCount);
+			(disp === 1) ? visibleCount-- : visibleCount++;
 		}
 	});
 });
@@ -438,7 +438,7 @@ function organizeVidDisplay(elem, disp, visibleCount) {
 	let exact = nmMap[visibleCount];
 	let dif = (disp === 1) ? nmMap[visibleCount - 1] : nmMap[visibleCount + 1];
 	(disp === 1) ? elem.removeClass(exact): elem.addClass(dif);
-	if(visibleCount>0){
+	if (visibleCount > 0) {
 		$('.vid.' + exact).removeClass(exact).addClass(dif);
 	}
 	states[elem.attr('id')].display = (disp === 1) ? 0 : 1;
@@ -469,14 +469,14 @@ $('#load_init').on('click', function() {
 function loadAll() {
 	let url = $('#load_all').val();
 	url = extractYTid(url);
-	if(url.length>0){
+	if (url.length > 0) {
 		Object.keys(reversePmap).forEach(item => {
 			reversePmap[item].pauseVideo();
 			reversePmap[item].loadVideoById(url, 0);
 			states[item].firstTime = true;
 		});
 		resetVideoInputs();
-	}else{
+	} else {
 		setSnack("Couldn't load, URL corrupt.");
 	}
 }
@@ -496,11 +496,11 @@ function loadIndividual() {
 	Object.keys(urls).forEach(item => {
 		if (urls[item].length > 0) {
 			let url = extractYTid(urls[item]);
-			if(url.length>0){
+			if (url.length > 0) {
 				reversePmap[item].pauseVideo();
 				reversePmap[item].loadVideoById(url, 0);
 				states[item].firstTime = true;
-			}else{
+			} else {
 				setSnack("Couldn't load, URL corrupt.");
 			}
 		}
@@ -651,7 +651,7 @@ $('.restart,.restartall').on('click', function() {
 	let cls = $(this).attr('class');
 	if (cls.includes('restartall')) {
 		Object.keys(reversePmap).forEach(item => {
-			if(boxes['check_'+item.substring(6)]){
+			if (boxes['check_' + item.substring(6)]) {
 				reversePmap[item].seekTo(0);
 			}
 		});
