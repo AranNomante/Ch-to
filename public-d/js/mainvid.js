@@ -219,13 +219,14 @@ function setState(id, event) {
 	if (event.target) {
 		states[id].isMuted = event.target.isMuted();
 	}
-	setAllstates();
+	//setAllstates();
 }
 /**
     @name setAllstates
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#setAllstates}
 */
+/*Replaced on patch 1.1.0
 function setAllstates() {
 	const allelem = $('.playall');
 	let highest_order_action = 'PAUSED';
@@ -244,7 +245,7 @@ function setAllstates() {
 	} else {
 		allelem.text('Play▶️');
 	}
-}
+}*/
 /**
     @name getPlayState
     @param {Number} signal
@@ -301,34 +302,42 @@ $('.play').on('click', function() {
 $('.playall').on('click', function() {
 	let ok = true;
 	let highest_order_action = 'PAUSED';
-	let valid_states = ['CUED', 'ENDED', 'PLAYING', 'PAUSED'];
+	let valid_states = ['CUED', 'ENDED', 'PLAYING', 'PAUSED','BUFFERING'];
 	Object.keys(states).forEach(item => {
-		let cur_state = states[item].play;
-		if (valid_states.includes(cur_state)) {
-			if (cur_state === 'PLAYING' && highest_order_action === 'PAUSED') {
-				highest_order_action = cur_state;
-			} else if (cur_state === 'ENDED') {
-				highest_order_action = cur_state;
+		if(boxes['check_'+item.substring(6)]){
+			let cur_state = states[item].play;
+			if (valid_states.includes(cur_state)) {
+				if (cur_state === 'PLAYING' && highest_order_action === 'PAUSED') {
+					highest_order_action = cur_state;
+				} else if (cur_state === 'ENDED') {
+					highest_order_action = cur_state;
+				}
+			} else {
+				ok = false;
 			}
-		} else {
-			ok = false;
 		}
 	});
 	//console.log(highest_order_action);
 	if (ok) {
 		if (highest_order_action === 'ENDED') {
 			Object.keys(reversePmap).forEach(item => {
+				if(boxes['check_'+item.substring(6)]){
 				reversePmap[item].pauseVideo();
 				reversePmap[item].seekTo(0);
 				reversePmap[item].playVideo();
+				}
 			});
 		} else if (highest_order_action === 'PLAYING') {
 			Object.keys(reversePmap).forEach(item => {
+				if(boxes['check_'+item.substring(6)]){
 				reversePmap[item].pauseVideo();
+				}
 			});
 		} else {
 			Object.keys(reversePmap).forEach(item => {
+				if(boxes['check_'+item.substring(6)]){
 				reversePmap[item].playVideo();
+			}
 			});
 		}
 	}
@@ -357,12 +366,18 @@ $('.display').on('click', function() {
 });
 $('.unmuteall').on('click', function() {
 	Object.keys(reversePmap).forEach(item => {
+		if(boxes['check_'+item.substring(6)]){
 		reversePmap[item].unMute();
+		states[item].isMuted=false;
+		}
 	});
 });
 $('.muteall').on('click', function() {
 	Object.keys(reversePmap).forEach(item => {
+		if(boxes['check_'+item.substring(6)]){
 		reversePmap[item].mute();
+		states[item].isMuted=true;
+		}
 	});
 });
 
@@ -374,6 +389,20 @@ const nmMap = {
 	4: 'four',
 	5: 'five'
 }
+$('.displayall').on('click', function() {
+	let visibleCount=0;
+	Object.keys(states).forEach(item => {
+		visibleCount+=states[item].display;
+	});
+	Object.keys(states).forEach(item => {
+		if(boxes['check_'+item.substring(6)]){
+			let disp =states[item].display;
+			organizeVidDisplay($(`#${item}`),disp,visibleCount);
+			(disp===1)?visibleCount--:visibleCount++;
+		}
+	});
+});
+/* Replaced on patch 1.1.0
 $('.displayall').on('click', function() {
 	let visibleCount = 0;
 	Object.keys(states).forEach(item => {
@@ -396,7 +425,7 @@ $('.displayall').on('click', function() {
 	Object.keys(states).forEach(item => {
 		states[item].display = (visibleCount > 0) ? 0 : 1;
 	});
-});
+});*/
 /**
     @name organizeVidDisplay
 	@param {Object} elem
@@ -622,7 +651,9 @@ $('.restart,.restartall').on('click', function() {
 	let cls = $(this).attr('class');
 	if (cls.includes('restartall')) {
 		Object.keys(reversePmap).forEach(item => {
-			reversePmap[item].seekTo(0);
+			if(boxes['check_'+item.substring(6)]){
+				reversePmap[item].seekTo(0);
+			}
 		});
 
 	} else if (cls.includes('restart')) {
