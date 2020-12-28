@@ -179,11 +179,15 @@ function onPlayerStateChange(event) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#onPlayerError}
 */
 function onPlayerError(event) {
-	//console.log(event);
-	if (event.data === 150) {
-		setSnack('This video does not allow embeds');
+	const id=event.target.h.id;
+	if(id){
+		if (event.data === 150) {
+			setSnack('This video does not allow embeds');
+		}
+		resetVideoInputs();
+		$('#load_'+id.substring(6,7)).val('https://www.youtube.com/watch?v=5qap5aO4i9A');
+		loadIndividual();
 	}
-	setState(event.target.h.id, event);
 }
 /**
     @name extractYTid
@@ -623,7 +627,7 @@ $('.restart,.restartall').on('click', function() {
 
 	} else if (cls.includes('restart')) {
 		const id = 'player' + cls.split(' ')[1].split('_')[1];
-		reversePmap[id].seekTo(0);;
+		reversePmap[id].seekTo(0);
 	}
 });
 setInterval(syncInfo, 100);
