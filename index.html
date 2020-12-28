@@ -1,375 +1,432 @@
 <!doctype html>
 <html>
-
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ch@to</title>
-    <link rel='icon' type='image/x-icon' href='/favicon.ico' />
-    <script src="/js/jquery-3.5.1.min.js"></script>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <script src="/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/emoji.css">
-    <link rel="stylesheet" href="/css/snackbar.css">
-</head>
-
-<body>
-    <div id="mySidebar" class="sidebar">
-        <a class="closebtn">×</a>
-        <div class="line">
-            <div class="col-md-12 semi flowy marbot rooms">
-                <h5>Chat Rooms 🏘️</h5>
-                <input class="chat_head" id="room_search" type="text" placeholder="Search.." maxlength="30">
-                <p class="create_room">Create Room 🚪</p>
-            </div>
-            <div class="col-md-12 semi flowy chats">
-                <h5>Users 👥</h5>
-                <input class="chat_head" id="user_search" type="text" placeholder="Search.." maxlength="30">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ch@to</title>
+        <link rel='icon' type='image/x-icon' href='/favicon.ico' />
+        <script src="/js/jquery-3.5.1.min.js"></script>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <script src="/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/emoji.css">
+        <link rel="stylesheet" href="/css/snackbar.css">
+    </head>
+    <body>
+        <div id="mySidebar" class="sidebar">
+            <a class="closebtn">×</a>
+            <div class="line">
+                <div class="col-md-12 semi flowy marbot rooms">
+                    <h5>Chat Rooms 🏘️</h5>
+                    <input class="chat_head" id="room_search" type="text" placeholder="Search.." maxlength="30">
+                    <p class="create_room">Create Room 🚪</p>
+                </div>
+                <div class="col-md-12 semi flowy chats">
+                    <h5>Users 👥</h5>
+                    <input class="chat_head" id="user_search" type="text" placeholder="Search.." maxlength="30">
+                </div>
             </div>
         </div>
-    </div>
-    <div id="main">
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand">Ch@to</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <div id="main">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand">Ch@to</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" id="open_nav">Rooms & Users 📢</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" data-toggle="modal" data-target="#video_controls_modal" data-backdrop="false">Video Controls 🧰</a>
-                            <a class="dropdown-item" data-toggle="modal" data-target="#video_load_modal" data-backdrop="false">Load Videos 🎞️</a>
-                            <a class="dropdown-item" data-toggle="modal" data-target="#room_actions_modal" data-backdrop="false">Room Controls 🚪</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="mailto:altug.ceylan.yes@gmail.com">Contact 📧</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="switch_view">Switch View 🌆</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div class="line">
-            <div class="col-md-12 col-sm-12 col-lg-12 semi room">
-                <div id="player1" class="vid solo"></div>
-                <div id="player2" class="vid"></div>
-                <div id="player3" class="vid"></div>
-                <div id="player4" class="vid"></div>
-                <div id="player5" class="vid"></div>
-            </div>
-            <div class="col-md-12 col-sm-12 col-lg-12 semi chat">
-                <div class="chat-controls">
-                    <div class="row chcontrols">
-                        <div class="col-md-12 col-lg-12 col-sm-12">
-                            <p>
-                                <span class="badge badge-success">Username: <span id="username"></span></span>&nbsp;-
-                                <span class="badge badge-success" id="active_recipient">Active Chat:</span>
-                            </p>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" id="open_nav">Rooms & Users 📢</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Actions</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" data-toggle="modal" data-target="#video_controls_modal" data-backdrop="false">Video Controls 🧰</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#video_load_modal" data-backdrop="false">Load Videos 🎞️</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#room_actions_modal" data-backdrop="false">Room Controls 🚪</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="mailto:altug.ceylan.yes@gmail.com">Contact 📧</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="switch_view">Switch View 🌆</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="line">
+                <div class="col-md-12 col-sm-12 col-lg-12 semi room">
+                    <div id="player1" class="vid solo"></div>
+                    <div id="player2" class="vid"></div>
+                    <div id="player3" class="vid"></div>
+                    <div id="player4" class="vid"></div>
+                    <div id="player5" class="vid"></div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-lg-12 semi chat">
+                    <div class="chat-controls">
+                        <div class="row chcontrols">
+                            <div class="col-md-12 col-lg-12 col-sm-12">
+                                <p>
+                                    <span class="badge badge-success">Username: <span id="username"></span></span>&nbsp;-
+                                    <span class="badge badge-success" id="active_recipient">Active Chat:</span>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="chat-panel flowy">
-                </div>
-                <div class="chat-input row">
-                    <div class="col-md-10 col-sm-10 col-lg-10">
-                        <div class="emojipicker-container">
-                            <input id="main-input" type="text" class="form-control" minlength="0" maxlength="160" placeholder="Type anything..." aria-label="message" aria-describedby="message">
-                        </div>
+                    <div class="chat-panel flowy">
                     </div>
-                    <div class="col-md-2 col-sm-2 col-lg-2 ">
-                        <button id='send_msg' class="btn btn-primary" type="button">Send ✉️</button>
+                    <div class="chat-input row">
+                        <div class="col-md-10 col-sm-10 col-lg-10">
+                            <div class="emojipicker-container">
+                                <input id="main-input" type="text" class="form-control" minlength="0" maxlength="160" placeholder="Type anything..." aria-label="message" aria-describedby="message">
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-sm-2 col-lg-2 ">
+                            <button id='send_msg' class="btn btn-primary" type="button">Send ✉️</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Room -->
-    <div class="modal fade" id="room_modal" tabindex="-1" role="dialog" aria-labelledby="room_modal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="room_modal_title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <!-- Room -->
+        <div class="modal fade" id="room_modal" tabindex="-1" role="dialog" aria-labelledby="room_modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="room_modal_title"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body body_join">
-                    <form>
-                        <input type="hidden" id="join_room_id">
-                        <div class="form-group">
-                            <label id="read_room_owner">Owner:</label>
-                        </div>
-                        <div class="form-group">
-                            <label id="read_room_description">Description:</label>
-                        </div>
-                        <div class="form-group">
-                            <label id="read_room_members">Capacity:</label>
-                        </div>
-                        <div class="form-group">
-                            <label for="read_room_members_actual">Members:</label>
-                            <p id="read_room_members_actual"></p>
-                        </div>
-                        <div class="form-group" id="room_protected">
-                            <label for="insert_room_pw">Password:</label>
-                            <input type="password" class="form-control" id="insert_room_pw" maxlength="50" autocomplete="off" placeholder="Enter room password">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-body body_create">
-                    <form>
-                        <div class="form-group">
-                            <label for="create_room_name">Room Name 📛:</label>
-                            <input type="text" class="form-control" id="create_room_name" minlength="0" maxlength="50" placeholder="John's Room">
-                        </div>
-                        <div class="form-group">
-                            <label for="create_room_description">Description📇:</label>
-                            <input type="text" class="form-control" id="create_room_description" minlength="0" maxlength="50" placeholder="Short description">
-                        </div>
-                        <div class="form-group">
-                            <label for="create_room_members">Capacity 🈵:</label>
-                            <input type="number" class="form-control" id="create_room_members" min="1" max="100" placeholder="Room capacity">
-                        </div>
-                        <div class="form-group">
-                            <label for="create_room_password">Password 🔑:</label>
-                            <input type="password" class="form-control" id="create_room_password" maxlength="50" autocomplete="off" placeholder="Leave blank for public room">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id='room_close'>Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="room_ok">Ok</button>
+                        </button>
+                    </div>
+                    <div class="modal-body body_join">
+                        <form>
+                            <input type="hidden" id="join_room_id">
+                            <div class="form-group">
+                                <label id="read_room_owner">Owner:</label>
+                            </div>
+                            <div class="form-group">
+                                <label id="read_room_description">Description:</label>
+                            </div>
+                            <div class="form-group">
+                                <label id="read_room_members">Capacity:</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="read_room_members_actual">Members:</label>
+                                <p id="read_room_members_actual"></p>
+                            </div>
+                            <div class="form-group" id="room_protected">
+                                <label for="insert_room_pw">Password:</label>
+                                <input type="password" class="form-control" id="insert_room_pw" maxlength="50" autocomplete="off" placeholder="Enter room password">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-body body_create">
+                        <form>
+                            <div class="form-group">
+                                <label for="create_room_name">Room Name 📛:</label>
+                                <input type="text" class="form-control" id="create_room_name" minlength="0" maxlength="50" placeholder="John's Room">
+                            </div>
+                            <div class="form-group">
+                                <label for="create_room_description">Description📇:</label>
+                                <input type="text" class="form-control" id="create_room_description" minlength="0" maxlength="50" placeholder="Short description">
+                            </div>
+                            <div class="form-group">
+                                <label for="create_room_members">Capacity 🈵:</label>
+                                <input type="number" class="form-control" id="create_room_members" min="1" max="100" placeholder="Room capacity">
+                            </div>
+                            <div class="form-group">
+                                <label for="create_room_password">Password 🔑:</label>
+                                <input type="password" class="form-control" id="create_room_password" maxlength="50" autocomplete="off" placeholder="Leave blank for public room">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id='room_close'>Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="room_ok">Ok</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Video Controls -->
-    <div class="modal fade" id="video_controls_modal" tabindex="-1" role="dialog" aria-labelledby="video_controls_modal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Video Controls</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <!-- Video Controls -->
+        <div class="modal fade" id="video_controls_modal" tabindex="-1" role="dialog" aria-labelledby="video_controls_modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Video Controls</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Applies To Players: <span id="check_disp">NONE</span> 📹:</label>
-                        <br>
-                        <div class="row">
-                        <div class="col-sm-1"></div>
-                        <div class="col-sm-2">
-                        <input type="checkbox" class="form-check-input player_check" id="check_1">
-                        <label class="form-check-label" for="check_1">P1</label>
-                        </div>
-                        <div class="col-sm-2">
-                        <input type="checkbox" class="form-check-input player_check" id="check_2">
-                        <label class="form-check-label" for="check_2">P2</label>
-                        </div>
-                        <div class="col-sm-2">
-                        <input type="checkbox" class="form-check-input player_check" id="check_3">
-                        <label class="form-check-label" for="check_3">P3</label>
-                        </div>
-                        <div class="col-sm-2">
-                        <input type="checkbox" class="form-check-input player_check" id="check_4">
-                        <label class="form-check-label" for="check_4">P4</label>
-                        </div>
-                        <div class="col-sm-2">
-                        <input type="checkbox" class="form-check-input player_check" id="check_5">
-                        <label class="form-check-label" for="check_5">P5</label>
-                        </div>
-                        <div class="col-sm-1"></div>
-                        </div>
-                        <br>
-                        <button class="playall" type="button">Play ▶️</button>
-                        <button class="restartall" type="button">Restart ⏪</button>
-                        <br>
-                        <button class="unmuteall" type="button">Unmute 🔊</button>
-                        <button class="muteall" type="button">Mute 🔈</button>
-                        <br>
-                        <button class="displayall" type="button">Display/Hide 🎬</button>
-                        <button class="setsynchronized" type="button">Sync: Off ❎</button>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label>Player 1 📹:</label>
-                        <label id="pt_1"></label>
-                        <br>
-                        <button class="play p_1" type="button">Play ▶️</button>
-                        <button class="restart p_1" type="button">Restart ⏪</button>
-                        <br>
-                        <button class="unmute p_1" type="button">Unmute 🔊</button>
-                        <button class="mute p_1" type="button">Mute 🔈</button>
-                        <br>
-                        <button class="display p_1" type="button">Display/Hide 🎬</button>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-11">
+                                    <label>Applies To Players: <span id="check_disp">NONE</span> 📹:</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-2">
+                                    <input type="checkbox" class="form-check-input player_check" id="check_1">
+                                    <label class="form-check-label" for="check_1">P1</label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="checkbox" class="form-check-input player_check" id="check_2">
+                                    <label class="form-check-label" for="check_2">P2</label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="checkbox" class="form-check-input player_check" id="check_3">
+                                    <label class="form-check-label" for="check_3">P3</label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="checkbox" class="form-check-input player_check" id="check_4">
+                                    <label class="form-check-label" for="check_4">P4</label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="checkbox" class="form-check-input player_check" id="check_5">
+                                    <label class="form-check-label" for="check_5">P5</label>
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-3">
+                                    <button class="playall" type="button">Play ▶️</button>
+                                </div>
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3">
+                                    <button class="restartall" type="button">Restart ⏪</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-3">
+                                    <button class="unmuteall" type="button">Unmute 🔊</button>
+                                </div>
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3">
+                                    <button class="muteall" type="button">Mute 🔈</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-3">
+                                    <button class="displayall" type="button">Display/Hide 🎬</button>
+                                </div>
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-3">
+                                    <button class="setsynchronized" type="button">Sync: Off ❎</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-11">
+                                    <label>Player 1 📹:</label>
+                                    <label id="pt_1"></label>
+                                </div>
+                            </div>
+                            <!--
+                                <br>
+                                <button class="play p_1" type="button">Play ▶️</button>
+                                <button class="restart p_1" type="button">Restart ⏪</button>
+                                <br>
+                                <button class="unmute p_1" type="button">Unmute 🔊</button>
+                                <button class="mute p_1" type="button">Mute 🔈</button>
+                                <br>
+                                <button class="display p_1" type="button">Display/Hide 🎬</button>
+                                -->
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-11">
+                                    <label>Player 2 📹:</label>
+                                    <label id="pt_2"></label>
+                                </div>
+                            </div>
+                            <!--
+                                <br>
+                                <button class="play p_2" type="button">Play ▶️</button>
+                                <button class="restart p_2" type="button">Restart ⏪</button>
+                                <br>
+                                <button class="unmute p_2" type="button">Unmute 🔊</button>
+                                <button class="mute p_2" type="button">Mute 🔈</button>
+                                <br>
+                                <button class="display p_2" type="button">Display/Hide 🎬</button>
+                                -->
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-11">
+                                    <label>Player 3 📹:</label>
+                                    <label id="pt_3"></label>
+                                </div>
+                            </div>
+                            <!--
+                                <br>
+                                <button class="play p_3" type="button">Play ▶️</button>
+                                <button class="restart p_3" type="button">Restart ⏪</button>
+                                <br>
+                                <button class="unmute p_3" type="button">Unmute 🔊</button>
+                                <button class="mute p_3" type="button">Mute 🔈</button>
+                                <br>
+                                <button class="display p_3" type="button">Display/Hide 🎬</button>
+                                -->
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-11">
+                                    <label>Player 4 📹:</label>
+                                    <label id="pt_4"></label>
+                                </div>
+                            </div>
+                            <!--
+                                <br>
+                                <button class="play p_4" type="button">Play ▶️</button>
+                                <button class="restart p_4" type="button">Restart ⏪</button>
+                                <br>
+                                <button class="unmute p_4" type="button">Unmute 🔊</button>
+                                <button class="mute p_4" type="button">Mute 🔈</button>
+                                <br>
+                                <button class="display p_4" type="button">Display/Hide 🎬</button>
+                                -->
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-11">
+                                    <label>Player 5 📹:</label>
+                                    <label id="pt_5"></label>
+                                </div>
+                            </div>
+                            <!--
+                                <br>
+                                <button class="play p_5" type="button">Play ▶️</button>
+                                <button class="restart p_5" type="button">Restart ⏪</button>
+                                <br>
+                                <button class="unmute p_5" type="button">Unmute 🔊</button>
+                                <button class="mute p_5" type="button">Mute 🔈</button>
+                                <br>
+                                <button class="display p_5" type="button">Display/Hide 🎬</button>
+                                -->
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Player 2 📹:</label>
-                        <label id="pt_2"></label>
-                        <br>
-                        <button class="play p_2" type="button">Play ▶️</button>
-                        <button class="restart p_2" type="button">Restart ⏪</button>
-                        <br>
-                        <button class="unmute p_2" type="button">Unmute 🔊</button>
-                        <button class="mute p_2" type="button">Mute 🔈</button>
-                        <br>
-                        <button class="display p_2" type="button">Display/Hide 🎬</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
-                    <div class="form-group">
-                        <label>Player 3 📹:</label>
-                        <label id="pt_3"></label>
-                        <br>
-                        <button class="play p_3" type="button">Play ▶️</button>
-                        <button class="restart p_3" type="button">Restart ⏪</button>
-                        <br>
-                        <button class="unmute p_3" type="button">Unmute 🔊</button>
-                        <button class="mute p_3" type="button">Mute 🔈</button>
-                        <br>
-                        <button class="display p_3" type="button">Display/Hide 🎬</button>
-                    </div>
-                    <div class="form-group">
-                        <label>Player 4 📹:</label>
-                        <label id="pt_4"></label>
-                        <br>
-                        <button class="play p_4" type="button">Play ▶️</button>
-                        <button class="restart p_4" type="button">Restart ⏪</button>
-                        <br>
-                        <button class="unmute p_4" type="button">Unmute 🔊</button>
-                        <button class="mute p_4" type="button">Mute 🔈</button>
-                        <br>
-                        <button class="display p_4" type="button">Display/Hide 🎬</button>
-                    </div>
-                    <div class="form-group">
-                        <label>Player 5 📹:</label>
-                        <label id="pt_5"></label>
-                        <br>
-                        <button class="play p_5" type="button">Play ▶️</button>
-                        <button class="restart p_5" type="button">Restart ⏪</button>
-                        <br>
-                        <button class="unmute p_5" type="button">Unmute 🔊</button>
-                        <button class="mute p_5" type="button">Mute 🔈</button>
-                        <br>
-                        <button class="display p_5" type="button">Display/Hide 🎬</button>
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-    </div>
-    <!--Video Load-->
-    <div class="modal fade" id="video_load_modal" tabindex="-1" role="dialog" aria-labelledby="video_load_modal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Load Video</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <!--Video Load-->
+        <div class="modal fade" id="video_load_modal" tabindex="-1" role="dialog" aria-labelledby="video_load_modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Load Video</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <button id="toggle_load" type="button">Toggle All or Individual Players 🔄</button>
+                        </button>
                     </div>
-                    <div class="form-group" style="display:none">
-                        <label for="load_all">All Players 📹:</label>
-                        <br>
-                        <input type="url" class="form-control load_a" id="load_all" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <button id="toggle_load" type="button">Toggle All or Individual Players 🔄</button>
+                        </div>
+                        <div class="form-group" style="display:none">
+                            <label for="load_all">All Players 📹:</label>
+                            <br>
+                            <input type="url" class="form-control load_a" id="load_all" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
+                        </div>
+                        <div class="form-group">
+                            <label for="load_1">Player 1 📹:</label>
+                            <br>
+                            <input type="url" class="form-control load_i" id="load_1" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
+                        </div>
+                        <div class="form-group">
+                            <label for="load_2">Player 2 📹:</label>
+                            <br>
+                            <input type="url" class="form-control load_i" id="load_2" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
+                        </div>
+                        <div class="form-group">
+                            <label for="load_3">Player 3 📹:</label>
+                            <br>
+                            <input type="url" class="form-control load_i" id="load_3" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
+                        </div>
+                        <div class="form-group">
+                            <label for="load_4">Player 4 📹:</label>
+                            <br>
+                            <input type="url" class="form-control load_i" id="load_4" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
+                        </div>
+                        <div class="form-group">
+                            <label for="load_5">Player 5 📹:</label>
+                            <br>
+                            <input type="url" class="form-control load_i" id="load_5" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="load_1">Player 1 📹:</label>
-                        <br>
-                        <input type="url" class="form-control load_i" id="load_1" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="load_init">Ok</button>
                     </div>
-                    <div class="form-group">
-                        <label for="load_2">Player 2 📹:</label>
-                        <br>
-                        <input type="url" class="form-control load_i" id="load_2" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
-                    </div>
-                    <div class="form-group">
-                        <label for="load_3">Player 3 📹:</label>
-                        <br>
-                        <input type="url" class="form-control load_i" id="load_3" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
-                    </div>
-                    <div class="form-group">
-                        <label for="load_4">Player 4 📹:</label>
-                        <br>
-                        <input type="url" class="form-control load_i" id="load_4" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
-                    </div>
-                    <div class="form-group">
-                        <label for="load_5">Player 5 📹:</label>
-                        <br>
-                        <input type="url" class="form-control load_i" id="load_5" minlength="0" placeholder="https://www.youtube.com/watch?v=5qap5aO4i9A" pattern="https://.*">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="load_init">Ok</button>
                 </div>
             </div>
         </div>
-    </div>
-    <!--Room actions-->
-    <div class="modal fade" id="room_actions_modal" tabindex="-1" role="dialog" aria-labelledby="room_actions_modal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Room Controls</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <!--Room actions-->
+        <div class="modal fade" id="room_actions_modal" tabindex="-1" role="dialog" aria-labelledby="room_actions_modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Room Controls</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="room_a_title">Room Title:</label>
-                        <h5 id="room_a_title"></h5>
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label for="room_a_desc">Room Description:</label>
-                        <p id="room_a_desc"></p>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="room_a_title">Room Title:</label>
+                            <h5 id="room_a_title"></h5>
+                        </div>
+                        <div class="form-group">
+                            <label for="room_a_desc">Room Description:</label>
+                            <p id="room_a_desc"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="room_a_cap">Room Capacity:</label>
+                            <p id="room_a_cap"></p>
+                        </div>
+                        <div class="form-group">
+                            <label>Actions:</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="leave_room">Leave Room:</label>
+                            <button type="button" class="room_action" id="leave_room">Leave 👋</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="disband_room">Disband Room:</label>
+                            <button type="button" class="room_action" id="disband_room">Disband 🗑️</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="members_action">Members:</label>
+                            <p id="members_action"></p>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="room_a_cap">Room Capacity:</label>
-                        <p id="room_a_cap"></p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
-                    <div class="form-group">
-                        <label>Actions:</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="leave_room">Leave Room:</label>
-                        <button type="button" class="room_action" id="leave_room">Leave 👋</button>
-                    </div>
-                    <div class="form-group">
-                        <label for="disband_room">Disband Room:</label>
-                        <button type="button" class="room_action" id="disband_room">Disband 🗑️</button>
-                    </div>
-                    <div class="form-group">
-                        <label for="members_action">Members:</label>
-                        <p id="members_action"></p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- The actual snackbar -->
-    <div id="snackbar"></div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/snackbar.js"></script>
-    <script src="/js/sidebar.js"></script>
-    <script src="/js/chat.js"></script>
-    <script src="/js/mainvid.js"></script>
-    <script src="/js/emoji.js"></script>
-    <script src="/js/panel-toggler.js"></script>
-</body>
-
+        <!-- The actual snackbar -->
+        <div id="snackbar"></div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/snackbar.js"></script>
+        <script src="/js/sidebar.js"></script>
+        <script src="/js/chat.js"></script>
+        <script src="/js/mainvid.js"></script>
+        <script src="/js/emoji.js"></script>
+        <script src="/js/panel-toggler.js"></script>
+        <script src="/js/player-group.js"></script>
+    </body>
 </html>

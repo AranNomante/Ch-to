@@ -1,111 +1,109 @@
 <!doctype html>
 <html>
-
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ch@to</title>
-    <link rel='icon' type='image/x-icon' href='/favicon.ico' />
-    <script src="/js/jquery-3.5.1.min.js"></script>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <script src="/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/css/stylelanding.css">
-    <link rel="stylesheet" href="/css/snackbar.css">
-</head>
-
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-sm-4">
-                <h5 class="display-5 highlight_h">AMA ET QUOD VIS FAC</h5>
-            </div>
-            <div class="col-md-4 col-sm-4">
-                <h5 class="display-5 highlight_h">PAX VOBISCUM</h5>
-            </div>
-            <div class="col-md-4 col-sm-4">
-                <h5 class="display-5 highlight_h">AMICITA PULCHRA EST</h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 col-sm-12">
-                <h1 class="display-1">WELCOME TO CH@TO</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 col-sm-12">
-                <h5 class="display-5 highlight_h">CH@TO does not use cookies, session or database systems for tracking user activity,<br> therefore we cannot see your messages, however if you refresh your page then you will start anew!</h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 col-sm-12">
-                <h5 class="display-5 highlight_h">Here is a list of what CH@TO offers! <span><input class="form-control" type="text" placeholder="John Doe" id="usertag"></input><button class="submit_tag" type="button">Chat!</button></span></h5>
-            </div>
-        </div>
-        <div class="row row-instructions">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ch@to</title>
+        <link rel='icon' type='image/x-icon' href='/favicon.ico' />
+        <script src="/js/jquery-3.5.1.min.js"></script>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <script src="/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="/css/stylelanding.css">
+        <link rel="stylesheet" href="/css/snackbar.css">
+    </head>
+    <body>
+        <div class="container">
             <div class="row">
                 <div class="col-md-4 col-sm-4">
-                    <div id="list-instructions" class="list-group">
-                        <a class="list-group-item list-group-item-action" href="#list-item-1">Private Chat</a>
-                        <a class="list-group-item list-group-item-action" href="#list-item-2">Room Chat</a>
-                        <a class="list-group-item list-group-item-action" href="#list-item-3">Multi-video View & Controls</a>
-                        <a class="list-group-item list-group-item-action" href="#list-item-4">Synchronized Room Video View</a>
-                        <a class="list-group-item list-group-item-action" href="#list-item-5">About CH@TO</a>
-                        <a class="list-group-item list-group-item-action" href="#list-item-6">Contact</a>
-                    </div>
+                    <h5 class="display-5 highlight_h">AMA ET QUOD VIS FAC</h5>
                 </div>
-                <div class="col-md-8 col-sm-8 instructions">
-                    <div data-spy="scroll" data-target="#list-instructions" data-offset="0" class="scrollspy">
-                        <h4 id="list-item-1">Private Chat</h4>
-                        <p>After you open the sidebar by clicking the <span>Rooms & Users 📢</span> button, you can open up a chat panel with clicking the user or you can invite the user to your room by clicking the 🗣️ icon given in the tab as shown
-                            in the picture below</p>
-                        <img class="instruction_img" src="/images/users.png" alt="users" />
-                        <img class="instruction_img" src="/images/userinvite.png" alt="user invite" />
-                        <hr>
-                        <h4 id="list-item-2">Room Chat</h4>
-                        <p>After you open the sidebar by clicking the <span>Rooms & Users 📢</span> button, you can create a room or join a room with clicking the room and approving the room panel as shown in the pictures below</p>
-                        <img class="instruction_img" src="/images/createroom.png" alt="rooms tab" />
-                        <img class="instruction_img" src="/images/createroom2.png" alt="create tab" />
-                        <img class="instruction_img" src="/images/joinroom.png" alt="join tab" />
-                        <hr>
-                        <h4 id="list-item-3">Multi-Video View & Controls</h4>
-                        <p>There are five video players in total and only one is visible by default, however you can fiddle with how, when and which will them appear as show in the pictures below.</p>
-                        <img class="instruction_img" src="/images/videoplayers.png" alt="players" />
-                        <img class="instruction_img" src="/images/videocontrols.png" alt="controls" />
-                        <img class="instruction_img" src="/images/loadvid.png" alt="video load" />
-                        <hr>
-                        <h4 id="list-item-4">Synchronized Room Video View</h4>
-                        <p>Synchronized room video view is just easy as turning the lights on and off,
-                            whenever you join a room you can toggle it on and off. When it's on, you will be able to synchronize your players with the room owner's players.
-                            You will still be allowed to mute/unmute and display/hide your players even though other playback options are restricted to the owner. Toggler is in video
-                            controls as shown as below.
-                        </p>
-                        <img class="instruction_img" src="/images/syncoff.png" alt="syncoff" />
-                        <img class="instruction_img" src="/images/syncon.png" alt="syncon" />
-                        <hr>
-                        <h4 id="list-item-5">About CH@TO</h4>
-                        <p>This project is intended for educational purposes but this does not mean that it does not have security measures! Avoid refreshing the page consecutively...<br> Copyright 2020&copy; Altuğ CEYLAN under AGPL-3.0 License</p>
-                        <hr>
-                        <h4 id="list-item-6">Contact</h4>
-                        <p>
-                            <a href="https://instagram.com/altug.ceylan" class="social_a">
+                <div class="col-md-4 col-sm-4">
+                    <h5 class="display-5 highlight_h">PAX VOBISCUM</h5>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <h5 class="display-5 highlight_h">AMICITA PULCHRA EST</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h1 class="display-1">WELCOME TO CH@TO</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h5 class="display-5 highlight_h">CH@TO does not use cookies, session or database systems for tracking user activity,<br> therefore we cannot see your messages, however if you refresh your page then you will start anew!</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h5 class="display-5 highlight_h">Here is a list of what CH@TO offers! <span><input class="form-control" type="text" placeholder="John Doe" id="usertag"></input><button class="submit_tag" type="button">Chat!</button></span></h5>
+                </div>
+            </div>
+            <div class="row row-instructions">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4">
+                        <div id="list-instructions" class="list-group">
+                            <a class="list-group-item list-group-item-action" href="#list-item-1">Private Chat</a>
+                            <a class="list-group-item list-group-item-action" href="#list-item-2">Room Chat</a>
+                            <a class="list-group-item list-group-item-action" href="#list-item-3">Multi-video View & Controls</a>
+                            <a class="list-group-item list-group-item-action" href="#list-item-4">Synchronized Room Video View</a>
+                            <a class="list-group-item list-group-item-action" href="#list-item-5">About CH@TO</a>
+                            <a class="list-group-item list-group-item-action" href="#list-item-6">Contact</a>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 instructions">
+                        <div data-spy="scroll" data-target="#list-instructions" data-offset="0" class="scrollspy">
+                            <h4 id="list-item-1">Private Chat</h4>
+                            <p>After you open the sidebar by clicking the <span>Rooms & Users 📢</span> button, you can open up a chat panel with clicking the user or you can invite the user to your room by clicking the 🗣️ icon given in the tab as shown
+                                in the picture below
+                            </p>
+                            <img class="instruction_img" src="/images/users.png" alt="users" />
+                            <img class="instruction_img" src="/images/userinvite.png" alt="user invite" />
+                            <hr>
+                            <h4 id="list-item-2">Room Chat</h4>
+                            <p>After you open the sidebar by clicking the <span>Rooms & Users 📢</span> button, you can create a room or join a room with clicking the room and approving the room panel as shown in the pictures below</p>
+                            <img class="instruction_img" src="/images/createroom.png" alt="rooms tab" />
+                            <img class="instruction_img" src="/images/createroom2.png" alt="create tab" />
+                            <img class="instruction_img" src="/images/joinroom.png" alt="join tab" />
+                            <hr>
+                            <h4 id="list-item-3">Multi-Video View & Controls</h4>
+                            <p>There are five video players in total and only one is visible by default, however you can fiddle with how, when and which will them appear as show in the pictures below.</p>
+                            <img class="instruction_img" src="/images/videoplayers.png" alt="players" />
+                            <img class="instruction_img" src="/images/videocontrols.png" alt="controls" />
+                            <img class="instruction_img" src="/images/loadvid.png" alt="video load" />
+                            <hr>
+                            <h4 id="list-item-4">Synchronized Room Video View</h4>
+                            <p>Synchronized room video view is just easy as turning the lights on and off,
+                                whenever you join a room you can toggle it on and off. When it's on, you will be able to synchronize your players with the room owner's players.
+                                You will still be allowed to mute/unmute and display/hide your players even though other playback options are restricted to the owner. Toggler is in video
+                                controls as shown as below.
+                            </p>
+                            <img class="instruction_img" src="/images/syncoff.png" alt="syncoff" />
+                            <img class="instruction_img" src="/images/syncon.png" alt="syncon" />
+                            <hr>
+                            <h4 id="list-item-5">About CH@TO</h4>
+                            <p>This project is intended for educational purposes but this does not mean that it does not have security measures! Avoid refreshing the page consecutively...<br> Copyright 2020&copy; Altuğ CEYLAN under AGPL-3.0 License</p>
+                            <hr>
+                            <h4 id="list-item-6">Contact</h4>
+                            <p>
+                                <a href="https://instagram.com/altug.ceylan" class="social_a">
                                 <img class="social_link" src="/images/insta.png" alt="https://instagram.com/altug.ceylan" />
-                            </a>
-                            <a href="https://github.com/arannomante" class="social_a">
+                                </a>
+                                <a href="https://github.com/arannomante" class="social_a">
                                 <img class="social_link" src="/images/ghub.png" alt="https://github.com/arannomante" />
-                            </a>
-                            <a href="mailto: altug.ceylan.YES@gmail.com" class="social_a">
+                                </a>
+                                <a href="mailto: altug.ceylan.YES@gmail.com" class="social_a">
                                 <img class="social_link" src="/images/gmail.png" alt="altug.ceylan.YES@gmail.com" />
-                            </a>
-                        </p>
+                                </a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- The actual snackbar -->
         <div id="snackbar"></div>
-    </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/snackbar.js"></script>
-    <script src="/js/landing.js"></script>
-</body>
-
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/snackbar.js"></script>
+        <script src="/js/landing.js"></script>
+    </body>
 </html>
