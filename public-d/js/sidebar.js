@@ -19,7 +19,8 @@ function toggleNav() {
 }
 $(document).on('click', '#main', function(event) {
 	//console.log($(event.target).attr('class'))
-	if (!($(event.target).attr('class').includes('nav-link')) && $('#mySidebar').css('display') === 'block') {
+	const cls = $(event.target).attr('class');
+	if (cls && !(cls.includes('nav-link')) && $('#mySidebar').css('display') === 'block') {
 		closeNav();
 	}
 });
