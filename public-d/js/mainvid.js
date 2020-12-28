@@ -194,7 +194,11 @@ function onPlayerError(event) {
 */
 function extractYTid(url) {
 	if(typeof url === 'string' && url.length>0 && url.includes('v=')){
-		return url.split('v=')[1];
+		let proc_url=url.split('v=')[1];
+		if(proc_url.includes('&')){
+			proc_url=proc_url.split('&')[0];
+		}
+		return proc_url;
 	}else{
 		return '';
 	}
