@@ -1,6 +1,6 @@
 const procedure=[
-    function(){$('.line').css('height','50%');$('.room').show()},
-    function(){$('.line').css('height','90%');$('.chat').hide()},
+    function(){$('#main .line').css('height','50%');$('.room').show()},
+    function(){$('#main .line').css('height','95%');$('.chat').hide()},
     function(){$('.chat').show();$('.room').hide()}
 ]
 let i=0;
