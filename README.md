@@ -18,7 +18,7 @@
 
 <h3>About:</h3>
 
-![Version](https://img.shields.io/badge/CH%40TO-1.0.2--beta-success)
+![Version](https://img.shields.io/badge/CH%40TO-1.1.0--beta-success)
 ![Domain](https://img.shields.io/badge/Active%20Domain-ch--to.com-success)
 
 
