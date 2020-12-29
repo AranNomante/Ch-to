@@ -106,7 +106,7 @@ function handleDisconnect(clients, clientNames, subscriptions, rooms, socket, io
 		let active_room = subscriptions[id];
 		delete subscriptions[id];
 		if (active_room) {
-			sendRoomAlert(io, active_room, 'A user has just disconnected from' + active_room + ' !');
+			sendRoomAlert(io, active_room, 'A user has just disconnected from ' + active_room + ' !');
 		}
 		let ownership_i = searchRoom(rooms, 'owner', id);
 		handleAutoRoomTransfer(ownership_i, subscriptions, rooms, io, syncInfo);
