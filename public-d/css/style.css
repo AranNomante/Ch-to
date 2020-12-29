@@ -330,19 +330,19 @@ e of the sidenav (less padding and a smaller font size) */
     display: block;
 }
 .vid.two{
-    width: 40%;
+    width: 49%;
     display: inline;
 }
 .vid.three{
-    width: 30%;
+    width: 33%;
     display: inline;
 }
 .vid.four{
-    width: 20%;
+    width: 24%;
     display: inline;
 }
 .vid.five{
-    width: 15%;
+    width: 19%;
     display: inline;
 }
 #read_room_members_actual,#members_action{
