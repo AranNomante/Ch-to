@@ -202,7 +202,7 @@ function extractYTid(url) {
 		if (proc_url.includes('&')) {
 			proc_url = proc_url.split('&')[0];
 		}
-		return proc_url;
+		return proc_url.trim();
 	} else {
 		return '';
 	}
