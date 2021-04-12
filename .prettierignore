@@ -1,0 +1,8 @@
+# Ignore artifacts:
+build
+coverage
+node_modules/*
+public/bootstrap/*
+public-p/*
+assets/*
+*.min.*

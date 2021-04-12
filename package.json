@@ -8,8 +8,10 @@
     "start": "cross-env NODE_ENV=production node app.js",
     "prodstart": "pm2 restart ecosystem.yml --env production",
     "devstart": "cross-env NODE_ENV=development node app.js",
-    "nodemonstart":"cross-env NODE_ENV=development nodemon app.js",
-    "stop":"pkil --signal SIGINT chapp"
+    "nodemonstart": "cross-env NODE_ENV=development nodemon app.js",
+    "stop": "pkil --signal SIGINT ch-to",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix --ext .js,.jsx ."
   },
   "repository": {
     "type": "git",
@@ -32,6 +34,11 @@
     "socket.io": "^3.0.4"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "eslint": "^7.24.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "nodemon": "^2.0.6",
+    "prettier": "^2.2.1"
   }
 }

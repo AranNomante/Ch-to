@@ -1,13 +1,13 @@
-//init
-const params = (new URL(document.location)).searchParams;
+// init
+const params = new URL(document.location).searchParams;
 const name = params.get('name');
 const socket = io();
 if (!name) {
-	window.location.href = '/landing';
+  window.location.href = '/landing';
 } else if (name.length < 3 || name.length > 30) {
-	window.location.href = '/landing?error=invalid';
+  window.location.href = '/landing?error=invalid';
 } else {
-	socket.emit('validateName', name);
+  socket.emit('validateName', name);
 }
 let clients = [];
 let clientNames = {};
@@ -18,24 +18,24 @@ let ongoingSwitch = false;
 let activeRoomMembers = {};
 const chats = {}; // id:[{incoming:boolean,message:string,sender:string(roomonly)}]
 const notifications = {};
-let room_search_filter = '';
-let user_search_filter = '';
-//init
+let roomSearchFilter = '';
+let userSearchFilter = '';
+// init
 
-//socket
+// socket
 /**
     @name validateNameResponse
 	@param {Boolean} isValid
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#validateNameResponse}
 */
-socket.on('validateNameResponse', function(isValid) {
-	if (isValid) {
-		socket.emit('setName', name);
-		$('#username').text(`${name}`);
-	} else {
-		window.location.href = '/landing?error=taken';
-	}
+socket.on('validateNameResponse', function (isValid) {
+  if (isValid) {
+    socket.emit('setName', name);
+    $('#username').text(`${name}`);
+  } else {
+    window.location.href = '/landing?error=taken';
+  }
 });
 /**
     @name updateClientList
@@ -43,8 +43,8 @@ socket.on('validateNameResponse', function(isValid) {
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#updateClientList}
 */
-socket.on('updateClientList', function(clientList) {
-	clients = clientList;
+socket.on('updateClientList', function (clientList) {
+  clients = clientList;
 });
 /**
     @name updateClientNames
@@ -52,9 +52,9 @@ socket.on('updateClientList', function(clientList) {
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#updateClientNames}
 */
-socket.on('updateClientNames', function(clientNameList) {
-	clientNames = clientNameList;
-	refreshUsers();
+socket.on('updateClientNames', function (clientNameList) {
+  clientNames = clientNameList;
+  refreshUsers();
 });
 /**
     @name newmsg
@@ -64,45 +64,47 @@ socket.on('updateClientNames', function(clientNameList) {
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#newmsg}
 */
-socket.on('newmsg', function(sender, msg, from = null) {
-	//console.log(sender, msg, from);
-	const c_1 =
-		(!from) ? clientNames[sender] :
-		(subscriptions[from] && !(from === socket.id)) ? true : false;
-	if (c_1) {
-		if (!(sender in chats)) {
-			chats[sender] = [];
-		}
-		let pack_m = {
-			incoming: true,
-			message: msg
-		};
-		let snack_name = null;
-		if (from) {
-			pack_m.sender = from;
-			snack_name = clientNames[from];
-			if (snack_name) {
-				setSnack('New message from ' + snack_name + ', in room:' + sender);
-			}
-		} else {
-			pack_m.sender = sender;
-			snack_name = clientNames[sender];
-			if (snack_name) {
-				setSnack('New message from ' + snack_name);
-			}
-		}
-		chats[sender].push(pack_m);
-		//console.log(sender, msg, from);
+socket.on('newmsg', function (sender, msg, from = null) {
+  // console.log(sender, msg, from);
+  const c1 = !from
+    ? clientNames[sender]
+    : subscriptions[from] && !(from === socket.id)
+    ? true
+    : false;
+  if (c1) {
+    if (!(sender in chats)) {
+      chats[sender] = [];
+    }
+    const packM = {
+      incoming: true,
+      message: msg,
+    };
+    let snackName = null;
+    if (from) {
+      packM.sender = from;
+      snackName = clientNames[from];
+      if (snackName) {
+        setSnack('New message from ' + snackName + ', in room:' + sender);
+      }
+    } else {
+      packM.sender = sender;
+      snackName = clientNames[sender];
+      if (snackName) {
+        setSnack('New message from ' + snackName);
+      }
+    }
+    chats[sender].push(packM);
+    // console.log(sender, msg, from);
 
-		if (activeObj.id === sender) {
-			$('.chat-panel').append(msgBuilder(true, msg, clientNames[pack_m.sender]));
-			scrollToBottom('chat-panel');
-		} else {
-			if (!(sender in notifications)) {
-				notifications[sender] = true;
-			}
-		}
-	}
+    if (activeObj.id === sender) {
+      $('.chat-panel').append(msgBuilder(true, msg, clientNames[packM.sender]));
+      scrollToBottom('chat-panel');
+    } else {
+      if (!(sender in notifications)) {
+        notifications[sender] = true;
+      }
+    }
+  }
 });
 /**
     @name sendRoomResponse
@@ -110,37 +112,37 @@ socket.on('newmsg', function(sender, msg, from = null) {
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#sendRoomResponse}
 */
-socket.on('sendRoomResponse', function(response) {
-	//console.log(response);
-	if (response.success) {
-		//alert('Room created!');
-		setSnack('Room created!');
-		$('.create_room').hide();
-	} else {
-		let alertText = "Couldn't create room, reason(s):";
-		if (response.reason === 'many') {
-			if (!response.first) {
-				alertText += '\nInvalid room name,' +
-					'room name must be at most 50 characters ';
-			}
-			if (!response.second) {
-				alertText += '\nInvalid description,' +
-					'description must be at most 50 characters ';
-			}
-			if (!response.third) {
-				alertText += '\nInvalid capacity,' +
-					'select a value between 1-100 ';
-			}
-			if (!response.fourth) {
-				alertText += '\nRoom with given name already exists';
-			}
-			alertText += '\n\nOnly password field is allowed to be blank';
-		} else {
-			alertText += '\nCannot create/subscribe to more than one room';
-		}
-		//alert(alertText);
-		setSnack(alertText);
-	}
+socket.on('sendRoomResponse', function (response) {
+  // console.log(response);
+  if (response.success) {
+    // alert('Room created!');
+    setSnack('Room created!');
+    $('.create_room').hide();
+  } else {
+    let alertText = "Couldn't create room, reason(s):";
+    if (response.reason === 'many') {
+      if (!response.first) {
+        alertText +=
+          '\nInvalid room name,' + 'room name must be at most 50 characters ';
+      }
+      if (!response.second) {
+        alertText +=
+          '\nInvalid description,' +
+          'description must be at most 50 characters ';
+      }
+      if (!response.third) {
+        alertText += '\nInvalid capacity,' + 'select a value between 1-100 ';
+      }
+      if (!response.fourth) {
+        alertText += '\nRoom with given name already exists';
+      }
+      alertText += '\n\nOnly password field is allowed to be blank';
+    } else {
+      alertText += '\nCannot create/subscribe to more than one room';
+    }
+    // alert(alertText);
+    setSnack(alertText);
+  }
 });
 /**
     @name updateRooms
@@ -148,9 +150,9 @@ socket.on('sendRoomResponse', function(response) {
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#updateRooms}
 */
-socket.on('updateRooms', function(rms) {
-	rooms = rms;
-	refreshRooms();
+socket.on('updateRooms', function (rms) {
+  rooms = rms;
+  refreshRooms();
 });
 /**
     @name updateSubs
@@ -158,13 +160,13 @@ socket.on('updateRooms', function(rms) {
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#updateSubs}
 */
-socket.on('updateSubs', function(subs) {
-	subscriptions = subs;
-	if (!subscriptions[socket.id]) {
-		$('.create_room').show();
-	}
-	updateRoomMembers();
-	updateActiveRoom();
+socket.on('updateSubs', function (subs) {
+  subscriptions = subs;
+  if (!subscriptions[socket.id]) {
+    $('.create_room').show();
+  }
+  updateRoomMembers();
+  updateActiveRoom();
 });
 /**
     @name joinRoomResponse
@@ -172,14 +174,14 @@ socket.on('updateSubs', function(subs) {
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#joinRoomResponse}
 */
-socket.on('joinRoomResponse', function(response) {
-	if (response.success) {
-		//alert('Joined successfully');
-		setSnack('Joined Successfully!');
-	} else {
-		//alert("Couldn't join reason: " + response.reason);
-		setSnack("Couldn't join reason: " + response.reason);
-	}
+socket.on('joinRoomResponse', function (response) {
+  if (response.success) {
+    // alert('Joined successfully');
+    setSnack('Joined Successfully!');
+  } else {
+    // alert("Couldn't join reason: " + response.reason);
+    setSnack("Couldn't join reason: " + response.reason);
+  }
 });
 /**
     @name room_action_response
@@ -187,21 +189,21 @@ socket.on('joinRoomResponse', function(response) {
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#room_action_response}
 */
-socket.on('room_action_response', function(response) {
-	if (response.success) {
-		setSnack('Success!');
-	} else {
-		setSnack("Failed, reason: " + response.reason);
-	}
-})
+socket.on('room_action_response', function (response) {
+  if (response.success) {
+    setSnack('Success!');
+  } else {
+    setSnack('Failed, reason: ' + response.reason);
+  }
+});
 /**
     @name roomalert
 	@param {String} msg
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#roomalert}
 */
-socket.on('roomalert', function(msg) {
-	setSnack(msg.message);
+socket.on('roomalert', function (msg) {
+  setSnack(msg.message);
 });
 /**
     @name invitation
@@ -209,28 +211,34 @@ socket.on('roomalert', function(msg) {
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#invitation}
 */
-socket.on('invitation', function(obj) {
-	let id = obj.from;
-	let toRoom = obj.toRoom;
-	let nm = clientNames[id];
-	if (nm) {
-		setSnack('You have been invited to a room(' + toRoom + ') by ' + nm + '.\nClick here to accept the invitation!');
-	}
+socket.on('invitation', function (obj) {
+  const id = obj.from;
+  const toRoom = obj.toRoom;
+  const nm = clientNames[id];
+  if (nm) {
+    setSnack(
+      'You have been invited to a room(' +
+        toRoom +
+        ') by ' +
+        nm +
+        '.\nClick here to accept the invitation!'
+    );
+  }
 });
-//socket
+// socket
 
-//fn
+// fn
 /**
     @name getClientInfo
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#getClientInfo}
 */
 function getClientInfo() {
-	socket.emit('getClientList');
-	socket.emit('getClientNames');
-	socket.emit('getRooms');
-	socket.emit('updateSubs');
-	socket.emit('getSubscriptions');
+  socket.emit('getClientList');
+  socket.emit('getClientNames');
+  socket.emit('getRooms');
+  socket.emit('updateSubs');
+  socket.emit('getSubscriptions');
 }
 
 /**
@@ -239,37 +247,58 @@ function getClientInfo() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#refreshUsers}
 */
 function refreshUsers() {
-	//activeObj type user/room
-	$('#user_search').nextAll().remove();
-	let activeUser;
-	let notif = [];
-	clients.forEach(item => {
-		if (activeObj.type === 'user' && activeObj.id === item) {
-			activeUser = item;
-		} else if (clientNames[item]) {
-			if (item in notifications) {
-				notif.push(item);
-			} else {
-				let inv = `<span class="invite ${(!subscriptions[item] && subscriptions[socket.id])?'on':'off'}" name="${item}">🗣️</span>`;
-				$('.chats').append(`<p class='chatUser' style='display:${(clientNames[item].includes(user_search_filter))?'block':'none'}' name="${item}">${clientNames[item]} 💬 ${inv}</p>`);
-			}
-		}
-	});
-	if (activeUser && clientNames[activeUser]) {
-		let inv = `<span class="invite ${(!subscriptions[activeUser] && subscriptions[socket.id])?'on':'off'}" name="${activeUser}">🗣️</span>`
-		$('#user_search').after(`<p class='chatUser active' name=${activeUser}>${clientNames[activeUser]} 💬 ${inv}</p>`);
-		notif.forEach(item => {
-			inv = `<span class="invite ${(!subscriptions[item] && subscriptions[socket.id])?'on':'off'}" name="${item}">🗣️</span>`
-			$('.chatUser.active').after(`<p class='chatUser messageAlert' style='display:${(clientNames[item].includes(user_search_filter))?'block':'none'}' name=${item}>${clientNames[item]} 💬 ${inv}</p>`);
-		});
-
-	} else {
-		notif.forEach(item => {
-			let inv = `<span class="invite ${(!subscriptions[item] && subscriptions[socket.id])?'on':'off'}" name="${item}">🗣️</span>`;
-			$('#user_search').after(`<p class='chatUser messageAlert' style='display:${(clientNames[item].includes(user_search_filter))?'block':'none'}' name=${item}>${clientNames[item]} 💬 ${inv}</p>`);
-		});
-	}
-	checkActiveChat();
+  // activeObj type user/room
+  $('#user_search').nextAll().remove();
+  let activeUser;
+  const notif = [];
+  clients.forEach((item) => {
+    if (activeObj.type === 'user' && activeObj.id === item) {
+      activeUser = item;
+    } else if (clientNames[item]) {
+      if (item in notifications) {
+        notif.push(item);
+      } else {
+        const inv = `<span class="invite ${
+          !subscriptions[item] && subscriptions[socket.id] ? 'on' : 'off'
+        }" name="${item}">🗣️</span>`;
+        $('.chats').append(
+          `<p class='chatUser' style='display:${
+            clientNames[item].includes(userSearchFilter) ? 'block' : 'none'
+          }' name="${item}">${clientNames[item]} 💬 ${inv}</p>`
+        );
+      }
+    }
+  });
+  if (activeUser && clientNames[activeUser]) {
+    let inv = `<span class="invite ${
+      !subscriptions[activeUser] && subscriptions[socket.id] ? 'on' : 'off'
+    }" name="${activeUser}">🗣️</span>`;
+    $('#user_search').after(
+      `<p class='chatUser active' name=${activeUser}>${clientNames[activeUser]} 💬 ${inv}</p>`
+    );
+    notif.forEach((item) => {
+      inv = `<span class="invite ${
+        !subscriptions[item] && subscriptions[socket.id] ? 'on' : 'off'
+      }" name="${item}">🗣️</span>`;
+      $('.chatUser.active').after(
+        `<p class='chatUser messageAlert' style='display:${
+          clientNames[item].includes(userSearchFilter) ? 'block' : 'none'
+        }' name=${item}>${clientNames[item]} 💬 ${inv}</p>`
+      );
+    });
+  } else {
+    notif.forEach((item) => {
+      const inv = `<span class="invite ${
+        !subscriptions[item] && subscriptions[socket.id] ? 'on' : 'off'
+      }" name="${item}">🗣️</span>`;
+      $('#user_search').after(
+        `<p class='chatUser messageAlert' style='display:${
+          clientNames[item].includes(userSearchFilter) ? 'block' : 'none'
+        }' name=${item}>${clientNames[item]} 💬 ${inv}</p>`
+      );
+    });
+  }
+  checkActiveChat();
 }
 /**
     @name checkActiveChat
@@ -277,23 +306,25 @@ function refreshUsers() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#checkActiveChat}
 */
 function checkActiveChat() {
-	const c_1 = Object.keys(activeObj).length === 0;
-	const c_2 = activeObj.type === 'user' && !(clientNames[activeObj.id]);
-	const c_3 = activeObj.type === 'room' && (rooms.findIndex(function(rm, index) {
-		if (rm.room_name === activeObj.id) {
-			return true;
-		}
-	}) === -1);
-	if (c_1 || c_2 || c_3) {
-		$('.chat-input').hide();
-		$('#active_recipient').removeClass('badge-success');
-		$('#active_recipient').addClass('badge-danger');
-		$('#active_recipient').text('No User');
-	} else {
-		$('.chat-input').show();
-		$('#active_recipient').removeClass('badge-danger');
-		$('#active_recipient').addClass('badge-success');
-	}
+  const c1 = Object.keys(activeObj).length === 0;
+  const c2 = activeObj.type === 'user' && !clientNames[activeObj.id];
+  const c3 =
+    activeObj.type === 'room' &&
+    rooms.findIndex(function (rm, index) {
+      if (rm.room_name === activeObj.id) {
+        return true;
+      }
+    }) === -1;
+  if (c1 || c2 || c3) {
+    $('.chat-input').hide();
+    $('#active_recipient').removeClass('badge-success');
+    $('#active_recipient').addClass('badge-danger');
+    $('#active_recipient').text('No User');
+  } else {
+    $('.chat-input').show();
+    $('#active_recipient').removeClass('badge-danger');
+    $('#active_recipient').addClass('badge-success');
+  }
 }
 /**
     @name refreshRooms
@@ -301,40 +332,58 @@ function checkActiveChat() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#refreshRooms}
 */
 function refreshRooms() {
-	$('.create_room').nextAll().remove();
-	let activeRoom;
-	let notif = [];
-	let subbed = [];
-	rooms.forEach(item => {
-		if (activeObj.type === 'room' && activeObj.id === item.room_name) {
-			activeRoom = item;
-		} else {
-			if (item.room_name in notifications) {
-				notif.push(item.room_name);
-			} else if (item.room_name === subscriptions[socket.id]) {
-				subbed.push(item.room_name);
-			} else {
-				$('.create_room').after(`<p class='room_tab' style='display:${(item.room_name.includes(room_search_filter))?'block':'none'}' name="${item.room_name}">${item.room_name}</p>`);
-			}
-		}
-	});
-	if (activeRoom) {
-		$('.create_room').after(`<p class='room_tab active' name="${activeRoom.room_name}">${activeRoom.room_name}</p>`);
-		notif.forEach(item => {
-			$('.room_tab.active').after(`<p class='room_tab messageAlert' style='display:${(item.includes(room_search_filter))?'block':'none'}' name="${item}">${item}</p>`);
-		});
-		subbed.forEach(item => {
-			$('.room_tab.active').after(`<p class='room_tab subbed' name="${item}">${item}</p>`);
-		});
-	} else {
-		notif.forEach(item => {
-			$('.create_room').after(`<p class='room_tab messageAlert' style='display:${(item.includes(room_search_filter))?'block':'none'}' name="${item}">${item}</p>`);
-		});
-		subbed.forEach(item => {
-			$('.create_room').after(`<p class='room_tab subbed' name="${item}">${item}</p>`);
-		});
-	}
-	checkActiveChat();
+  $('.create_room').nextAll().remove();
+  let activeRoom;
+  const notif = [];
+  const subbed = [];
+  rooms.forEach((item) => {
+    if (activeObj.type === 'room' && activeObj.id === item.room_name) {
+      activeRoom = item;
+    } else {
+      if (item.room_name in notifications) {
+        notif.push(item.room_name);
+      } else if (item.room_name === subscriptions[socket.id]) {
+        subbed.push(item.room_name);
+      } else {
+        $('.create_room').after(
+          `<p class='room_tab' style='display:${
+            item.room_name.includes(roomSearchFilter) ? 'block' : 'none'
+          }' name="${item.room_name}">${item.room_name}</p>`
+        );
+      }
+    }
+  });
+  if (activeRoom) {
+    $('.create_room').after(
+      `<p class='room_tab active' name="${activeRoom.room_name}">${activeRoom.room_name}</p>`
+    );
+    notif.forEach((item) => {
+      $('.room_tab.active').after(
+        `<p class='room_tab messageAlert' style='display:${
+          item.includes(roomSearchFilter) ? 'block' : 'none'
+        }' name="${item}">${item}</p>`
+      );
+    });
+    subbed.forEach((item) => {
+      $('.room_tab.active').after(
+        `<p class='room_tab subbed' name="${item}">${item}</p>`
+      );
+    });
+  } else {
+    notif.forEach((item) => {
+      $('.create_room').after(
+        `<p class='room_tab messageAlert' style='display:${
+          item.includes(roomSearchFilter) ? 'block' : 'none'
+        }' name="${item}">${item}</p>`
+      );
+    });
+    subbed.forEach((item) => {
+      $('.create_room').after(
+        `<p class='room_tab subbed' name="${item}">${item}</p>`
+      );
+    });
+  }
+  checkActiveChat();
 }
 /**
     @name sendMessage
@@ -342,24 +391,24 @@ function refreshRooms() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#sendMessage_c}
 */
 function sendMessage() {
-	const src = $('#main-input');
-	const msg = src.val();
-	if (Object.keys(activeObj).length > 0 && msg) {
-		socket.emit('sendMessage', activeObj, msg);
-		if (!(activeObj.id in chats)) {
-			chats[activeObj.id] = [];
-		}
-		chats[activeObj.id].push({
-			incoming: false,
-			message: msg
-		});
-		if (activeObj.type === 'room') {
-			chats[activeObj.id].sender = socket.id;
-		}
-		$('.chat-panel').append(msgBuilder(false, msg));
-		src.val('');
-		scrollToBottom('chat-panel');
-	}
+  const src = $('#main-input');
+  const msg = src.val();
+  if (Object.keys(activeObj).length > 0 && msg) {
+    socket.emit('sendMessage', activeObj, msg);
+    if (!(activeObj.id in chats)) {
+      chats[activeObj.id] = [];
+    }
+    chats[activeObj.id].push({
+      incoming: false,
+      message: msg,
+    });
+    if (activeObj.type === 'room') {
+      chats[activeObj.id].sender = socket.id;
+    }
+    $('.chat-panel').append(msgBuilder(false, msg));
+    src.val('');
+    scrollToBottom('chat-panel');
+  }
 }
 /**
     @name switchChats
@@ -367,30 +416,33 @@ function sendMessage() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#switchChats}
 */
 function switchChats() {
-	$('.chat-panel').fadeOut(100);
-	$('.chat-panel').children().remove();
-	if (activeObj.id in notifications) {
-		delete notifications[activeObj.id];
-	}
-	let from = (activeObj.type === 'room') ? activeObj.id : clientNames[activeObj.id];
-	let chat = chats[activeObj.id];
-	$('#active_recipient').text('Active Chat: ' + from);
-	//console.log(chat);
-	if (chat) {
-		chat.forEach(msg => {
-			if (!msg.sender) {
-				$('.chat-panel').append(msgBuilder(msg.incoming, msg.message, from));
-			} else {
-				let senderName = clientNames[msg.sender];
-				if (senderName) {
-					$('.chat-panel').append(msgBuilder(msg.incoming, msg.message, senderName));
-				}
-			}
-		})
-	}
-	scrollToBottom('chat-panel');
-	$('.chat-panel').fadeIn('slow');
-	//console.log('switchChats');
+  $('.chat-panel').fadeOut(100);
+  $('.chat-panel').children().remove();
+  if (activeObj.id in notifications) {
+    delete notifications[activeObj.id];
+  }
+  const from =
+    activeObj.type === 'room' ? activeObj.id : clientNames[activeObj.id];
+  const chat = chats[activeObj.id];
+  $('#active_recipient').text('Active Chat: ' + from);
+  // console.log(chat);
+  if (chat) {
+    chat.forEach((msg) => {
+      if (!msg.sender) {
+        $('.chat-panel').append(msgBuilder(msg.incoming, msg.message, from));
+      } else {
+        const senderName = clientNames[msg.sender];
+        if (senderName) {
+          $('.chat-panel').append(
+            msgBuilder(msg.incoming, msg.message, senderName)
+          );
+        }
+      }
+    });
+  }
+  scrollToBottom('chat-panel');
+  $('.chat-panel').fadeIn('slow');
+  // console.log('switchChats');
 }
 /**
     @name msgBuilder
@@ -402,9 +454,11 @@ function switchChats() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#msgBuilder}
 */
 function msgBuilder(incoming, message, from = null) {
-	let color = (incoming) ? 'incoming' : 'outgoing';
-	let elem = `<div class="row msgrow ${color}"><p class="msg ${color}">${(from && incoming)?from+':':''} ${message}</p></div>`;
-	return elem;
+  const color = incoming ? 'incoming' : 'outgoing';
+  const elem = `<div class="row msgrow ${color}"><p class="msg ${color}">${
+    from && incoming ? from + ':' : ''
+  } ${message}</p></div>`;
+  return elem;
 }
 /**
     @name scrollToBottom
@@ -413,8 +467,8 @@ function msgBuilder(incoming, message, from = null) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#scrollToBottom}
 */
 function scrollToBottom(name) {
-	let div = document.getElementsByClassName(name)[0];
-	div.scrollTop = div.scrollHeight - div.clientHeight;
+  const div = document.getElementsByClassName(name)[0];
+  div.scrollTop = div.scrollHeight - div.clientHeight;
 }
 /**
     @name chatUserAction
@@ -423,18 +477,18 @@ function scrollToBottom(name) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#chatUserAction}
 */
 function chatUserAction(event) {
-	if (!ongoingSwitch && $(event.target).attr('class').includes('chatUser')) {
-		ongoingSwitch = true;
-		activeObj = {
-			type: 'user',
-			id: $(this).attr('name')
-		};
-		$('.chatUser.active').removeClass('active');
-		$('.room_tab.active').removeClass('active');
-		$(this).addClass('active');
-		switchChats();
-		ongoingSwitch = false;
-	}
+  if (!ongoingSwitch && $(event.target).attr('class').includes('chatUser')) {
+    ongoingSwitch = true;
+    activeObj = {
+      type: 'user',
+      id: $(this).attr('name'),
+    };
+    $('.chatUser.active').removeClass('active');
+    $('.room_tab.active').removeClass('active');
+    $(this).addClass('active');
+    switchChats();
+    ongoingSwitch = false;
+  }
 }
 /**
     @name roomTabAction
@@ -442,46 +496,48 @@ function chatUserAction(event) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#roomTabAction}
 */
 function roomTabAction() {
-	let name = $(this).attr('name');
-	if (subscriptions[socket.id] === name) {
-		roomJoin(name);
-	} else {
-		if (!(subscriptions[socket.id])) {
-			let room_i = rooms.findIndex(function(rm, index) {
-				if (rm.room_name === name) {
-					return true;
-				}
-			});
-			if (!(room_i === -1)) {
-				let cur_room = rooms[room_i];
-				$('#room_modal').modal('show');
-				$('.body_join').css('display', 'block');
-				$('.body_create').css('display', 'none');
-				$('#join_room_id').val(cur_room.room_name);
-				let members_in_room = getRoomMembers(cur_room.room_name);
-				$('#room_modal_title').text('Join Room: ' + cur_room.room_name);
-				$('#read_room_owner').text('Owner: ' + clientNames[cur_room.owner]);
-				$('#read_room_description').text('Description: ' + cur_room.description);
-				$('#read_room_members').text('Capacity: ' + cur_room.member_count + '/' + cur_room.capacity);
-				if (members_in_room.length > 0) {
-					let mem_str = ``;
-					members_in_room.forEach((item, i) => {
-						mem_str += `${(i + 1)}- ${item}\n`;
-					});
-					//console.log(mem_str);
-					$('#read_room_members_actual').text(mem_str);
-				}
-				if (!cur_room.protected) {
-					$('#room_protected').css('display', 'none');
-				} else {
-					$('#room_protected').css('display', 'block');
-				}
-			}
-		} else {
-			//alert('You are already in a room!');
-			setSnack('You are already in a room!');
-		}
-	}
+  const name = $(this).attr('name');
+  if (subscriptions[socket.id] === name) {
+    roomJoin(name);
+  } else {
+    if (!subscriptions[socket.id]) {
+      const roomI = rooms.findIndex(function (rm, index) {
+        if (rm.room_name === name) {
+          return true;
+        }
+      });
+      if (!(roomI === -1)) {
+        const curRoom = rooms[roomI];
+        $('#room_modal').modal('show');
+        $('.body_join').css('display', 'block');
+        $('.body_create').css('display', 'none');
+        $('#join_room_id').val(curRoom.room_name);
+        const membersInRoom = getRoomMembers(curRoom.room_name);
+        $('#room_modal_title').text('Join Room: ' + curRoom.room_name);
+        $('#read_room_owner').text('Owner: ' + clientNames[curRoom.owner]);
+        $('#read_room_description').text('Description: ' + curRoom.description);
+        $('#read_room_members').text(
+          'Capacity: ' + curRoom.member_count + '/' + curRoom.capacity
+        );
+        if (membersInRoom.length > 0) {
+          let memStr = ``;
+          membersInRoom.forEach((item, i) => {
+            memStr += `${i + 1}- ${item}\n`;
+          });
+          // console.log(mem_str);
+          $('#read_room_members_actual').text(memStr);
+        }
+        if (!curRoom.protected) {
+          $('#room_protected').css('display', 'none');
+        } else {
+          $('#room_protected').css('display', 'block');
+        }
+      }
+    } else {
+      // alert('You are already in a room!');
+      setSnack('You are already in a room!');
+    }
+  }
 }
 /**
     @name roomJoin
@@ -490,18 +546,18 @@ function roomTabAction() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#roomJoin}
 */
 function roomJoin(name) {
-	if (!ongoingSwitch) {
-		ongoingSwitch = true;
-		activeObj = {
-			type: 'room',
-			id: name
-		}
-		$('.chatUser.active').removeClass('active');
-		$('.room_tab.active').removeClass('active');
-		$(this).addClass('active');
-		switchChats();
-		ongoingSwitch = false;
-	}
+  if (!ongoingSwitch) {
+    ongoingSwitch = true;
+    activeObj = {
+      type: 'room',
+      id: name,
+    };
+    $('.chatUser.active').removeClass('active');
+    $('.room_tab.active').removeClass('active');
+    $(this).addClass('active');
+    switchChats();
+    ongoingSwitch = false;
+  }
 }
 /**
     @name createRoom
@@ -509,10 +565,10 @@ function roomJoin(name) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#createRoom}
 */
 function createRoom() {
-	$('#room_modal').modal('show');
-	$('.body_join').css('display', 'none');
-	$('.body_create').css('display', 'block');
-	$('#room_modal_title').text('Create Room');
+  $('#room_modal').modal('show');
+  $('.body_join').css('display', 'none');
+  $('.body_create').css('display', 'block');
+  $('#room_modal_title').text('Create Room');
 }
 /**
     @name sendRoom
@@ -520,19 +576,19 @@ function createRoom() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#sendRoom}
 */
 function sendRoom() {
-	if ($('.body_join').css('display') === 'block') {
-		socket.emit('joinRoom', {
-			room: $('#join_room_id').val(),
-			pw: $('#insert_room_pw').val()
-		});
-	} else {
-		socket.emit('sendRoom', {
-			room_name: $('#create_room_name').val(),
-			description: $('#create_room_description').val(),
-			capacity: $('#create_room_members').val(),
-			password: $('#create_room_password').val()
-		});
-	}
+  if ($('.body_join').css('display') === 'block') {
+    socket.emit('joinRoom', {
+      room: $('#join_room_id').val(),
+      pw: $('#insert_room_pw').val(),
+    });
+  } else {
+    socket.emit('sendRoom', {
+      room_name: $('#create_room_name').val(),
+      description: $('#create_room_description').val(),
+      capacity: $('#create_room_members').val(),
+      password: $('#create_room_password').val(),
+    });
+  }
 }
 /**
     @name updateRoomMembers
@@ -540,19 +596,19 @@ function sendRoom() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#updateRoomMembers}
 */
 function updateRoomMembers() {
-	let cur_room = subscriptions[socket.id];
-	let members = {};
-	if (cur_room) {
-		Object.keys(subscriptions).forEach(key => {
-			if (subscriptions[key] === cur_room && !(key === socket.id)) {
-				let m_name = clientNames[key];
-				if (m_name) {
-					members[key] = m_name;
-				}
-			}
-		});
-	}
-	activeRoomMembers = members;
+  const curRoom = subscriptions[socket.id];
+  const members = {};
+  if (curRoom) {
+    Object.keys(subscriptions).forEach((key) => {
+      if (subscriptions[key] === curRoom && !(key === socket.id)) {
+        const mName = clientNames[key];
+        if (mName) {
+          members[key] = mName;
+        }
+      }
+    });
+  }
+  activeRoomMembers = members;
 }
 /**
     @name getRoomMembers
@@ -562,13 +618,13 @@ function updateRoomMembers() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#getRoomMembers}
 */
 function getRoomMembers(rmname) {
-	let members = [];
-	Object.keys(subscriptions).forEach(key => {
-		if (subscriptions[key] === rmname && clientNames[key]) {
-			members.push(clientNames[key]);
-		}
-	});
-	return members;
+  const members = [];
+  Object.keys(subscriptions).forEach((key) => {
+    if (subscriptions[key] === rmname && clientNames[key]) {
+      members.push(clientNames[key]);
+    }
+  });
+  return members;
 }
 /**
     @name closeModal
@@ -577,11 +633,18 @@ function getRoomMembers(rmname) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#closeModal}
 */
 function closeModal(event) {
-	const target = event.target;
-	const id = target.id;
-	if (id && $('#' + id).attr('class') && $('#' + id).attr('class').split(' ').includes('modal')) {
-		$('#' + id).modal('hide');
-	}
+  const target = event.target;
+  const id = target.id;
+  if (
+    id &&
+    $('#' + id).attr('class') &&
+    $('#' + id)
+      .attr('class')
+      .split(' ')
+      .includes('modal')
+  ) {
+    $('#' + id).modal('hide');
+  }
 }
 /**
     @name updateActiveRoom
@@ -589,39 +652,39 @@ function closeModal(event) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#updateActiveRoom}
 */
 function updateActiveRoom() {
-	$('#room_a_title').text('');
-	$('#room_a_desc').text('');
-	$('#room_a_cap').text('');
-	$('#members_action').html('');
-	const room = subscriptions[socket.id];
-	if (room) {
-		const room_i = rooms.findIndex(function(rm, index) {
-			if (rm.room_name === room) {
-				return true;
-			}
-		});
-		const cur_room = rooms[room_i];
-		$('#room_a_title').text(cur_room.room_name);
-		$('#room_a_desc').text(cur_room.description);
-		$('#room_a_cap').text(cur_room.member_count + '/' + cur_room.capacity);
-		const owner_flag = cur_room.owner === socket.id;
-		if (!owner_flag) {
-			$('#disband_room').parent().hide();
-		} else {
-			$('#disband_room').parent().show();
-		}
-		if (Object.keys(activeRoomMembers).length > 0) {
-			let mem_str = ``;
-			Object.keys(activeRoomMembers).forEach((key, i) => {
-				mem_str += `${(i + 1)}- ${activeRoomMembers[key]}`;
-				if (owner_flag) {
-					mem_str += `&nbsp;<button class="room_action kick_user" name="${key}">Kick 🚫</button><button class="room_action owner_transfer" name="${key}">Transfer Ownership 🛂</button>`;
-				}
-				mem_str += `<br>`;
-			});
-			$('#members_action').html(mem_str);
-		}
-	}
+  $('#room_a_title').text('');
+  $('#room_a_desc').text('');
+  $('#room_a_cap').text('');
+  $('#members_action').html('');
+  const room = subscriptions[socket.id];
+  if (room) {
+    const roomI = rooms.findIndex(function (rm, index) {
+      if (rm.room_name === room) {
+        return true;
+      }
+    });
+    const curRoom = rooms[roomI];
+    $('#room_a_title').text(curRoom.room_name);
+    $('#room_a_desc').text(curRoom.description);
+    $('#room_a_cap').text(curRoom.member_count + '/' + curRoom.capacity);
+    const ownerFlag = curRoom.owner === socket.id;
+    if (!ownerFlag) {
+      $('#disband_room').parent().hide();
+    } else {
+      $('#disband_room').parent().show();
+    }
+    if (Object.keys(activeRoomMembers).length > 0) {
+      let memStr = ``;
+      Object.keys(activeRoomMembers).forEach((key, i) => {
+        memStr += `${i + 1}- ${activeRoomMembers[key]}`;
+        if (ownerFlag) {
+          memStr += `&nbsp;<button class="room_action kick_user" name="${key}">Kick 🚫</button><button class="room_action owner_transfer" name="${key}">Transfer Ownership 🛂</button>`;
+        }
+        memStr += `<br>`;
+      });
+      $('#members_action').html(memStr);
+    }
+  }
 }
 /**
     @name handleRoomAction
@@ -629,34 +692,34 @@ function updateActiveRoom() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#handleRoomAction_c}
 */
 function handleRoomAction() {
-	const cls = $(this).attr('class').split(' ');
-	const id = $(this).attr('id');
-	const name = $(this).attr('name');
-	if (id) {
-		if (id === 'disband_room') {
-			socket.emit('room_action', {
-				action: 'disband_room'
-			});
-		} else if (id === 'leave_room') {
-			socket.emit('room_action', {
-				action: 'leave_room'
-			});
-		}
-	} else if (name) {
-		if (cls.includes('owner_transfer')) {
-			socket.emit('room_action', {
-				action: 'owner_transfer',
-				target: name
-			});
-		} else if (cls.includes('kick_user')) {
-			socket.emit('room_action', {
-				action: 'kick_user',
-				target: name
-			});
-		}
-	} else {
-		setSnack('Something went wrong!');
-	}
+  const cls = $(this).attr('class').split(' ');
+  const id = $(this).attr('id');
+  const name = $(this).attr('name');
+  if (id) {
+    if (id === 'disband_room') {
+      socket.emit('room_action', {
+        action: 'disband_room',
+      });
+    } else if (id === 'leave_room') {
+      socket.emit('room_action', {
+        action: 'leave_room',
+      });
+    }
+  } else if (name) {
+    if (cls.includes('owner_transfer')) {
+      socket.emit('room_action', {
+        action: 'owner_transfer',
+        target: name,
+      });
+    } else if (cls.includes('kick_user')) {
+      socket.emit('room_action', {
+        action: 'kick_user',
+        target: name,
+      });
+    }
+  } else {
+    setSnack('Something went wrong!');
+  }
 }
 /**
     @name filterTab
@@ -665,16 +728,23 @@ function handleRoomAction() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#filterTab}
 */
 function filterTab(id) {
-	const target = (id === 'room_search') ? '.room_tab' : '.chatUser';
-	const filter = $('#' + id).val();
-	(id === 'room_search') ? room_search_filter = filter: user_search_filter = filter;
-	$(target).toArray().forEach(sub_targ => {
-		if (!$(sub_targ).text().includes(filter) && !$(sub_targ).attr('class').includes('active')) {
-			$(sub_targ).css('display', 'none');
-		} else {
-			$(sub_targ).css('display', 'block');
-		}
-	});
+  const target = id === 'room_search' ? '.room_tab' : '.chatUser';
+  const filter = $('#' + id).val();
+  id === 'room_search'
+    ? (roomSearchFilter = filter)
+    : (userSearchFilter = filter);
+  $(target)
+    .toArray()
+    .forEach((subTarg) => {
+      if (
+        !$(subTarg).text().includes(filter) &&
+        !$(subTarg).attr('class').includes('active')
+      ) {
+        $(subTarg).css('display', 'none');
+      } else {
+        $(subTarg).css('display', 'block');
+      }
+    });
 }
 /**
     @name filter
@@ -682,7 +752,7 @@ function filterTab(id) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#filter}
 */
 function filter() {
-	filterTab(this.id);
+  filterTab(this.id);
 }
 /**
     @name handleInvite
@@ -690,15 +760,15 @@ function filter() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#handleInvite}
 */
 function handleInvite() {
-	let id = $(this).attr('name');
-	let nm = clientNames[id];
-	if (nm) {
-		setSnack(nm + ' has been invited to the room you are in!');
-		socket.emit('invitation', {
-			target: subscriptions[socket.id],
-			invited: id
-		});
-	}
+  const id = $(this).attr('name');
+  const nm = clientNames[id];
+  if (nm) {
+    setSnack(nm + ' has been invited to the room you are in!');
+    socket.emit('invitation', {
+      target: subscriptions[socket.id],
+      invited: id,
+    });
+  }
 }
 /**
     @name handleSnackInteraction
@@ -706,29 +776,29 @@ function handleInvite() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#handleSnackInteraction}
 */
 function handleSnackInteraction() {
-	let txt = $(this).text();
-	let inv = txt.includes('You have been invited to a room(');
-	if (inv) {
-		let targRoom = txt.split('(')[1];
-		if (targRoom) {
-			targRoom = targRoom.split(')')[0];
-		}
-		if (targRoom && targRoom.length > 0) {
-			//console.log('emitting');
-			socket.emit('acceptInvitation', targRoom);
-		}
-	}
+  const txt = $(this).text();
+  const inv = txt.includes('You have been invited to a room(');
+  if (inv) {
+    let targRoom = txt.split('(')[1];
+    if (targRoom) {
+      targRoom = targRoom.split(')')[0];
+    }
+    if (targRoom && targRoom.length > 0) {
+      // console.log('emitting');
+      socket.emit('acceptInvitation', targRoom);
+    }
+  }
 }
-//fn
+// fn
 
-//js-jq
+// js-jq
 $(document).on('click', '.room_tab', roomTabAction);
 $(document).on('click', '.chatUser', chatUserAction);
 $(document).on('click', '#send_msg', sendMessage);
-$(document).keyup(function(e) {
-	if (e.which == 13) {
-		$('#send_msg').click();
-	}
+$(document).keyup(function (e) {
+  if (e.which == 13) {
+    $('#send_msg').click();
+  }
 });
 $(document).on('click', '.modal', closeModal);
 $(document).on('click', '.create_room', createRoom);
@@ -738,4 +808,4 @@ $(document).on('click', '.invite.on', handleInvite);
 $(document).on('click', '#snackbar', handleSnackInteraction);
 $('#room_search,#user_search').on('input', filter);
 setInterval(getClientInfo, 1000);
-//js-jq
+// js-jq
