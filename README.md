@@ -1,7 +1,7 @@
 <h1><a href="https://ch-to.com">CH@TO</a></h1>
 
     Ch@to
-    Copyright (C) 2020 Altuğ Ceylan
+    Copyright (C) 2021 Altuğ Ceylan
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
