@@ -1,10 +1,11 @@
-const express = require("express");
-const helmet = require("helmet");
+const express = require('express');
+const helmet = require('helmet');
 const app = express();
-const rateLimit = require('express-rate-limit');
-const slowDown = require("express-slow-down");
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const RateLimit = require('express-rate-limit');
+// const slowDown = require('express-slow-down');
+const http = require('http');
+const server = new http.Server(app);
+const io = require('socket.io')(server);
 const port = process.env.PORT || 3000;
 const env = process.env.NODE_ENV;
 const fn = require('./functions');
@@ -12,10 +13,10 @@ const allClients = [];
 const clientNames = {};
 const rooms = [];
 const subscriptions = {};
-const syncInfo = {}; //room_name:player_states{}
-const limiter = new rateLimit({
-	windowMs: 1 * 60 * 1000, // 1 minute
-	max: 100
+const syncInfo = {}; // room_name:player_states{}
+const limiter = new RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 100,
 });
 /*
 const speedLimiter = slowDown({
@@ -28,19 +29,19 @@ const speedLimiter = slowDown({
 	// etc.
 });
 */
-//app.enable("trust proxy");
+// app.enable("trust proxy");
 app.use(limiter);
-//app.use(speedLimiter);
+// app.use(speedLimiter);
 app.use(
-	helmet.contentSecurityPolicy({
-		directives: {
-			...helmet.contentSecurityPolicy.getDefaultDirectives(),
-			"script-src": ["'self'", "https://www.youtube.com/", 'iframe-src'],
-			"frame-src": ["'self'", "https://www.youtube.com/"]
-		},
-	})
+  helmet.contentSecurityPolicy({
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      'script-src': ["'self'", 'https://www.youtube.com/', 'iframe-src'],
+      'frame-src': ["'self'", 'https://www.youtube.com/'],
+    },
+  })
 );
-app.disable("x-powered-by");
+app.disable('x-powered-by');
 app.use(helmet.dnsPrefetchControl());
 app.use(helmet.expectCt());
 app.use(helmet.frameguard());
@@ -51,70 +52,93 @@ app.use(helmet.noSniff());
 app.use(helmet.permittedCrossDomainPolicies());
 app.use(helmet.referrerPolicy());
 app.use(helmet.xssFilter());
-process.title="chapp";
-console.log('NODE_ENV is: ', (env) ? env : 'not set');
+process.title = 'chapp';
+console.log('NODE_ENV is: ', env ? env : 'not set');
 if (env === 'production') {
-	app.use(express.static(__dirname + '/public-p'));
+  app.use(express.static(__dirname + '/public-p'));
 } else {
-	app.use(express.static(__dirname + '/public-d'));
+  app.use(express.static(__dirname + '/public-d'));
 }
 app.use(express.static(__dirname + '/assets'));
-app.get('/', function(req, res) {
-	res.sendFile(__dirname + '/index.html');
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/index.html');
 });
-app.get('/landing', function(req, res) {
-	res.sendFile(__dirname + '/landing.html');
-});
-
-io.on('connection', function(socket) {
-	fn.handleConnection(allClients, socket); //safe
-	socket.on('disconnect', () => { //safe
-		fn.handleDisconnect(allClients, clientNames, subscriptions, rooms, socket, io, syncInfo);
-	});
-	socket.on('sendMessage', (recipient, msg) => { //safe
-		fn.sendMessage(socket.id, recipient, msg, io, subscriptions);
-	});
-	socket.on('getClientList', () => { //safe
-		fn.getClientList(allClients, socket);
-	});
-	socket.on('getClientNames', () => { //safe
-		fn.getClientNames(clientNames, socket);
-	})
-	socket.on('validateName', (name) => { //safe
-		fn.validateName(name, clientNames, socket);
-	})
-	socket.on('setName', (name) => { //safe
-		fn.setName(clientNames, name, socket.id);
-	});
-	socket.on('sendRoom', (room) => { //safe
-		fn.processRoom(room, rooms, socket, subscriptions);
-	});
-	socket.on('getRooms', () => { //safe
-		fn.getRooms(rooms, socket);
-	});
-	socket.on('getSubscriptions', () => { //safe
-		fn.getSubscriptions(subscriptions, socket);
-	});
-	socket.on('joinRoom', (obj) => { //safe
-		fn.joinRoom(obj, socket, rooms, subscriptions, io);
-	});
-	socket.on('room_action', (obj) => { //safe
-		fn.handleRoomAction(obj, socket, rooms, subscriptions, io, syncInfo);
-	});
-	socket.on('getSyncInfo', (obj) => { //safe
-		fn.getSyncInfo(obj, socket, syncInfo);
-	});
-	socket.on('setSyncInfo', (obj) => { //safe
-		fn.setSyncInfo(obj, syncInfo);
-	});
-	socket.on('invitation', (obj) => { //safe
-		fn.handleInvitation(obj, socket, io);
-	});
-	socket.on('acceptInvitation', (obj) => { //safe
-		fn.acceptInvitation(obj, socket, rooms, subscriptions, io);
-	});
+app.get('/landing', function (req, res) {
+  res.sendFile(__dirname + '/landing.html');
 });
 
-http.listen(port, function() {
-	console.log('listening on *:' + port);
+io.on('connection', function (socket) {
+  fn.handleConnection(allClients, socket); // safe
+  socket.on('disconnect', () => {
+    // safe
+    fn.handleDisconnect(
+      allClients,
+      clientNames,
+      subscriptions,
+      rooms,
+      socket,
+      io,
+      syncInfo
+    );
+  });
+  socket.on('sendMessage', (recipient, msg) => {
+    // safe
+    fn.sendMessage(socket.id, recipient, msg, io, subscriptions);
+  });
+  socket.on('getClientList', () => {
+    // safe
+    fn.getClientList(allClients, socket);
+  });
+  socket.on('getClientNames', () => {
+    // safe
+    fn.getClientNames(clientNames, socket);
+  });
+  socket.on('validateName', (name) => {
+    // safe
+    fn.validateName(name, clientNames, socket);
+  });
+  socket.on('setName', (name) => {
+    // safe
+    fn.setName(clientNames, name, socket.id);
+  });
+  socket.on('sendRoom', (room) => {
+    // safe
+    fn.processRoom(room, rooms, socket, subscriptions);
+  });
+  socket.on('getRooms', () => {
+    // safe
+    fn.getRooms(rooms, socket);
+  });
+  socket.on('getSubscriptions', () => {
+    // safe
+    fn.getSubscriptions(subscriptions, socket);
+  });
+  socket.on('joinRoom', (obj) => {
+    // safe
+    fn.joinRoom(obj, socket, rooms, subscriptions, io);
+  });
+  socket.on('room_action', (obj) => {
+    // safe
+    fn.handleRoomAction(obj, socket, rooms, subscriptions, io, syncInfo);
+  });
+  socket.on('getSyncInfo', (obj) => {
+    // safe
+    fn.getSyncInfo(obj, socket, syncInfo);
+  });
+  socket.on('setSyncInfo', (obj) => {
+    // safe
+    fn.setSyncInfo(obj, syncInfo);
+  });
+  socket.on('invitation', (obj) => {
+    // safe
+    fn.handleInvitation(obj, socket, io);
+  });
+  socket.on('acceptInvitation', (obj) => {
+    // safe
+    fn.acceptInvitation(obj, socket, rooms, subscriptions, io);
+  });
+});
+
+server.listen(port, function () {
+  console.log('listening on *:' + port);
 });
