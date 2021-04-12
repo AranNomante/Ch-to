@@ -1,6 +1,6 @@
 apps:
   - script: ./app.js
-    name: "ch-to"
+    name: 'ch-to'
     env:
       NODE_ENV: development
     env_production:

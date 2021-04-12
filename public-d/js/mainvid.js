@@ -1,8 +1,9 @@
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "onYouTube" }]*/
 // 2. This code loads the IFrame Player API code asynchronously.
-let tag = document.createElement('script');
+const tag = document.createElement('script');
 
-tag.src = "https://www.youtube.com/iframe_api";
-let firstScriptTag = document.getElementsByTagName('script')[0];
+tag.src = 'https://www.youtube.com/iframe_api';
+const firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // 3. This function creates an <iframe> (and YouTube player)
@@ -14,96 +15,96 @@ let player4;
 let player5;
 
 let synchronization = false;
-let load_mode = 'i';
-let room_video = {
-	player1: {
-		play: 'UNSTARTED',
-		current_time: 0,
-		video_id: ''
-	},
-	player2: {
-		play: 'UNSTARTED',
-		current_time: 0,
-		video_id: ''
-	},
-	player3: {
-		play: 'UNSTARTED',
-		current_time: 0,
-		video_id: ''
-	},
-	player4: {
-		play: 'UNSTARTED',
-		current_time: 0,
-		video_id: ''
-	},
-	player5: {
-		play: 'UNSTARTED',
-		current_time: 0,
-		video_id: ''
-	}
+let loadMode = 'i';
+let roomVideo = {
+  player1: {
+    play: 'UNSTARTED',
+    current_time: 0,
+    video_id: '',
+  },
+  player2: {
+    play: 'UNSTARTED',
+    current_time: 0,
+    video_id: '',
+  },
+  player3: {
+    play: 'UNSTARTED',
+    current_time: 0,
+    video_id: '',
+  },
+  player4: {
+    play: 'UNSTARTED',
+    current_time: 0,
+    video_id: '',
+  },
+  player5: {
+    play: 'UNSTARTED',
+    current_time: 0,
+    video_id: '',
+  },
 };
 const titles = {
-	player1: 'pt_1',
-	player2: 'pt_2',
-	player3: 'pt_3',
-	player4: 'pt_4',
-	player5: 'pt_5',
-}
+  player1: 'pt_1',
+  player2: 'pt_2',
+  player3: 'pt_3',
+  player4: 'pt_4',
+  player5: 'pt_5',
+};
 const states = {
-	player1: {
-		isMuted: false,
-		display: 1,
-		play: 'UNSTARTED',
-		firstTime: true
-	},
-	player2: {
-		isMuted: false,
-		display: 0,
-		play: 'UNSTARTED',
-		firstTime: true
-	},
-	player3: {
-		isMuted: false,
-		display: 0,
-		play: 'UNSTARTED',
-		firstTime: true
-	},
-	player4: {
-		isMuted: false,
-		display: 0,
-		play: 'UNSTARTED',
-		firstTime: true
-	},
-	player5: {
-		isMuted: false,
-		display: 0,
-		play: 'UNSTARTED',
-		firstTime: true
-	}
-}
+  player1: {
+    isMuted: false,
+    display: 1,
+    play: 'UNSTARTED',
+    firstTime: true,
+  },
+  player2: {
+    isMuted: false,
+    display: 0,
+    play: 'UNSTARTED',
+    firstTime: true,
+  },
+  player3: {
+    isMuted: false,
+    display: 0,
+    play: 'UNSTARTED',
+    firstTime: true,
+  },
+  player4: {
+    isMuted: false,
+    display: 0,
+    play: 'UNSTARTED',
+    firstTime: true,
+  },
+  player5: {
+    isMuted: false,
+    display: 0,
+    play: 'UNSTARTED',
+    firstTime: true,
+  },
+};
 const reversePmap = {
-	player1: null,
-	player2: null,
-	player3: null,
-	player4: null,
-	player5: null
-}
+  player1: null,
+  player2: null,
+  player3: null,
+  player4: null,
+  player5: null,
+};
 /**
     @name onYouTubeIframeAPIReady
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#onYouTubeIframeAPIReady}
 */
 function onYouTubeIframeAPIReady() {
-	player1 = initPlayer('player1');
-	player2 = initPlayer('player2');
-	player3 = initPlayer('player3');
-	player4 = initPlayer('player4');
-	player5 = initPlayer('player5');
-	reversePmap.player1 = player1;
-	reversePmap.player2 = player2;
-	reversePmap.player3 = player3;
-	reversePmap.player4 = player4;
-	reversePmap.player5 = player5;
+  player1 = initPlayer('player1');
+  player2 = initPlayer('player2');
+  player3 = initPlayer('player3');
+  player4 = initPlayer('player4');
+  player5 = initPlayer('player5');
+  reversePmap.player1 = player1;
+  reversePmap.player2 = player2;
+  reversePmap.player3 = player3;
+  reversePmap.player4 = player4;
+  reversePmap.player5 = player5;
 }
 
 /**
@@ -114,27 +115,27 @@ function onYouTubeIframeAPIReady() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#initPlayer}
 */
 function initPlayer(id) {
-	return new YT.Player(id, {
-		videoId: '5qap5aO4i9A',
-		events: {
-			'onReady': onPlayerReady,
-			'onStateChange': onPlayerStateChange,
-			'onError': onPlayerError
-		},
-		playerVars: {
-			'autoplay': 1,
-			'controls': 2,
-			'disablekb': 1,
-			'iv_load_policy': 3,
-			'modestbranding': 1,
-			'showinfo': 0,
-			'enablejsapi': 1,
-			'origin': window.location.origin,
-			'rel': 0,
-			'ecver': 2,
-			'playsinline': 1
-		}
-	})
+  return new YT.Player(id, {
+    videoId: '5qap5aO4i9A',
+    events: {
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange,
+      onError: onPlayerError,
+    },
+    playerVars: {
+      autoplay: 1,
+      controls: 2,
+      disablekb: 1,
+      iv_load_policy: 3,
+      modestbranding: 1,
+      showinfo: 0,
+      enablejsapi: 1,
+      origin: window.location.origin,
+      rel: 0,
+      ecver: 2,
+      playsinline: 1,
+    },
+  });
 }
 /**
     @name onPlayerReady
@@ -143,10 +144,10 @@ function initPlayer(id) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#onPlayerReady}
 */
 function onPlayerReady(event) {
-	const id = event.target.h.id;
-	setPlayerTitle(event);
-	event.target.mute();
-	setState(id, event);
+  const id = event.target.h.id;
+  setPlayerTitle(event);
+  event.target.mute();
+  setState(id, event);
 }
 
 // 4. The API will call this function when the video player is ready.
@@ -162,15 +163,15 @@ function onPlayerReady(event) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#onPlayerStateChange}
 */
 function onPlayerStateChange(event) {
-	//UNSTARTED -1 ENDED 0 PLAYING 1 PAUSED 2 BUFFERING 3 CUED 5
-	const id = event.target.h.id;
-	if (event.data == YT.PlayerState.PLAYING && states[id].firstTime) {
-		setPlayerTitle(event);
-		event.target.pauseVideo();
-		event.target.seekTo(0);
-		states[id].firstTime = false;
-	}
-	setState(id, event);
+  // UNSTARTED -1 ENDED 0 PLAYING 1 PAUSED 2 BUFFERING 3 CUED 5
+  const id = event.target.h.id;
+  if (event.data == YT.PlayerState.PLAYING && states[id].firstTime) {
+    setPlayerTitle(event);
+    event.target.pauseVideo();
+    event.target.seekTo(0);
+    states[id].firstTime = false;
+  }
+  setState(id, event);
 }
 /**
     @name onPlayerError
@@ -179,15 +180,17 @@ function onPlayerStateChange(event) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#onPlayerError}
 */
 function onPlayerError(event) {
-	const id = event.target.h.id;
-	if (id) {
-		if (event.data === 150) {
-			setSnack('This video does not allow embeds');
-		}
-		resetVideoInputs();
-		$('#load_' + id.substring(6, 7)).val('https://www.youtube.com/watch?v=5qap5aO4i9A');
-		loadIndividual();
-	}
+  const id = event.target.h.id;
+  if (id) {
+    if (event.data === 150) {
+      setSnack('This video does not allow embeds');
+    }
+    resetVideoInputs();
+    $('#load_' + id.substring(6, 7)).val(
+      'https://www.youtube.com/watch?v=5qap5aO4i9A'
+    );
+    loadIndividual();
+  }
 }
 /**
     @name extractYTid
@@ -197,15 +200,15 @@ function onPlayerError(event) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#extractYTid}
 */
 function extractYTid(url) {
-	if (typeof url === 'string' && url.length > 0 && url.includes('v=')) {
-		let proc_url = url.split('v=')[1];
-		if (proc_url.includes('&')) {
-			proc_url = proc_url.split('&')[0];
-		}
-		return proc_url.trim();
-	} else {
-		return '';
-	}
+  if (typeof url === 'string' && url.length > 0 && url.includes('v=')) {
+    let procUrl = url.split('v=')[1];
+    if (procUrl.includes('&')) {
+      procUrl = procUrl.split('&')[0];
+    }
+    return procUrl.trim();
+  } else {
+    return '';
+  }
 }
 /**
     @name setState
@@ -215,18 +218,18 @@ function extractYTid(url) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#setState}
 */
 function setState(id, event) {
-	states[id].play = getPlayState(event.data, id);
-	if (event.target) {
-		states[id].isMuted = event.target.isMuted();
-	}
-	//setAllstates();
+  states[id].play = getPlayState(event.data, id);
+  if (event.target) {
+    states[id].isMuted = event.target.isMuted();
+  }
+  // setAllstates();
 }
 /**
     @name setAllstates
     @author Altug Ceylan <altug.ceylan.yes@gmail.com>
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#setAllstates}
 */
-/*Replaced on patch 1.1.0
+/* Replaced on patch 1.1.0
 function setAllstates() {
 	const allelem = $('.playall');
 	let highest_order_action = 'PAUSED';
@@ -255,152 +258,152 @@ function setAllstates() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#getPlayState}
 */
 function getPlayState(signal, id) {
-	const htmelem = $(`.play.p_${id.substring(6,7)}`);
-	switch (signal) {
-		case -1:
-			return 'UNSTARTED';
-		case 0:
-			htmelem.text('Restart🔄');
-			return 'ENDED';
-		case 1:
-			htmelem.text('Pause⏸️');
-			return 'PLAYING';
-		case 2:
-			htmelem.text('Play▶️');
-			return 'PAUSED';
-		case 3:
-			return 'BUFFERING';
-		case 5:
-			htmelem.text('Play▶️');
-			return 'CUED';
-		default:
-			return null;
-	}
+  const htmelem = $(`.play.p_${id.substring(6, 7)}`);
+  switch (signal) {
+    case -1:
+      return 'UNSTARTED';
+    case 0:
+      htmelem.text('Restart🔄');
+      return 'ENDED';
+    case 1:
+      htmelem.text('Pause⏸️');
+      return 'PLAYING';
+    case 2:
+      htmelem.text('Play▶️');
+      return 'PAUSED';
+    case 3:
+      return 'BUFFERING';
+    case 5:
+      htmelem.text('Play▶️');
+      return 'CUED';
+    default:
+      return null;
+  }
 }
 
-$('.play').on('click', function() {
-	const id = 'player' + $(this).attr('class').split(' ')[1].split('_')[1];
-	const tplayer = reversePmap[id];
-	if (tplayer) {
-		switch (states[id].play) {
-			case 'CUED':
-				tplayer.playVideo();
-				break;
-			case 'ENDED':
-				tplayer.seekTo(0);
-				break;
-			case 'PLAYING':
-				//console.log('paused');
-				tplayer.pauseVideo();
-				break;
-			case 'PAUSED':
-				tplayer.playVideo();
-				break;
-		}
-	}
+$('.play').on('click', function () {
+  const id = 'player' + $(this).attr('class').split(' ')[1].split('_')[1];
+  const tplayer = reversePmap[id];
+  if (tplayer) {
+    switch (states[id].play) {
+      case 'CUED':
+        tplayer.playVideo();
+        break;
+      case 'ENDED':
+        tplayer.seekTo(0);
+        break;
+      case 'PLAYING':
+        // console.log('paused');
+        tplayer.pauseVideo();
+        break;
+      case 'PAUSED':
+        tplayer.playVideo();
+        break;
+    }
+  }
 });
-$('.playall').on('click', function() {
-	let ok = true;
-	let highest_order_action = 'PAUSED';
-	let valid_states = ['CUED', 'ENDED', 'PLAYING', 'PAUSED', 'BUFFERING'];
-	Object.keys(states).forEach(item => {
-		if (boxes['check_' + item.substring(6)]) {
-			let cur_state = states[item].play;
-			if (valid_states.includes(cur_state)) {
-				if (cur_state === 'PLAYING' && highest_order_action === 'PAUSED') {
-					highest_order_action = cur_state;
-				} else if (cur_state === 'ENDED') {
-					highest_order_action = cur_state;
-				}
-			} else {
-				ok = false;
-			}
-		}
-	});
-	//console.log(highest_order_action);
-	if (ok) {
-		if (highest_order_action === 'ENDED') {
-			Object.keys(reversePmap).forEach(item => {
-				if (boxes['check_' + item.substring(6)]) {
-					reversePmap[item].pauseVideo();
-					reversePmap[item].seekTo(0);
-					reversePmap[item].playVideo();
-				}
-			});
-		} else if (highest_order_action === 'PLAYING') {
-			Object.keys(reversePmap).forEach(item => {
-				if (boxes['check_' + item.substring(6)]) {
-					reversePmap[item].pauseVideo();
-				}
-			});
-		} else {
-			Object.keys(reversePmap).forEach(item => {
-				if (boxes['check_' + item.substring(6)]) {
-					reversePmap[item].playVideo();
-				}
-			});
-		}
-	}
+$('.playall').on('click', function () {
+  let ok = true;
+  let highestOrderAction = 'PAUSED';
+  const validStates = ['CUED', 'ENDED', 'PLAYING', 'PAUSED', 'BUFFERING'];
+  Object.keys(states).forEach((item) => {
+    if (boxes['check_' + item.substring(6)]) {
+      const curState = states[item].play;
+      if (validStates.includes(curState)) {
+        if (curState === 'PLAYING' && highestOrderAction === 'PAUSED') {
+          highestOrderAction = curState;
+        } else if (curState === 'ENDED') {
+          highestOrderAction = curState;
+        }
+      } else {
+        ok = false;
+      }
+    }
+  });
+  // console.log(highest_order_action);
+  if (ok) {
+    if (highestOrderAction === 'ENDED') {
+      Object.keys(reversePmap).forEach((item) => {
+        if (boxes['check_' + item.substring(6)]) {
+          reversePmap[item].pauseVideo();
+          reversePmap[item].seekTo(0);
+          reversePmap[item].playVideo();
+        }
+      });
+    } else if (highestOrderAction === 'PLAYING') {
+      Object.keys(reversePmap).forEach((item) => {
+        if (boxes['check_' + item.substring(6)]) {
+          reversePmap[item].pauseVideo();
+        }
+      });
+    } else {
+      Object.keys(reversePmap).forEach((item) => {
+        if (boxes['check_' + item.substring(6)]) {
+          reversePmap[item].playVideo();
+        }
+      });
+    }
+  }
 });
-$('.unmute').on('click', function() {
-	const id = 'player' + $(this).attr('class').split(' ')[1].split('_')[1];
-	const tplayer = reversePmap[id];
-	tplayer.unMute();
-	states[id].isMuted = false;
+$('.unmute').on('click', function () {
+  const id = 'player' + $(this).attr('class').split(' ')[1].split('_')[1];
+  const tplayer = reversePmap[id];
+  tplayer.unMute();
+  states[id].isMuted = false;
 });
-$('.mute').on('click', function() {
-	const id = 'player' + $(this).attr('class').split(' ')[1].split('_')[1];
-	const tplayer = reversePmap[id];
-	tplayer.mute();
-	states[id].isMuted = true;
-})
+$('.mute').on('click', function () {
+  const id = 'player' + $(this).attr('class').split(' ')[1].split('_')[1];
+  const tplayer = reversePmap[id];
+  tplayer.mute();
+  states[id].isMuted = true;
+});
 
-$('.display').on('click', function() {
-	const id = 'player' + $(this).attr('class').split(' ')[1].split('_')[1];
-	const elem = $(`#${id}`);
-	let visibleCount = 0;
-	Object.keys(states).forEach(item => {
-		visibleCount += states[item].display;
-	});
-	organizeVidDisplay(elem, states[id].display, visibleCount);
+$('.display').on('click', function () {
+  const id = 'player' + $(this).attr('class').split(' ')[1].split('_')[1];
+  const elem = $(`#${id}`);
+  let visibleCount = 0;
+  Object.keys(states).forEach((item) => {
+    visibleCount += states[item].display;
+  });
+  organizeVidDisplay(elem, states[id].display, visibleCount);
 });
-$('.unmuteall').on('click', function() {
-	Object.keys(reversePmap).forEach(item => {
-		if (boxes['check_' + item.substring(6)]) {
-			reversePmap[item].unMute();
-			states[item].isMuted = false;
-		}
-	});
+$('.unmuteall').on('click', function () {
+  Object.keys(reversePmap).forEach((item) => {
+    if (boxes['check_' + item.substring(6)]) {
+      reversePmap[item].unMute();
+      states[item].isMuted = false;
+    }
+  });
 });
-$('.muteall').on('click', function() {
-	Object.keys(reversePmap).forEach(item => {
-		if (boxes['check_' + item.substring(6)]) {
-			reversePmap[item].mute();
-			states[item].isMuted = true;
-		}
-	});
+$('.muteall').on('click', function () {
+  Object.keys(reversePmap).forEach((item) => {
+    if (boxes['check_' + item.substring(6)]) {
+      reversePmap[item].mute();
+      states[item].isMuted = true;
+    }
+  });
 });
 
 const nmMap = {
-	0: 'no',
-	1: 'solo',
-	2: 'two',
-	3: 'three',
-	4: 'four',
-	5: 'five'
-}
-$('.displayall').on('click', function() {
-	let visibleCount = 0;
-	Object.keys(states).forEach(item => {
-		visibleCount += states[item].display;
-	});
-	Object.keys(states).forEach(item => {
-		if (boxes['check_' + item.substring(6)]) {
-			let disp = states[item].display;
-			organizeVidDisplay($(`#${item}`), disp, visibleCount);
-			(disp === 1) ? visibleCount-- : visibleCount++;
-		}
-	});
+  0: 'no',
+  1: 'solo',
+  2: 'two',
+  3: 'three',
+  4: 'four',
+  5: 'five',
+};
+$('.displayall').on('click', function () {
+  let visibleCount = 0;
+  Object.keys(states).forEach((item) => {
+    visibleCount += states[item].display;
+  });
+  Object.keys(states).forEach((item) => {
+    if (boxes['check_' + item.substring(6)]) {
+      const disp = states[item].display;
+      organizeVidDisplay($(`#${item}`), disp, visibleCount);
+      disp === 1 ? visibleCount-- : visibleCount++;
+    }
+  });
 });
 /* Replaced on patch 1.1.0
 $('.displayall').on('click', function() {
@@ -435,31 +438,33 @@ $('.displayall').on('click', function() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#organizeVidDisplay}
 */
 function organizeVidDisplay(elem, disp, visibleCount) {
-	let exact = nmMap[visibleCount];
-	let dif = (disp === 1) ? nmMap[visibleCount - 1] : nmMap[visibleCount + 1];
-	(disp === 1) ? elem.removeClass(exact): elem.addClass(dif);
-	if (visibleCount > 0) {
-		$('.vid.' + exact).removeClass(exact).addClass(dif);
-	}
-	states[elem.attr('id')].display = (disp === 1) ? 0 : 1;
+  const exact = nmMap[visibleCount];
+  const dif = disp === 1 ? nmMap[visibleCount - 1] : nmMap[visibleCount + 1];
+  disp === 1 ? elem.removeClass(exact) : elem.addClass(dif);
+  if (visibleCount > 0) {
+    $('.vid.' + exact)
+      .removeClass(exact)
+      .addClass(dif);
+  }
+  states[elem.attr('id')].display = disp === 1 ? 0 : 1;
 }
-$('#toggle_load').on('click', function() {
-	if ($('#load_all').parent().css('display') === 'none') {
-		$('.load_i').parent().css('display', 'none');
-		$('#load_all').parent().css('display', 'block');
-		load_mode = 'a';
-	} else {
-		$('.load_i').parent().css('display', 'block');
-		$('#load_all').parent().css('display', 'none');
-		load_mode = 'i';
-	}
+$('#toggle_load').on('click', function () {
+  if ($('#load_all').parent().css('display') === 'none') {
+    $('.load_i').parent().css('display', 'none');
+    $('#load_all').parent().css('display', 'block');
+    loadMode = 'a';
+  } else {
+    $('.load_i').parent().css('display', 'block');
+    $('#load_all').parent().css('display', 'none');
+    loadMode = 'i';
+  }
 });
-$('#load_init').on('click', function() {
-	if (load_mode === 'i') {
-		loadIndividual();
-	} else {
-		loadAll();
-	}
+$('#load_init').on('click', function () {
+  if (loadMode === 'i') {
+    loadIndividual();
+  } else {
+    loadAll();
+  }
 });
 /**
     @name loadAll
@@ -467,18 +472,18 @@ $('#load_init').on('click', function() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#loadAll}
 */
 function loadAll() {
-	let url = $('#load_all').val();
-	url = extractYTid(url);
-	if (url.length > 0) {
-		Object.keys(reversePmap).forEach(item => {
-			reversePmap[item].pauseVideo();
-			reversePmap[item].loadVideoById(url, 0);
-			states[item].firstTime = true;
-		});
-		resetVideoInputs();
-	} else {
-		setSnack("Couldn't load, URL corrupt.");
-	}
+  let url = $('#load_all').val();
+  url = extractYTid(url);
+  if (url.length > 0) {
+    Object.keys(reversePmap).forEach((item) => {
+      reversePmap[item].pauseVideo();
+      reversePmap[item].loadVideoById(url, 0);
+      states[item].firstTime = true;
+    });
+    resetVideoInputs();
+  } else {
+    setSnack("Couldn't load, URL corrupt.");
+  }
 }
 /**
     @name loadIndividual
@@ -486,26 +491,26 @@ function loadAll() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#loadIndividual}
 */
 function loadIndividual() {
-	const urls = {
-		player1: $('#load_1').val(),
-		player2: $('#load_2').val(),
-		player3: $('#load_3').val(),
-		player4: $('#load_4').val(),
-		player5: $('#load_5').val()
-	}
-	Object.keys(urls).forEach(item => {
-		if (urls[item].length > 0) {
-			let url = extractYTid(urls[item]);
-			if (url.length > 0) {
-				reversePmap[item].pauseVideo();
-				reversePmap[item].loadVideoById(url, 0);
-				states[item].firstTime = true;
-			} else {
-				setSnack("Couldn't load, URL corrupt.");
-			}
-		}
-	});
-	resetVideoInputs();
+  const urls = {
+    player1: $('#load_1').val(),
+    player2: $('#load_2').val(),
+    player3: $('#load_3').val(),
+    player4: $('#load_4').val(),
+    player5: $('#load_5').val(),
+  };
+  Object.keys(urls).forEach((item) => {
+    if (urls[item].length > 0) {
+      const url = extractYTid(urls[item]);
+      if (url.length > 0) {
+        reversePmap[item].pauseVideo();
+        reversePmap[item].loadVideoById(url, 0);
+        states[item].firstTime = true;
+      } else {
+        setSnack("Couldn't load, URL corrupt.");
+      }
+    }
+  });
+  resetVideoInputs();
 }
 /**
     @name resetVideoInputs
@@ -513,12 +518,12 @@ function loadIndividual() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#resetVideoInputs}
 */
 function resetVideoInputs() {
-	$('#load_1').val('');
-	$('#load_2').val('');
-	$('#load_3').val('');
-	$('#load_4').val('');
-	$('#load_5').val('');
-	$('#load_all').val('');
+  $('#load_1').val('');
+  $('#load_2').val('');
+  $('#load_3').val('');
+  $('#load_4').val('');
+  $('#load_5').val('');
+  $('#load_all').val('');
 }
 /**
     @name setPlayerTitle
@@ -527,16 +532,16 @@ function resetVideoInputs() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#setPlayerTitle}
 */
 function setPlayerTitle(event) {
-	const id = event.target.h.id;
-	const title = event.target.getVideoData().title;
-	let title_f = title.substring(0, 40);
-	title_f += (title.length > 40) ? '...' : '';
-	$(`#${titles[id]}`).text(title_f);
+  const id = event.target.h.id;
+  const title = event.target.getVideoData().title;
+  let titleF = title.substring(0, 40);
+  titleF += title.length > 40 ? '...' : '';
+  $(`#${titles[id]}`).text(titleF);
 }
-$('.setsynchronized').on('click', function() {
-	synchronization = !synchronization;
-	let txt = (synchronization) ? 'Sync: On ✅' : 'Sync: Off ❎';
-	$(this).text(txt);
+$('.setsynchronized').on('click', function () {
+  synchronization = !synchronization;
+  const txt = synchronization ? 'Sync: On ✅' : 'Sync: Off ❎';
+  $(this).text(txt);
 });
 /**
     @name synchronizePlayers
@@ -544,41 +549,54 @@ $('.setsynchronized').on('click', function() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#synchronizePlayers}
 */
 function synchronizePlayers() {
-	if (synchronization && validRoom()) {
-		resetVideoInputs();
-		let needsLoad = false;
-		Object.keys(room_video).forEach(item => {
-			if (!(extractYTid(reversePmap[item].getVideoUrl()) == room_video[item].video_id)) {
-				//console.log(reversePmap[item].getVideoUrl(), room_video[item].video_id);
-				$(`#load_${item.substring(6,7)}`).val(`https://www.youtube.com/watch?v=${room_video[item].video_id}`);
-				needsLoad = true;
-			}
-		});
-		if (needsLoad) {
-			//console.log(needsLoad);
-			loadIndividual();
-			return;
-		}
-		let validStates = ['PLAYING', 'PAUSED', 'ENDED'];
-		Object.keys(room_video).forEach(item => {
-			let target_state = room_video[item].play;
-			let current_state = states[item].play;
-			let tplayer = reversePmap[item];
-			//let target_time = room_video[item].current_time + 1;
-			//let current_time = tplayer.getCurrentTime();
-			let target_time = coolRound(room_video[item].current_time);
-			let current_time = coolRound(tplayer.getCurrentTime());
-			if (validStates.includes(target_state) && validStates.includes(current_state)) {
-				if (!(target_state === current_state)) {
-					(target_state === 'PLAYING') ? tplayer.playVideo(): tplayer.pauseVideo();
-				}
-				if (!(target_time - 0.5 <= current_time && target_time + 0.5 >= current_time)) {
-					tplayer.seekTo(getDesiredTime(current_time, target_time));
-				}
-			}
-		});
-
-	}
+  if (synchronization && validRoom()) {
+    resetVideoInputs();
+    let needsLoad = false;
+    Object.keys(roomVideo).forEach((item) => {
+      if (
+        !(
+          extractYTid(reversePmap[item].getVideoUrl()) ==
+          roomVideo[item].video_id
+        )
+      ) {
+        // console.log(reversePmap[item].getVideoUrl(), room_video[item].video_id);
+        $(`#load_${item.substring(6, 7)}`).val(
+          `https://www.youtube.com/watch?v=${roomVideo[item].video_id}`
+        );
+        needsLoad = true;
+      }
+    });
+    if (needsLoad) {
+      // console.log(needsLoad);
+      loadIndividual();
+      return;
+    }
+    const validStates = ['PLAYING', 'PAUSED', 'ENDED'];
+    Object.keys(roomVideo).forEach((item) => {
+      const targetState = roomVideo[item].play;
+      const currentState = states[item].play;
+      const tplayer = reversePmap[item];
+      // let target_time = room_video[item].current_time + 1;
+      // let current_time = tplayer.getCurrentTime();
+      const targetTime = coolRound(roomVideo[item].current_time);
+      const currentTime = coolRound(tplayer.getCurrentTime());
+      if (
+        validStates.includes(targetState) &&
+        validStates.includes(currentState)
+      ) {
+        if (!(targetState === currentState)) {
+          targetState === 'PLAYING'
+            ? tplayer.playVideo()
+            : tplayer.pauseVideo();
+        }
+        if (
+          !(targetTime - 0.5 <= currentTime && targetTime + 0.5 >= currentTime)
+        ) {
+          tplayer.seekTo(getDesiredTime(currentTime, targetTime));
+        }
+      }
+    });
+  }
 }
 /**
     @name coolRound
@@ -588,7 +606,7 @@ function synchronizePlayers() {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#coolRound}
 */
 function coolRound(n) {
-	return Math.round((n + Number.EPSILON) * 100) / 100;
+  return Math.round((n + Number.EPSILON) * 100) / 100;
 }
 /**
     @name getDesiredTime
@@ -599,7 +617,7 @@ function coolRound(n) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#getDesiredTime}
 */
 function getDesiredTime(n1, n2) {
-	return n2;
+  return n2;
 }
 /**
     @name syncInfo
@@ -607,26 +625,26 @@ function getDesiredTime(n1, n2) {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#syncInfo}
 */
 function syncInfo() {
-	let room = subscriptions[socket.id];
-	if (validRoom()) {
-		socket.emit('getSyncInfo', room);
-	} else if (room) {
-		Object.keys(room_video).forEach(item => {
-			room_video[item].current_time = reversePmap[item].getCurrentTime();
-			room_video[item].video_id = extractYTid(reversePmap[item].getVideoUrl());
-			room_video[item].play = states[item].play;
-		});
-		socket.emit('setSyncInfo', {
-			room_name: room,
-			player_states: room_video
-		});
-	}
+  const room = subscriptions[socket.id];
+  if (validRoom()) {
+    socket.emit('getSyncInfo', room);
+  } else if (room) {
+    Object.keys(roomVideo).forEach((item) => {
+      roomVideo[item].current_time = reversePmap[item].getCurrentTime();
+      roomVideo[item].video_id = extractYTid(reversePmap[item].getVideoUrl());
+      roomVideo[item].play = states[item].play;
+    });
+    socket.emit('setSyncInfo', {
+      room_name: room,
+      player_states: roomVideo,
+    });
+  }
 }
-socket.on('synchronizePlayers', rmv => {
-	if (rmv) {
-		room_video = rmv;
-		synchronizePlayers();
-	}
+socket.on('synchronizePlayers', (rmv) => {
+  if (rmv) {
+    roomVideo = rmv;
+    synchronizePlayers();
+  }
 });
 /**
     @name validRoom
@@ -635,30 +653,29 @@ socket.on('synchronizePlayers', rmv => {
     @see {@link https://github.com/AranNomante/Ch-to/wiki/Doc#validRoom}
 */
 function validRoom() {
-	let room = subscriptions[socket.id];
-	if (room) {
-		let room_i = rooms.findIndex(function(rm, index) {
-			if (rm.room_name === room) {
-				return true;
-			}
-		});
-		let ownership = rooms[room_i].owner === socket.id;
-		return !ownership;
-	}
-	return false;
+  const room = subscriptions[socket.id];
+  if (room) {
+    const roomI = rooms.findIndex(function (rm) {
+      if (rm.room_name === room) {
+        return true;
+      }
+    });
+    const ownership = rooms[roomI].owner === socket.id;
+    return !ownership;
+  }
+  return false;
 }
-$('.restart,.restartall').on('click', function() {
-	let cls = $(this).attr('class');
-	if (cls.includes('restartall')) {
-		Object.keys(reversePmap).forEach(item => {
-			if (boxes['check_' + item.substring(6)]) {
-				reversePmap[item].seekTo(0);
-			}
-		});
-
-	} else if (cls.includes('restart')) {
-		const id = 'player' + cls.split(' ')[1].split('_')[1];
-		reversePmap[id].seekTo(0);
-	}
+$('.restart,.restartall').on('click', function () {
+  const cls = $(this).attr('class');
+  if (cls.includes('restartall')) {
+    Object.keys(reversePmap).forEach((item) => {
+      if (boxes['check_' + item.substring(6)]) {
+        reversePmap[item].seekTo(0);
+      }
+    });
+  } else if (cls.includes('restart')) {
+    const id = 'player' + cls.split(' ')[1].split('_')[1];
+    reversePmap[id].seekTo(0);
+  }
 });
 setInterval(syncInfo, 100);
