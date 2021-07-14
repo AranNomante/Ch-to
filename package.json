@@ -1,5 +1,5 @@
 {
-  "name": "Ch-to",
+  "name": "Chato",
   "version": "1.1.1",
   "description": "",
   "main": "app.js",
@@ -30,7 +30,7 @@
     "express-rate-limit": "^5.2.3",
     "express-slow-down": "^1.4.0",
     "helmet": "^4.2.0",
-    "sanitize-html": "^2.3.0",
+    "sanitize-html": "^2.4.0",
     "socket.io": "^3.0.4"
   },
   "devDependencies": {
