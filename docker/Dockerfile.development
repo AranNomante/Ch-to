@@ -1,0 +1,11 @@
+FROM node:14.16.1-alpine
+
+WORKDIR /Ch-to
+
+COPY . .
+
+RUN npm ci
+
+CMD ["npm","run","nodemonstart"]
+
+EXPOSE 3000

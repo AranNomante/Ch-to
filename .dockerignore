@@ -1,7 +1,9 @@
 node_modules
+docker
 .github
 .gitignore
 build
 dist
 .git
-Dockerfile
+.md
+LICENSE
