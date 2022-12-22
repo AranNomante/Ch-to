@@ -6,6 +6,8 @@ COPY . .
 
 RUN npm ci
 
+VOLUME [ "/Ch-to/node_modules" ]
+
 CMD ["npm","run","nodemonstart"]
 
 EXPOSE 3000
