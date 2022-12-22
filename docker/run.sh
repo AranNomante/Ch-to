@@ -17,7 +17,7 @@ fi
 case $image in
     "chto:development")
         docker stop chto-development
-        docker run -dp 3000:3000 --name chto-development -v "$(pwd):/Ch-to" --rm chto:development
+        docker run -dp 3000:3000 --name chto-development -v "$(pwd):/Ch-to:ro" --rm chto:development
         docker ps -a
         ;;
     "chto:staging")
